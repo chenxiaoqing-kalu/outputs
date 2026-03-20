@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idea to Business（ID2B）AI 编程课程 · 开营仪式</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC', 'Noto Sans CJK SC', sans-serif;
+    font-size: 17px;
+    line-height: 1.85;
+    color: #333333;
+    background: #ffffff;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  article {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 60px 32px 120px;
+  }
+
+  /* ── Headings ── */
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: #111;
+    margin-bottom: 28px;
+  }
+  h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #111;
+    margin-top: 64px;
+    margin-bottom: 20px;
+    padding-top: 16px;
+    border-top: 2px solid #111;
+  }
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #222;
+    margin-top: 36px;
+    margin-bottom: 14px;
+  }
+
+  /* ── Paragraphs & Lists ── */
+  p { margin-bottom: 18px; }
+  ul, ol { margin: 0 0 18px 1.4em; }
+  li { margin-bottom: 6px; }
+
+  /* ── Strong / Highlight ── */
+  strong.highlight, strong {
+    font-weight: 600;
+    color: #111;
+  }
+
+  /* ── Meta info table at top ── */
+  .meta-table {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 48px;
+    border-collapse: collapse;
+  }
+  .meta-table td { padding: 3px 12px 3px 0; }
+
+  /* ── Learning objectives ── */
+  .learning-goals {
+    margin: 0 0 48px 0;
+    padding: 0;
+  }
+  .learning-goals-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    margin-bottom: 12px;
+  }
+  .learning-goals ol {
+    margin-left: 1.2em;
+    counter-reset: none;
+  }
+  .learning-goals li {
+    margin-bottom: 8px;
+    color: #444;
+  }
+
+  /* ── Section divider ── */
+  hr.section-rule {
+    border: none;
+    border-top: 1px solid #e8e8e8;
+    margin: 48px 0;
+  }
+
+  /* ── Recall Cues ── */
+  .recall {
+    margin: 24px 0;
+    padding-left: 16px;
+    border-left: 3px solid #bbb;
+  }
+  .recall.analogy { border-left-color: #4a90d9; }
+  .recall.rule    { border-left-color: #1E803D; }
+  .recall.warning { border-left-color: #c0392b; }
+
+  .recall-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .recall.analogy .recall-label { color: #4a90d9; }
+  .recall.rule    .recall-label { color: #1E803D; }
+  .recall.warning .recall-label { color: #c0392b; }
+
+  .recall p {
+    margin: 0;
+    font-size: 0.97rem;
+    color: #444;
+  }
+  .recall p strong, .recall strong {
+    background: #fffde7;
+    padding: 0 2px;
+    border-radius: 2px;
+    font-style: normal;
+  }
+  .recall.warning p strong, .recall.warning strong {
+    background: #fef0ef;
+  }
+  .recall.rule p strong, .recall.rule strong {
+    background: #eaf5ed;
+  }
+
+  /* ── Example blocks ── */
+  .example {
+    margin: 32px 0;
+    padding-top: 24px;
+    border-top: 1px solid #ddd;
+  }
+  .example-tag {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .example-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 16px;
+  }
+  .example-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #555;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .steps ol {
+    margin-left: 0;
+    list-style: none;
+    counter-reset: step-counter;
+  }
+  .steps ol li {
+    counter-increment: step-counter;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+  .steps ol li::before {
+    content: "";
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #222;
+    display: inline-block;
+    margin-top: 2px;
+  }
+  /* Step numbers must be in HTML — using a span inside each li */
+  .step-num {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #222;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+  .step-text { flex: 1; }
+
+  .conclusion {
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: #f7f7f7;
+    border-left: 3px solid #1E803D;
+  }
+  .conclusion .conclusion-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #1E803D;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .conclusion p { margin: 0; font-size: 0.97rem; color: #333; }
+
+  /* ── Data Tables ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0 24px;
+    font-size: 0.93rem;
+  }
+  th {
+    text-align: left;
+    font-weight: 600;
+    color: #555;
+    border-bottom: 2px solid #ddd;
+    padding: 8px 10px;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+
+  /* ── Diagrams ── */
+  .diagram {
+    margin: 28px 0;
+    overflow-x: auto;
+  }
+  .diagram svg {
+    display: block;
+    max-width: 100%;
+  }
+  .diagram-caption {
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  /* ── Code prompt blocks ── */
+  .prompt-block {
+    background: #f5f5f5;
+    border-left: 3px solid #ccc;
+    padding: 14px 16px;
+    margin: 16px 0;
+    font-size: 0.93rem;
+    line-height: 1.7;
+    color: #333;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* ── Summary section ── */
+  .summary { margin-top: 64px; padding-top: 32px; border-top: 2px solid #111; }
+  .summary h2 { border-top: none; margin-top: 0; padding-top: 0; }
+  .summary h3 { margin-top: 28px; }
+  .summary ul { margin-left: 1.2em; }
+  .summary li { margin-bottom: 10px; }
+
+  /* ── Warning emphasis ── */
+  .warn-inline { color: #c0392b; font-weight: 600; }
+
+  /* ── Part number ── */
+  .part-number {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #aaa;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+</style>
+</head>
+<body>
+<article>
+
+<!-- ══ Meta ══ -->
+<table class="meta-table">
+  <tr><td>关联 IOD</td><td>刘小排开营仪式_IOD教学目标文档</td></tr>
+  <tr><td>关联 PD</td><td>刘小排开营仪式_PD教学法文档</td></tr>
+</table>
+
+<!-- ══ Title ══ -->
+<h1>Idea to Business（ID2B）<br>AI 编程课程 · 开营仪式</h1>
+
+<div class="learning-goals">
+  <div class="learning-goals-label">学完本课，你将能回答</div>
+  <ol>
+    <li>Idea to Business 框架中三个词各自代表什么，AI 编程在其中处于什么位置？</li>
+    <li>AI 编程能力的六个阶段分别是什么，如何判断自己目前处于哪个阶段？</li>
+    <li>课程的保底目标和挑战目标有什么区别？实现挑战目标需要什么前提条件？</li>
+    <li>"学而时习之"的核心含义是什么，如何将"看完立即动手"转化为真实行动？</li>
+    <li>遇到看不懂的技术内容时，怎样用 AI 浏览器通过截图提问来理解它？</li>
+    <li>扣子编程的云端沙箱是什么？没有 AI 能力的应用和调用了 AI 能力的应用，本质上有什么不同？</li>
+    <li>如何在扣子编程中用自然语言提示词创建一个应用，并将它部署为可分享的链接？</li>
+  </ol>
+</div>
+
+<hr class="section-rule">
+
+<!-- ══ Part 1 ══ -->
+<section>
+  <div class="part-number">第一部分</div>
+  <h2>开营仪式——从今天开始，普通人也能把想法变成生意</h2>
+
+  <p>本节课是"Idea to Business"AI 编程课程第三期的开营仪式，面向零基础学习者，也适合有一定基础希望建立完整体系的进阶学员。</p>
+
+  <p>今天的直播分为六个模块：一、课程概览（讲什么内容、达到什么目标）；二、课程形式与安排；三、学习的方法；四、入门篇导读与演示；五、课程红线；六、答疑。无需提前了解任何技术知识，带着电脑和好奇心来就够了。</p>
+</section>
+
+<!-- ══ Part 2 ══ -->
+<section>
+  <div class="part-number">第二部分</div>
+  <h2>课程讲什么——Idea to Business 框架解析</h2>
+
+  <p>AI 编程并不是这门课的终点，而是一种工具。要理解这一点，需要先弄清楚课程名称本身。</p>
+
+  <p><strong>注意：课程名称"Idea to Business"包含三个独立的词。</strong></p>
+
+  <ul>
+    <li><strong>Idea</strong>：如何找到一个又适合自己、又有商业潜力的优质想法——这是课程的起点</li>
+    <li><strong>to（AI 编程）</strong>：用 AI 编程将想法开发成可运行的软件产品——这是课程的核心工具</li>
+    <li><strong>Business</strong>：如何将软件产品商业化变现，以海外市场为主方向——这是课程的终点</li>
+  </ul>
+
+  <!-- Diagram: ID2B three-segment flow -->
+  <div class="diagram">
+    <svg viewBox="0 0 680 110" xmlns="http://www.w3.org/2000/svg" aria-label="Idea to Business 三段式框架图">
+      <!-- Idea box -->
+      <rect x="10" y="20" width="170" height="70" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="1.5"/>
+      <text x="95" y="48" text-anchor="middle" font-family="inherit" font-size="18" font-weight="700" fill="#111">Idea</text>
+      <text x="95" y="70" text-anchor="middle" font-family="inherit" font-size="12" fill="#666">优质想法的发现</text>
+      <!-- Arrow 1 -->
+      <line x1="182" y1="55" x2="238" y2="55" stroke="#999" stroke-width="1.5"/>
+      <polygon points="238,49 250,55 238,61" fill="#999"/>
+      <!-- to / AI box -->
+      <rect x="252" y="10" width="170" height="90" rx="4" fill="#222" stroke="none"/>
+      <text x="337" y="48" text-anchor="middle" font-family="inherit" font-size="13" font-weight="700" fill="#fff">to</text>
+      <text x="337" y="66" text-anchor="middle" font-family="inherit" font-size="13" font-weight="700" fill="#fff">AI 编程实现</text>
+      <text x="337" y="84" text-anchor="middle" font-family="inherit" font-size="11" fill="#aaa">转化工具</text>
+      <!-- Arrow 2 -->
+      <line x1="424" y1="55" x2="480" y2="55" stroke="#999" stroke-width="1.5"/>
+      <polygon points="480,49 492,55 480,61" fill="#999"/>
+      <!-- Business box -->
+      <rect x="494" y="20" width="175" height="70" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="1.5"/>
+      <text x="581" y="48" text-anchor="middle" font-family="inherit" font-size="18" font-weight="700" fill="#111">Business</text>
+      <text x="581" y="70" text-anchor="middle" font-family="inherit" font-size="12" fill="#666">商业化变现（海外为主）</text>
+    </svg>
+    <div class="diagram-caption">Idea to Business 三段式转化链——AI 编程处于"To"的位置</div>
+  </div>
+
+  <p>这门课程的核心定位是：AI 编程是"To"，是连接 Idea 和 Business 的桥梁，不是学习的目的地本身。</p>
+
+  <div class="recall analogy">
+    <div class="recall-label">类比锚点</div>
+    <p>可以这样理解：<strong>"Idea to Business 就像'原材料→加工工厂→产品'的生产链——AI 编程处于'加工工厂'的位置，它不是最终的产品，而是将原材料转化为产品的工具。"</strong></p>
+  </div>
+
+  <div class="recall rule">
+    <div class="recall-label">判定口诀</div>
+    <p>记住：<strong>"看到'AI 编程'，立刻想到它在'To'里——是连接 Idea 和 Business 的桥梁，不是目标本身。"</strong></p>
+  </div>
+
+  <div class="recall warning">
+    <div class="recall-label">易错警示</div>
+    <p>需要注意的是：<strong>不要把学会 AI 编程当作终点。</strong> 正确的认知是：学 AI 编程，是为了把自己的 Idea 实现出来、进而做成生意，AI 编程是手段，Business 才是目的。</p>
+  </div>
+
+  <p>关于国内还是国外的方向：课程以海外市场为主，因为海外用户付费意愿更高，从商业角度更划算。这不意味着国内没机会，往期也有学员在做国内业务并取得了成绩，但课程的主要方向是海外软件产品。</p>
+
+  <!-- Example EX-01 -->
+  <div class="example">
+    <div class="example-tag">概念演示</div>
+    <div class="example-title">EX-01：ID2B 框架图示讲解</div>
+
+    <div class="example-label">演示内容</div>
+    <p>PPT 展示"课程讲什么？"，主标题下方标注"AI 编程在'To'里"，三个词的拆解如下：Idea（发现优质想法）→ AI 编程（开发实现）→ Business（商业化变现），AI 编程是连接 Idea 和 Business 的中间桥梁，课程以海外软件产品市场为主要方向。</p>
+
+    <div class="example-label">分析步骤</div>
+    <div class="steps">
+      <ol>
+        <li><span class="step-num">1</span><span class="step-text">Idea 部分：讲授如何判断一个 Idea 是否优质（既适合自己、又有商业潜力）</span></li>
+        <li><span class="step-num">2</span><span class="step-text">AI 编程（To）部分：作为实现工具，将 Idea 变成可运行的软件产品</span></li>
+        <li><span class="step-num">3</span><span class="step-text">Business 部分：讲授如何商业化（以海外市场为主，国内为辅），包括海外支付、商业模型设计</span></li>
+      </ol>
+    </div>
+
+    <div class="conclusion">
+      <div class="conclusion-label">核心结论</div>
+      <p>AI 编程处于"To"的位置，是 Idea 转化为 Business 的技术桥梁，不是目标本身，而是达成目标的手段。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Part 3 ══ -->
+<section>
+  <div class="part-number">第三部分</div>
+  <h2>AI 编程的六个阶段——你现在在哪里，能到达哪里</h2>
+
+  <p>理解了 Idea to Business 框架之后，接下来要搞清楚：AI 编程究竟分哪些阶段？"会用 ChatGPT 聊天"和"用 AI 编程做出产品"之间差多少？</p>
+
+  <p>AI 编程能力可以划分为六个递进阶段，<strong>从最底层往上看</strong>：</p>
+
+  <!-- Diagram: Six-stage staircase -->
+  <div class="diagram">
+    <svg viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" aria-label="AI编程六阶段阶梯图">
+      <!-- Staircase steps, bottom to top, left to right -->
+      <!-- Stage 0 -->
+      <rect x="10" y="248" width="100" height="60" rx="3" fill="#eee" stroke="#ccc" stroke-width="1"/>
+      <text x="60" y="272" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#555">阶段 0</text>
+      <text x="60" y="287" text-anchor="middle" font-family="inherit" font-size="12" font-weight="700" fill="#333">玩具</text>
+      <text x="60" y="300" text-anchor="middle" font-family="inherit" font-size="10" fill="#777">聊天框</text>
+      <!-- Stage 1 -->
+      <rect x="112" y="196" width="100" height="112" rx="3" fill="#d6eaff" stroke="#a0c4f0" stroke-width="1"/>
+      <text x="162" y="220" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#1a5fa8">阶段 1</text>
+      <text x="162" y="235" text-anchor="middle" font-family="inherit" font-size="12" font-weight="700" fill="#1a5fa8">副驾</text>
+      <text x="162" y="250" text-anchor="middle" font-family="inherit" font-size="10" fill="#4a7fc1">Cursor / Trae</text>
+      <text x="162" y="264" text-anchor="middle" font-family="inherit" font-size="10" font-weight="700" fill="#1a5fa8">工程化起飞点</text>
+      <!-- Watershed line -->
+      <line x1="112" y1="196" x2="680" y2="196" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="6,4"/>
+      <text x="680" y="192" text-anchor="end" font-family="inherit" font-size="11" font-weight="700" fill="#c0392b">← 分水岭</text>
+      <!-- Stage 2 -->
+      <rect x="214" y="148" width="100" height="160" rx="3" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+      <text x="264" y="172" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#555">阶段 2</text>
+      <text x="264" y="187" text-anchor="middle" font-family="inherit" font-size="12" font-weight="700" fill="#333">外包</text>
+      <!-- Stage 3 -->
+      <rect x="316" y="100" width="100" height="208" rx="3" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+      <text x="366" y="124" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#555">阶段 3</text>
+      <text x="366" y="139" text-anchor="middle" font-family="inherit" font-size="12" font-weight="700" fill="#333">搭档</text>
+      <text x="366" y="154" text-anchor="middle" font-family="inherit" font-size="10" fill="#777">Agent / API</text>
+      <!-- Stage 4 -->
+      <rect x="418" y="52" width="100" height="256" rx="3" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+      <text x="468" y="76" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#555">阶段 4</text>
+      <text x="468" y="91" text-anchor="middle" font-family="inherit" font-size="12" font-weight="700" fill="#333">实习生</text>
+      <text x="468" y="106" text-anchor="middle" font-family="inherit" font-size="10" fill="#777">AutoDev</text>
+      <!-- Stage 5 -->
+      <rect x="520" y="10" width="140" height="298" rx="3" fill="#222" stroke="none"/>
+      <text x="590" y="38" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#aaa">阶段 5</text>
+      <text x="590" y="55" text-anchor="middle" font-family="inherit" font-size="13" font-weight="700" fill="#fff">全职员工</text>
+      <text x="590" y="72" text-anchor="middle" font-family="inherit" font-size="10" fill="#888">AGI</text>
+      <text x="590" y="90" text-anchor="middle" font-family="inherit" font-size="10" fill="#c0392b">2028前是伪命题</text>
+    </svg>
+    <div class="diagram-caption">六阶段阶梯图——从底层往上看，分水岭在阶段1与阶段2之间</div>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>阶段</th><th>名称</th><th>代表工具</th><th>关键特征</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>阶段 0</td><td>玩具</td><td>聊天框（ChatGPT/Claude）</td><td>会聊天就能用，无法触及工程化开发</td></tr>
+      <tr><td>阶段 1</td><td><strong>副驾</strong></td><td>Cursor / Trae</td><td><strong>工程化起飞点</strong>，真正的分水岭以上</td></tr>
+      <tr><td>阶段 2</td><td>外包</td><td>—</td><td>能主导项目，能与AI协作完成复杂任务</td></tr>
+      <tr><td>阶段 3</td><td>搭档</td><td>Agent / API</td><td>能调用和编排 AI 能力</td></tr>
+      <tr><td>阶段 4</td><td>实习生</td><td>AutoDev 等</td><td>完全连通物理世界，自主完成开发测试交付</td></tr>
+      <tr><td>阶段 5</td><td>全职员工</td><td>AGI</td><td>2028 年之前是伪命题</td></tr>
+    </tbody>
+  </table>
+
+  <p>六个阶段不是跳跃式的，而是一个打怪升级的递进过程。那些真正把 Claude、Kimi 当成员工来用、发挥出真实生产力的人，背后必然已经掌握了阶段 1 及以上的工程化能力。</p>
+
+  <div class="recall analogy">
+    <div class="recall-label">类比锚点</div>
+    <p>可以这样理解：<strong>"六阶段就像游戏里的'打怪升级'——每一层都需要积累前一层的能力才能解锁，不能跳关，下层是上层的地基。"</strong></p>
+  </div>
+
+  <div class="recall rule">
+    <div class="recall-label">判定口诀</div>
+    <p>记住：<strong>"看到'只用聊天框'，立刻想到'阶段 0 玩具，分水岭以下，尚未工程化起飞'。"</strong></p>
+  </div>
+
+  <div class="recall warning">
+    <div class="recall-label">易错警示</div>
+    <p>需要注意的是：<strong>"很多人告诉你AI编程不用学，会聊天就行，那基本是玩具阶段"——这是一种常见误导。</strong> 聊天是起点，但能用 AI 编程做出真实产品，需要越过阶段 1 这道分水岭。</p>
+  </div>
+
+  <!-- Example EX-02 -->
+  <div class="example">
+    <div class="example-tag">模型分析</div>
+    <div class="example-title">EX-02：AI 编程六阶段图谱</div>
+
+    <div class="example-label">演示内容</div>
+    <p>PPT 标题"AI 编程的六个阶段"，从下往上阶梯状排列六层（阶段 0 玩具→阶段 5 全职员工），阶段 1 与阶段 2 之间有明显"分水岭"虚线；阶段 5（AGI）注明"2028 年之前是伪命题"。</p>
+
+    <div class="example-label">分析步骤</div>
+    <div class="steps">
+      <ol>
+        <li><span class="step-num">1</span><span class="step-text">从最底层阶段 0（玩具）开始，向上递进理解每个阶段的代表工具和能力边界</span></li>
+        <li><span class="step-num">2</span><span class="step-text">识别分水岭：阶段 1 与阶段 2 之间——能否脱离聊天框做出真正的工程化产品，是本课程的核心起跳点</span></li>
+        <li><span class="step-num">3</span><span class="step-text">分析常见误区：认为直接用 ChatGPT/Claude 聊天就能"当员工用"的人，实际上停留在阶段 0，尚未建立下面的地基</span></li>
+      </ol>
+    </div>
+
+    <div class="conclusion">
+      <div class="conclusion-label">核心结论</div>
+      <p>真正把 AI 当员工用、发挥生产力的人，必然已经掌握了阶段 1 及以上的能力。仅靠聊天是玩具阶段，无法实现真正的工程化产出。阶段 5（AGI 全职员工）在 2028 年之前仍是伪命题。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Part 4 ══ -->
+<section>
+  <div class="part-number">第四部分</div>
+  <h2>课程目标——你来这里能得到什么</h2>
+
+  <p>搞清楚了"AI 编程能力的层级"，接下来要看清楚这门课程能带你到哪里。课程设置了两级目标：</p>
+
+  <!-- Diagram: Two-level goals -->
+  <div class="diagram">
+    <svg viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" aria-label="课程两级目标对比图">
+      <!-- Left: 保底目标 -->
+      <rect x="10" y="20" width="300" height="140" rx="4" fill="#f0f6ff" stroke="#a0c4f0" stroke-width="1.5"/>
+      <text x="160" y="50" text-anchor="middle" font-family="inherit" font-size="13" font-weight="700" fill="#1a5fa8">保底目标</text>
+      <text x="160" y="75" text-anchor="middle" font-family="inherit" font-size="12" fill="#333">AI 帮你做</text>
+      <text x="160" y="95" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">你是主体 / 执行者</text>
+      <text x="160" y="115" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">万事不求人</text>
+      <text x="160" y="135" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">成为更好的自己</text>
+      <!-- Arrow -->
+      <text x="340" y="100" text-anchor="middle" font-family="inherit" font-size="24" fill="#bbb">→</text>
+      <text x="340" y="118" text-anchor="middle" font-family="inherit" font-size="10" fill="#aaa">前提满足后</text>
+      <!-- Right: 挑战目标 -->
+      <rect x="370" y="20" width="300" height="140" rx="4" fill="#fff3f3" stroke="#e8a0a0" stroke-width="1.5"/>
+      <text x="520" y="50" text-anchor="middle" font-family="inherit" font-size="13" font-weight="700" fill="#c0392b">挑战目标</text>
+      <text x="520" y="75" text-anchor="middle" font-family="inherit" font-size="12" fill="#333">AI 替你做</text>
+      <text x="520" y="95" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">AI 是主体 / 执行者</text>
+      <text x="520" y="115" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">你是管理者 / 老板</text>
+      <text x="520" y="138" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#c0392b">⚠ 前提：你得先有 Business</text>
+    </svg>
+    <div class="diagram-caption">两级目标的关系——保底目标是挑战目标的必要前提</div>
+  </div>
+
+  <p><strong>保底目标的内涵</strong>：学完并真正练习到位之后，你可以不依赖任何人——你有了想法，自己加上 AI 就能实现，不需要找外包、不需要依赖别人的技能。"万事不求人"意味着从"求人帮忙"变成"求 AI 帮忙"，主动权始终在自己手中。</p>
+
+  <p><strong>挑战目标的前提</strong>：这是逻辑上的约束，不是门槛高不高的问题——<strong>要让 AI 员工干活，你得先知道让它干什么。</strong></p>
+
+  <div class="recall analogy">
+    <div class="recall-label">类比锚点</div>
+    <p>可以这样理解：<strong>"'拥有 AI 员工'就像'有了专职司机'——前提是你得知道要去哪里，即你自己得有 Business 方向。"</strong></p>
+  </div>
+
+  <div class="recall rule">
+    <div class="recall-label">判定口诀</div>
+    <p>记住：<strong>"看到'AI 替你做'，立刻想到'这是挑战目标，前提：你得先有自己的 Business，才知道让 AI 员工干什么'。"</strong></p>
+  </div>
+
+  <div class="recall warning">
+    <div class="recall-label">易错警示</div>
+    <p>需要注意的是：<strong>不能跳过保底目标直达挑战目标。</strong> 正确的路径是：先把保底目标完成，先有自己的一摊业务，才知道让 AI 员工干什么。没有 Business 就谈 AI 员工，是逻辑上走不通的。</p>
+  </div>
+
+  <!-- Example EX-03 -->
+  <div class="example">
+    <div class="example-tag">概念演示</div>
+    <div class="example-title">EX-03：课程目标两级结构说明</div>
+
+    <div class="example-label">演示内容</div>
+    <p>PPT 标题"课程目标是什么？"，分两级：保底目标（帮你拥有完整 Idea to Business 能力，想到什么就动手实现，万事不求人，成为更好的自己）；挑战目标（帮你拥有 AI 员工，从"AI 帮你做"到"AI 替你做"；但前提是你得先有"Business"，不然让员工干什么？）。</p>
+
+    <div class="example-label">分析步骤</div>
+    <div class="steps">
+      <ol>
+        <li><span class="step-num">1</span><span class="step-text">保底目标：AI 作为工具帮你实现想法，你是执行者（万事求 AI 而非求人）</span></li>
+        <li><span class="step-num">2</span><span class="step-text">挑战目标：AI 作为员工替你执行，你是管理者（AI 是员工，你是老板）</span></li>
+        <li><span class="step-num">3</span><span class="step-text">逻辑约束：要让 AI 员工干活，你得先知道让它干什么 → 必须先有自己的 Business → 保底目标是挑战目标的前提</span></li>
+      </ol>
+    </div>
+
+    <div class="conclusion">
+      <div class="conclusion-label">核心结论</div>
+      <p>无法跳过保底目标直达挑战目标。"拥有 AI 员工"的前提是学习者自己有业务方向，否则无法定义员工的工作内容。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Part 5 ══ -->
+<section>
+  <div class="part-number">第五部分</div>
+  <h2>课程形式与安排——怎么学、跟着什么节奏走</h2>
+
+  <h3>四大学习形式</h3>
+  <p>本期课程由四个模块组成：</p>
+
+  <!-- Diagram: Four modules -->
+  <div class="diagram">
+    <svg viewBox="0 0 680 130" xmlns="http://www.w3.org/2000/svg" aria-label="四大学习形式">
+      <!-- 图文教程 -->
+      <rect x="10" y="10" width="152" height="110" rx="4" fill="#f8f8f8" stroke="#e0e0e0" stroke-width="1"/>
+      <text x="86" y="38" text-anchor="middle" font-family="inherit" font-size="13" font-weight="700" fill="#222">图文教程</text>
+      <text x="86" y="58" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">70+ 篇详细图文</text>
+      <text x="86" y="74" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">持续迭代更新</text>
+      <text x="86" y="90" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">建议每天学一篇</text>
+      <!-- 直播 -->
+      <rect x="174" y="10" width="152" height="110" rx="4" fill="#f8f8f8" stroke="#e0e0e0" stroke-width="1"/>
+      <text x="250" y="38" text-anchor="middle" font-family="inherit" font-size="13" font-weight="700" fill="#222">直播</text>
+      <text x="250" y="58" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">串讲 &amp; 答疑</text>
+      <text x="250" y="74" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">不定时加餐</text>
+      <text x="250" y="90" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">助教 &amp; 学员分享</text>
+      <!-- 交流讨论 -->
+      <rect x="338" y="10" width="152" height="110" rx="4" fill="#f8f8f8" stroke="#e0e0e0" stroke-width="1"/>
+      <text x="414" y="38" text-anchor="middle" font-family="inherit" font-size="13" font-weight="700" fill="#222">交流和讨论</text>
+      <text x="414" y="58" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">微信交流群</text>
+      <text x="414" y="74" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">助教答疑</text>
+      <text x="414" y="90" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">深海圈社区</text>
+      <!-- 航海实战 -->
+      <rect x="502" y="10" width="168" height="110" rx="4" fill="#f8f8f8" stroke="#e0e0e0" stroke-width="1"/>
+      <text x="586" y="38" text-anchor="middle" font-family="inherit" font-size="13" font-weight="700" fill="#222">航海实战</text>
+      <text x="586" y="58" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">不同主题</text>
+      <text x="586" y="74" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">实战演练</text>
+    </svg>
+  </div>
+
+  <p><strong>为什么用图文而非视频</strong>：视频课程不易更新，AI 工具迭代太快；而图文教材可以持续修订。此外，以往的观察是：学员看视频容易产生"看完就会了"的错觉，而不停下来动手实操。图文教材天然要求学员逐段操作，更有利于真正掌握。</p>
+
+  <h3>整体时间安排</h3>
+  <p>课程从 2026 年 3 月 19 日开营，2026 年 6 月 9 日结营，共约两个半月。</p>
+
+  <!-- Diagram: Gantt timeline -->
+  <div class="diagram">
+    <svg viewBox="0 0 680 100" xmlns="http://www.w3.org/2000/svg" aria-label="课程时间甘特图">
+      <!-- Timeline bar background -->
+      <rect x="10" y="20" width="660" height="36" rx="4" fill="#eee"/>
+      <!-- Green: weeks 1-3 (入门篇) -->
+      <rect x="10" y="20" width="140" height="36" rx="4" fill="#4caf50"/>
+      <text x="80" y="42" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#fff">第1-3周：快速入门</text>
+      <!-- Orange: weeks 4-6 -->
+      <rect x="152" y="20" width="140" height="36" rx="0" fill="#ff9800"/>
+      <text x="222" y="42" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#fff">第4-6周：进阶开始</text>
+      <!-- Dark: weeks 7-14 -->
+      <rect x="294" y="20" width="376" height="36" rx="0" fill="#555" rx="4"/>
+      <text x="482" y="42" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#fff">第7-14周：硬核进阶 &amp; 结营（6月9日）</text>
+      <!-- Labels below -->
+      <text x="10" y="75" font-family="inherit" font-size="11" fill="#666">3/19 开营</text>
+      <text x="280" y="75" text-anchor="middle" font-family="inherit" font-size="11" fill="#666">直播：13-14次（固定周四）</text>
+      <text x="670" y="75" text-anchor="end" font-family="inherit" font-size="11" fill="#666">6/9 结营</text>
+    </svg>
+  </div>
+
+  <p>建议学习节奏：</p>
+  <ul>
+    <li><strong>入门篇（第 1-3 周）</strong>：门槛最低，可以稍快，先找感觉建立信心</li>
+    <li><strong>进阶篇（第 4 周起）</strong>：建议每天学一篇（约 3000 字，阅读约 20 分钟，实操约 30-60 分钟）</li>
+    <li><strong>每周作业</strong>：在官网提交，讲师和教练会阅卷，共性问题会在直播中答疑</li>
+  </ul>
+
+  <h3>学习平台</h3>
+  <p>课程教材、直播回放、作业提交、学员交流均在"深海圈 AI 编程"官网进行（课程群内有地址）。课程内容按周解锁，引导学员按节奏学习，不建议跳读。</p>
+</section>
+
+<!-- ══ Part 6 ══ -->
+<section>
+  <div class="part-number">第六部分</div>
+  <h2>学习的方法——用小二多的案例理解什么叫真正的学会</h2>
+
+  <p>掌握工具和课程结构之后，最关键的问题来了：同样一门课，为什么有人学完能做出产品、有人学完什么都没改变？</p>
+
+  <p>往期所有没有学会的学员，只有一种共同原因：<strong>投入的时间不够。</strong> 具体表现为囫囵吞枣、妄想一步登天、跳过不懂的部分继续往后学。</p>
+
+  <p>正确的学习姿势需要四点：耐心、知其然知其所以然、学而时习之、知行合一。</p>
+
+  <p>为了帮助理解什么是"真正学会"，来看一个真实案例。</p>
+
+  <!-- Example EX-04 -->
+  <div class="example">
+    <div class="example-tag">方法示范</div>
+    <div class="example-title">EX-04：优秀学员"小二多"案例复盘</div>
+
+    <div class="example-label">案例背景</div>
+    <p>学员"小二多"从纯小白开始跟着课程学习，从开始学习到第一次出单花了四个月，现每月收入约 4 万美金。他在生海圈社区发布了一篇万字复盘文章《摸索一年，走上出海 web 道路月入 4w 刀》，详细记录了学习历程。</p>
+
+    <!-- Diagram: case study mockup -->
+    <div class="diagram">
+      <svg viewBox="0 0 680 120" xmlns="http://www.w3.org/2000/svg" aria-label="小二多案例复盘文章示意图">
+        <rect x="10" y="10" width="660" height="100" rx="4" fill="#fafafa" stroke="#e0e0e0" stroke-width="1"/>
+        <text x="30" y="38" font-family="inherit" font-size="13" font-weight="700" fill="#222">《摸索一年，走上出海 web 道路月入 4w 刀》</text>
+        <text x="30" y="58" font-family="inherit" font-size="11" fill="#555">章节：新人第一问 / 踩坑盘点 / 需求真伪 / 产品设计基本原则</text>
+        <text x="30" y="78" font-family="inherit" font-size="11" fill="#888">每一句话均用学员自己的语言表达，来源于课程内容但没有照抄</text>
+        <!-- Income badge -->
+        <rect x="520" y="24" width="140" height="50" rx="4" fill="#1E803D"/>
+        <text x="590" y="44" text-anchor="middle" font-family="inherit" font-size="11" fill="#fff" font-weight="600">月收入约</text>
+        <text x="590" y="64" text-anchor="middle" font-family="inherit" font-size="16" fill="#fff" font-weight="700">$45,059</text>
+      </svg>
+    </div>
+
+    <div class="example-label">分析步骤</div>
+    <div class="steps">
+      <ol>
+        <li><span class="step-num">1</span><span class="step-text"><strong>案例亮点 1——四个月的耐心</strong>：从零开始到第一次出单，花了整整四个月，没有急于求成</span></li>
+        <li><span class="step-num">2</span><span class="step-text"><strong>案例亮点 2——知识内化</strong>：复盘文章中的每一句话，都是用他自己的语言写的，没有照抄老师的原话，但内容来源于课程所学</span></li>
+        <li><span class="step-num">3</span><span class="step-text"><strong>内化的标志</strong>：老师的描述是"这些是我的，但又不是我的"——文章来自课程，但表达完全是学员自己的</span></li>
+      </ol>
+    </div>
+
+    <div class="conclusion">
+      <div class="conclusion-label">核心结论</div>
+      <p>判断是否真正学会的标准，是能否用自己的话表达出来。学习成效由时间投入和内化深度决定，不由报名决定。</p>
+    </div>
+
+    <div class="recall rule" style="margin-top:20px">
+      <div class="recall-label">判定口诀</div>
+      <p>记住：<strong>"判断自己是否真正学会的标准：能不能用自己的话解释给别人听？不能，就还没学会。"</strong></p>
+    </div>
+
+    <div class="recall warning">
+      <div class="recall-label">易错警示</div>
+      <p>需要注意的是：<strong>照抄老师的话不等于学会。</strong> 正确做法是将知识消化吸收后，用自己的语言重新表达出来——就像消化食物后变成身体的一部分，而不是把食物塞在口袋里。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Part 7 ══ -->
+<section>
+  <div class="part-number">第七部分</div>
+  <h2>学而时习之——"习"字的本义告诉我们什么</h2>
+
+  <p>"学而时习之"是这门课的学习方法论核心。但这句话被误解了上千年——大多数人以为它是在说"时常复习"，而这恰恰是错的。</p>
+
+  <p><strong>互动提问</strong>：学而时习之是什么意思？请从以下四个选项中选择：</p>
+
+  <ul>
+    <li>A. 每天背诵全文</li>
+    <li>B. 学到东西后按时睡觉</li>
+    <li>C. 看不懂就多看几遍</li>
+    <li>D. 时不时就重新看一遍</li>
+  </ul>
+
+  <p>答案是：<strong>以上都不是。</strong></p>
+
+  <!-- Example EX-05 -->
+  <div class="example">
+    <div class="example-tag">概念演示</div>
+    <div class="example-title">EX-05："习"字字源拆解——学而时习之的本义</div>
+
+    <div class="example-label">演示内容</div>
+    <p>PPT 展示"习"字的篆书象形图，上方画着两个羽毛（代表鸟翅），下方画着一个太阳；旁边配有一只小鸟飞向太阳的插图。解释文字："鸟屡次尝试飞翔——小鸟不是飞一次就会，而是日复一日地振翅，直到翱翔。"</p>
+
+    <!-- Diagram: 习 character pictogram -->
+    <div class="diagram">
+      <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" aria-label="习字象形图：羽毛加太阳">
+        <!-- Left side: character decomposition -->
+        <text x="80" y="50" text-anchor="middle" font-family="inherit" font-size="14" font-weight="700" fill="#555">习（篆书）</text>
+        <!-- Feather left -->
+        <ellipse cx="55" cy="90" rx="18" ry="32" fill="#bbb" transform="rotate(-20 55 90)"/>
+        <ellipse cx="53" cy="90" rx="8" ry="28" fill="#ddd" transform="rotate(-20 53 90)"/>
+        <!-- Feather right -->
+        <ellipse cx="105" cy="90" rx="18" ry="32" fill="#bbb" transform="rotate(20 105 90)"/>
+        <ellipse cx="107" cy="90" rx="8" ry="28" fill="#ddd" transform="rotate(20 107 90)"/>
+        <!-- Sun -->
+        <circle cx="80" cy="158" r="20" fill="#f9a825" stroke="#f57f17" stroke-width="2"/>
+        <!-- Sun rays -->
+        <line x1="80" y1="130" x2="80" y2="124" stroke="#f57f17" stroke-width="2"/>
+        <line x1="80" y1="186" x2="80" y2="192" stroke="#f57f17" stroke-width="2"/>
+        <line x1="52" y1="158" x2="46" y2="158" stroke="#f57f17" stroke-width="2"/>
+        <line x1="108" y1="158" x2="114" y2="158" stroke="#f57f17" stroke-width="2"/>
+        <!-- Labels -->
+        <text x="140" y="88" font-family="inherit" font-size="12" fill="#555">↑ 上：羽毛（鸟翅）</text>
+        <text x="140" y="160" font-family="inherit" font-size="12" fill="#555">↑ 下：太阳</text>
+
+        <!-- Right side: meaning -->
+        <line x1="340" y1="20" x2="340" y2="180" stroke="#e0e0e0" stroke-width="1"/>
+        <text x="510" y="50" text-anchor="middle" font-family="inherit" font-size="14" font-weight="700" fill="#222">习 的本义</text>
+        <text x="510" y="80" text-anchor="middle" font-family="inherit" font-size="12" fill="#444">鸟妈妈让小鸟自己飞向太阳</text>
+        <text x="510" y="100" text-anchor="middle" font-family="inherit" font-size="12" fill="#444">小鸟屡次尝试飞翔</text>
+        <!-- Bird (simple) -->
+        <path d="M460,135 Q480,120 500,130 Q490,115 510,125 Q500,110 520,120" stroke="#555" stroke-width="2" fill="none"/>
+        <circle cx="522" cy="120" r="5" fill="#555"/>
+        <!-- Arrow to sun -->
+        <circle cx="580" cy="138" r="15" fill="#f9a825" stroke="#f57f17" stroke-width="1.5"/>
+        <line x1="530" y1="127" x2="562" y2="132" stroke="#888" stroke-width="1.5" marker-end="url(#arr)"/>
+        <text x="510" y="168" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#1E803D">日复一日振翅 → 直到翱翔</text>
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#888"/>
+          </marker>
+        </defs>
+      </svg>
+      <div class="diagram-caption">习（篆书）= 羽毛 + 太阳 = 雏鸟反复飞翔练习</div>
+    </div>
+
+    <div class="example-label">分析步骤</div>
+    <div class="steps">
+      <ol>
+        <li><span class="step-num">1</span><span class="step-text">从字源分析"习"字：象形字，鸟翅（上）+ 太阳（下）= 鸟妈妈让小鸟反复飞向太阳，即飞翔的练习</span></li>
+        <li><span class="step-num">2</span><span class="step-text">推导本义：学习的关键在于反复实践，而非反复阅读</span></li>
+        <li><span class="step-num">3</span><span class="step-text">应用到课程：看完图文教材（约 20 分钟）后，必须亲自动手实操，否则等于没学</span></li>
+      </ol>
+    </div>
+
+    <div class="conclusion">
+      <div class="conclusion-label">核心结论</div>
+      <p>"学而时习之"的本义：学到东西后要时常去实践（动手做），而非重复阅读或背诵。"习"字的象形根源就是"反复飞翔的练习"，不是"翻书重温"。</p>
+    </div>
+
+    <div class="recall analogy" style="margin-top:20px">
+      <div class="recall-label">类比锚点</div>
+      <p>这就像雏鸟学飞：<strong>"小鸟不是看着飞就会了，是日复一日扑腾翅膀，直到真正飞起来。学课程也一样，看完一篇就要动手做，不做就等于没学。"</strong></p>
+    </div>
+
+    <div class="recall rule">
+      <div class="recall-label">判定口诀</div>
+      <p>记住：<strong>"看到'学而时习之'，立刻想到：习 = 反复实践，不是反复阅读。课程内容看完必须当天动手做。"</strong></p>
+    </div>
+
+    <div class="recall warning">
+      <div class="recall-label">易错警示</div>
+      <p>需要注意的是：<strong>很多人以为"学而时习之"是"定期复习"或"多看几遍"——这是误解。</strong> "习"的象形本义是实践，不是复读。每一篇图文教材约 3000 字，阅读约 20 分钟，看完不动手等于没学。</p>
+    </div>
+  </div>
+
+  <p>此外，"慢就是快"是配套的核心原则：把每一个不懂的概念搞明白，宁可慢也不跳过细节。看起来进度最慢的那个人，往往最后走得最稳、出来得最快。</p>
+</section>
+
+<!-- ══ Part 8 ══ -->
+<section>
+  <div class="part-number">第八部分</div>
+  <h2>开挂学习工具——用 AI 浏览器把所有看不懂的东西变成机会</h2>
+
+  <p>掌握了学习原则之后，还需要掌握一个"开挂"工具：AI 浏览器。</p>
+
+  <!-- Diagram: Tool list -->
+  <div class="diagram">
+    <svg viewBox="0 0 680 130" xmlns="http://www.w3.org/2000/svg" aria-label="AI浏览器与语音输入法工具推荐">
+      <rect x="10" y="10" width="325" height="110" rx="4" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+      <text x="172" y="38" text-anchor="middle" font-family="inherit" font-size="13" font-weight="700" fill="#222">AI 浏览器</text>
+      <text x="172" y="58" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">Tabbit（海外版，可调用 GPT-4 等）</text>
+      <text x="172" y="74" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">豆包电脑版（国内免费替代，推荐）</text>
+      <text x="172" y="90" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">Dia</text>
+      <text x="172" y="110" text-anchor="middle" font-family="inherit" font-size="10" fill="#1E803D" font-weight="600">建议设为默认浏览器</text>
+
+      <rect x="345" y="10" width="325" height="110" rx="4" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+      <text x="507" y="38" text-anchor="middle" font-family="inherit" font-size="13" font-weight="700" fill="#222">电脑语音输入法</text>
+      <text x="507" y="58" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">微信电脑版（自带，升级后开启）</text>
+      <text x="507" y="74" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">Typeless</text>
+      <text x="507" y="90" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">豆包电脑版</text>
+      <text x="507" y="110" text-anchor="middle" font-family="inherit" font-size="10" fill="#1E803D" font-weight="600">提问不用打字，直接说</text>
+    </svg>
+  </div>
+
+  <p><strong>什么是 AI 浏览器</strong>：一种内置了 AI 聊天侧边栏的浏览器，打开任何网页时可以随时调出 AI 助手，支持截图识别、文字提问、一键生成思维导图等功能。</p>
+
+  <div class="recall analogy">
+    <div class="recall-label">类比锚点</div>
+    <p>可以这样理解：<strong>"AI 浏览器的侧边栏就像'随时待命的家教'——遇到看不懂的图表或英文，截图给家教看，家教立刻用你能听懂的语言解释。"</strong></p>
+  </div>
+
+  <div class="recall rule">
+    <div class="recall-label">判定口诀</div>
+    <p>记住：<strong>"遇到看不懂的内容，立刻：①截图 ②发给 AI 侧边栏 ③加语境（'我是小学 6 年级学生，用我能听懂的'）→ 等通俗解释。"</strong></p>
+  </div>
+
+  <div class="recall warning">
+    <div class="recall-label">易错警示</div>
+    <p>需要注意的是：<strong>不要遇到看不懂的就关掉跳过。</strong> 每一个"看不懂"都是学习机会——截图问 AI，这个动作本身就是在学习，也是"学而时习之"的即时实践。</p>
+  </div>
+
+  <!-- Example EX-06 -->
+  <div class="example">
+    <div class="example-tag">方法示范</div>
+    <div class="example-title">EX-06：AI 浏览器截图提问功能演示</div>
+
+    <div class="example-label">演示内容</div>
+    <p>讲师打开 Tabbit 浏览器，进入 Hugging Face 某开源模型（Qwen3.5）的详情页，发现页面上有一个完全看不懂的折线图性能对比图表，演示完整的截图提问流程。</p>
+
+    <!-- Diagram: browser workflow -->
+    <div class="diagram">
+      <svg viewBox="0 0 680 90" xmlns="http://www.w3.org/2000/svg" aria-label="AI浏览器截图提问操作流程">
+        <rect x="10" y="15" width="130" height="60" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+        <text x="75" y="40" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#333">打开任意网页</text>
+        <text x="75" y="56" text-anchor="middle" font-family="inherit" font-size="10" fill="#666">Hugging Face 等</text>
+
+        <line x1="142" y1="45" x2="170" y2="45" stroke="#bbb" stroke-width="1.5"/>
+        <polygon points="170,40 180,45 170,50" fill="#bbb"/>
+
+        <rect x="182" y="15" width="140" height="60" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+        <text x="252" y="40" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#333">截图框选</text>
+        <text x="252" y="56" text-anchor="middle" font-family="inherit" font-size="10" fill="#666">系统截图工具框选内容</text>
+
+        <line x1="324" y1="45" x2="352" y2="45" stroke="#bbb" stroke-width="1.5"/>
+        <polygon points="352,40 362,45 352,50" fill="#bbb"/>
+
+        <rect x="364" y="15" width="160" height="60" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+        <text x="444" y="35" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#333">发给 AI 侧边栏</text>
+        <text x="444" y="51" text-anchor="middle" font-family="inherit" font-size="10" fill="#666">加语境："我是小学</text>
+        <text x="444" y="65" text-anchor="middle" font-family="inherit" font-size="10" fill="#666">6年级学生，用我能听懂的"</text>
+
+        <line x1="526" y1="45" x2="554" y2="45" stroke="#bbb" stroke-width="1.5"/>
+        <polygon points="554,40 564,45 554,50" fill="#bbb"/>
+
+        <rect x="566" y="15" width="104" height="60" rx="4" fill="#eaf5ed" stroke="#1E803D" stroke-width="1"/>
+        <text x="618" y="40" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#1E803D">获得通俗解释</text>
+        <text x="618" y="56" text-anchor="middle" font-family="inherit" font-size="10" fill="#1E803D">学习闭环完成</text>
+      </svg>
+    </div>
+
+    <div class="example-label">操作步骤</div>
+    <div class="steps">
+      <ol>
+        <li><span class="step-num">1</span><span class="step-text">打开 Tabbit 浏览器（或豆包电脑版），进入任意网页</span></li>
+        <li><span class="step-num">2</span><span class="step-text">调出右侧 AI 助手侧边栏</span></li>
+        <li><span class="step-num">3</span><span class="step-text">遇到看不懂的内容（如英文折线图）时，使用系统截图工具框选目标区域</span></li>
+        <li><span class="step-num">4</span><span class="step-text">将截图发送给 AI 助手，并附加语境："这个图是什么意思？我是一个傻子。"（或"我是小学 6 年级学生，用我能听懂的"）</span></li>
+        <li><span class="step-num">5</span><span class="step-text">等待 AI 给出通俗解释</span></li>
+        <li><span class="step-num">6</span><span class="step-text">配合语音输入法（微信电脑版→设置→找到语音输入）可以不用打字，直接说出问题</span></li>
+      </ol>
+    </div>
+
+    <p><strong>补充功能——豆包一键生成思维导图</strong>：在豆包 AI 助手中，点击"生成思维导图"，AI 会将当前网页的核心内容自动整理为树状结构图，尤其适合整理英文技术文章。</p>
+
+    <div class="conclusion">
+      <div class="conclusion-label">核心结论</div>
+      <p>能够独立完成"遇到不懂 → 截图 → 配语境提问 → 理解"的完整学习闭环，这就是"开挂式学习"。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Part 9 ══ -->
+<section>
+  <div class="part-number">第九部分</div>
+  <h2>入门项目演示——用扣子编程五分钟做出 2048 游戏</h2>
+
+  <p>完成工具准备之后，进入本次开营仪式的核心演示环节：亲手在扣子编程中做出第一个可分享的应用。</p>
+
+  <h3>什么是扣子编程</h3>
+  <p>扣子编程（coze.cn）是字节跳动出品的 AI 编程平台。它最适合新手的原因是：<strong>开发环境完全由 AI 自动配置</strong>，用户无需安装任何软件、无需配置本地环境，只需打开网页，用自然语言描述需求，AI 就会自动完成代码编写。</p>
+  <p>更关键的是，扣子编程平台已经内置了大语言模型（LLM）、文字转语音（TTS）、图像生成等 AI 能力的 API 接口，新手无需自行申请和配置 API Key，就可以在产品中调用这些 AI 能力。</p>
+
+  <div class="recall analogy">
+    <div class="recall-label">类比锚点</div>
+    <p>可以这样理解：<strong>"云端沙箱就像'在云端临时租用的一台电脑'——你的需求只需要在对话框里说出来，AI 把代码写进那台云上的电脑里运行，你本地的电脑不需要动任何东西。"</strong></p>
+  </div>
+
+  <!-- Diagram: Coze three-column workspace -->
+  <div class="diagram">
+    <svg viewBox="0 0 680 130" xmlns="http://www.w3.org/2000/svg" aria-label="扣子编程三栏工作界面">
+      <rect x="10" y="10" width="200" height="110" rx="4" fill="#1a1a2e" stroke="none"/>
+      <text x="110" y="36" text-anchor="middle" font-family="inherit" font-size="12" font-weight="700" fill="#888">左侧：终端日志</text>
+      <text x="110" y="56" text-anchor="middle" font-family="inherit" font-size="10" fill="#4caf50">$ Initializing project...</text>
+      <text x="110" y="72" text-anchor="middle" font-family="inherit" font-size="10" fill="#4caf50">$ Installing dependencies...</text>
+      <text x="110" y="88" text-anchor="middle" font-family="inherit" font-size="10" fill="#4caf50">$ Project created!</text>
+      <text x="110" y="110" text-anchor="middle" font-family="inherit" font-size="10" fill="#666">AI 正在做什么</text>
+
+      <rect x="220" y="10" width="220" height="110" rx="4" fill="#f8f8f8" stroke="#e0e0e0" stroke-width="1"/>
+      <text x="330" y="36" text-anchor="middle" font-family="inherit" font-size="12" font-weight="700" fill="#333">中间：代码文件</text>
+      <text x="330" y="56" text-anchor="middle" font-family="inherit" font-size="10" fill="#666">📁 src/</text>
+      <text x="330" y="72" text-anchor="middle" font-family="inherit" font-size="10" fill="#666">📄 index.ts</text>
+      <text x="330" y="88" text-anchor="middle" font-family="inherit" font-size="10" fill="#666">📄 tailwind.config.js</text>
+      <text x="330" y="110" text-anchor="middle" font-family="inherit" font-size="10" fill="#666">生成的代码内容</text>
+
+      <rect x="450" y="10" width="220" height="110" rx="4" fill="#eaf5ed" stroke="#1E803D" stroke-width="1"/>
+      <text x="560" y="36" text-anchor="middle" font-family="inherit" font-size="12" font-weight="700" fill="#1E803D">右侧：沙箱预览</text>
+      <text x="560" y="60" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">应用实时运行效果</text>
+      <text x="560" y="80" text-anchor="middle" font-family="inherit" font-size="11" fill="#555">可直接在浏览器测试</text>
+      <text x="560" y="110" text-anchor="middle" font-family="inherit" font-size="10" fill="#1E803D">云端虚拟机运行中</text>
+    </svg>
+    <div class="diagram-caption">扣子编程三栏界面——左：日志，中：代码，右：预览</div>
+  </div>
+
+  <div class="recall rule">
+    <div class="recall-label">判定口诀</div>
+    <p>记住：<strong>"看到扣子编程三栏界面：左侧=终端日志（AI 在做什么），中间=代码文件，右侧=沙箱预览（运行效果）。"</strong></p>
+  </div>
+
+  <!-- Example EX-07 -->
+  <div class="example">
+    <div class="example-tag">实操演示</div>
+    <div class="example-title">EX-07：用扣子编程创建 2048 小游戏（无 AI 能力版）</div>
+
+    <div class="example-label">输入的提示词</div>
+    <div class="prompt-block">我要做一个2048游戏。玩法就是传统的2048游戏，但是设计风格要用苹果公司的设计风格，看着像是最牛逼的设计师设计的。</div>
+
+    <div class="example-label">操作步骤</div>
+    <div class="steps">
+      <ol>
+        <li><span class="step-num">1</span><span class="step-text">打开 coze.cn → 进入"扣子编程"→ 点击"新建项目"</span></li>
+        <li><span class="step-num">2</span><span class="step-text">在对话框中输入需求（<strong>格式：功能描述 + 设计风格/交互要求</strong>）</span></li>
+        <li><span class="step-num">3</span><span class="step-text">发送后等待 AI 在左侧终端生成代码、在中间显示项目文件、在右侧沙箱预览运行结果</span></li>
+        <li><span class="step-num">4</span><span class="step-text"><strong>等待期间（重要）</strong>：打开 AI 浏览器侧边栏，截取左侧 Bash 终端日志，发给 AI 问"这在干啥？"，把等待变成学习时间</span></li>
+        <li><span class="step-num">5</span><span class="step-text">预览区加载完成后，用键盘测试游戏</span></li>
+        <li><span class="step-num">6</span><span class="step-text">点击"部署"→ 获得可分享的公网链接 → 可以发给朋友玩</span></li>
+      </ol>
+    </div>
+
+    <div class="conclusion">
+      <div class="conclusion-label">核心结论</div>
+      <p>成功运行一个 2048 游戏，获得公网分享链接。<strong>注意：此应用本身没有调用任何 AI 能力，只是 AI 帮你写了一段普通的 JavaScript 游戏代码，应用运行时不需要 AI 介入。</strong></p>
+    </div>
+
+    <div class="recall rule" style="margin-top:20px">
+      <div class="recall-label">判定口诀</div>
+      <p>记住提示词的写法规律：<strong>"扣子编程提示词结构：【功能需求】+【设计风格或交互要求】，两者都写，缺一不可。"</strong></p>
+    </div>
+
+    <div class="recall warning">
+      <div class="recall-label">易错警示</div>
+      <p>需要注意的是：<strong>等待代码生成时不要发呆。</strong> "你得去把你看不懂的东西问一遍"——等待期间用 AI 浏览器截图问问题，这是将每一段空档转化为主动学习的关键习惯。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Part 10 ══ -->
+<section>
+  <div class="part-number">第十部分</div>
+  <h2>进阶演示——互联网黑话翻译器（含 AI 能力调用）</h2>
+
+  <p>2048 游戏展示了"AI 帮你写代码"，但应用本身没有调用 AI。接下来看一个截然不同的例子：一个在运行时会调用大语言模型的应用。</p>
+
+  <p><strong>两类应用的本质区别</strong>：</p>
+
+  <!-- Diagram: Dual AI calling -->
+  <div class="diagram">
+    <svg viewBox="0 0 680 170" xmlns="http://www.w3.org/2000/svg" aria-label="双层AI调用机制对比">
+      <!-- Left: No AI capability -->
+      <text x="170" y="22" text-anchor="middle" font-family="inherit" font-size="12" font-weight="700" fill="#555">无 AI 能力应用（如 2048）</text>
+      <rect x="20" y="34" width="130" height="40" rx="4" fill="#f0f0f0" stroke="#ccc" stroke-width="1"/>
+      <text x="85" y="59" text-anchor="middle" font-family="inherit" font-size="11" fill="#333">你的自然语言需求</text>
+      <line x1="152" y1="54" x2="175" y2="54" stroke="#aaa" stroke-width="1.5"/>
+      <polygon points="175,49 185,54 175,59" fill="#aaa"/>
+      <rect x="187" y="34" width="100" height="40" rx="4" fill="#222" stroke="none"/>
+      <text x="237" y="55" text-anchor="middle" font-family="inherit" font-size="10" fill="#fff" font-weight="700">第1层 AI</text>
+      <text x="237" y="68" text-anchor="middle" font-family="inherit" font-size="9" fill="#aaa">生成代码</text>
+      <line x1="289" y1="54" x2="312" y2="54" stroke="#aaa" stroke-width="1.5"/>
+      <polygon points="312,49 322,54 312,59" fill="#aaa"/>
+      <rect x="324" y="34" width="110" height="40" rx="4" fill="#f0f0f0" stroke="#ccc" stroke-width="1"/>
+      <text x="379" y="55" text-anchor="middle" font-family="inherit" font-size="10" fill="#555">用户使用游戏</text>
+      <text x="379" y="68" text-anchor="middle" font-family="inherit" font-size="9" fill="#888">（无AI参与）</text>
+
+      <!-- Divider -->
+      <line x1="10" y1="100" x2="670" y2="100" stroke="#e8e8e8" stroke-width="1" stroke-dasharray="4,3"/>
+
+      <!-- Right: With AI capability -->
+      <text x="170" y="120" text-anchor="middle" font-family="inherit" font-size="12" font-weight="700" fill="#1a5fa8">有 AI 能力应用（如黑话翻译器）</text>
+      <rect x="20" y="132" width="110" height="32" rx="4" fill="#d6eaff" stroke="#a0c4f0" stroke-width="1"/>
+      <text x="75" y="152" text-anchor="middle" font-family="inherit" font-size="10" fill="#333">你的自然语言需求</text>
+      <line x1="132" y1="148" x2="148" y2="148" stroke="#4a90d9" stroke-width="1.5"/>
+      <polygon points="148,143 158,148 148,153" fill="#4a90d9"/>
+      <rect x="160" y="132" width="90" height="32" rx="4" fill="#222" stroke="none"/>
+      <text x="205" y="145" text-anchor="middle" font-family="inherit" font-size="9" fill="#fff" font-weight="700">第1层 AI</text>
+      <text x="205" y="158" text-anchor="middle" font-family="inherit" font-size="9" fill="#aaa">生成代码</text>
+      <line x1="252" y1="148" x2="268" y2="148" stroke="#4a90d9" stroke-width="1.5"/>
+      <polygon points="268,143 278,148 268,153" fill="#4a90d9"/>
+      <rect x="280" y="132" width="100" height="32" rx="4" fill="#d6eaff" stroke="#a0c4f0" stroke-width="1"/>
+      <text x="330" y="152" text-anchor="middle" font-family="inherit" font-size="10" fill="#333">用户输入黑话</text>
+      <line x1="382" y1="148" x2="398" y2="148" stroke="#4a90d9" stroke-width="1.5"/>
+      <polygon points="398,143 408,148 398,153" fill="#4a90d9"/>
+      <rect x="410" y="132" width="100" height="32" rx="4" fill="#222" stroke="none"/>
+      <text x="460" y="145" text-anchor="middle" font-family="inherit" font-size="9" fill="#fff" font-weight="700">第2层 AI</text>
+      <text x="460" y="158" text-anchor="middle" font-family="inherit" font-size="9" fill="#aaa">调用大模型翻译</text>
+      <line x1="512" y1="148" x2="528" y2="148" stroke="#4a90d9" stroke-width="1.5"/>
+      <polygon points="528,143 538,148 528,153" fill="#4a90d9"/>
+      <rect x="540" y="132" width="120" height="32" rx="4" fill="#eaf5ed" stroke="#1E803D" stroke-width="1"/>
+      <text x="600" y="152" text-anchor="middle" font-family="inherit" font-size="10" fill="#1E803D">返回大白话结果</text>
+    </svg>
+    <div class="diagram-caption">双层 AI 调用对比——左图只有开发时调用；右图运行时再次调用大模型</div>
+  </div>
+
+  <div class="recall warning">
+    <div class="recall-label">易错警示</div>
+    <p>需要注意的是：<strong>不是所有扣子编程项目都"调用了AI"。</strong> 2048 游戏只是 AI 写的普通 JS 代码，运行时不涉及任何 AI；只有描述了"翻译/生成/对话"等功能的应用，才会在运行时调用大模型。</p>
+  </div>
+
+  <!-- Example EX-08 -->
+  <div class="example">
+    <div class="example-tag">实操演示</div>
+    <div class="example-title">EX-08：用扣子编程创建互联网黑话翻译器（含 AI 能力调用）</div>
+
+    <div class="example-label">输入的提示词</div>
+    <div class="prompt-block">使用 Next.js 框架。我要做一个「互联网黑话翻译器」因为我领导老说"赋能，对齐，颗粒度，握手，闭环"我听不懂。我希望左边让用户输入互联网黑话原文，点击"翻译"按钮，右边出来翻译后的大白话，还要有概念解析。</div>
+
+    <div class="example-label">测试用例</div>
+    <div class="prompt-block">我们需要对齐颗粒度，形成闭环，打造护城河，下午来我办公室我单独给你赋能。</div>
+
+    <div class="example-label">操作步骤</div>
+    <div class="steps">
+      <ol>
+        <li><span class="step-num">1</span><span class="step-text">在扣子编程中新建项目，输入上述提示词（<strong>关键：提示词中要描述"用户输入→大模型翻译→返回结果"的交互逻辑</strong>）</span></li>
+        <li><span class="step-num">2</span><span class="step-text">等待 AI 生成代码（期间用 AI 浏览器学习看不懂的内容）</span></li>
+        <li><span class="step-num">3</span><span class="step-text">预览区加载完成后，输入测试用例，点击"翻译成大白话"，查看效果</span></li>
+        <li><span class="step-num">4</span><span class="step-text">发现问题（输出为 Markdown 格式，用户不易阅读）→ 继续在对话框输入迭代指令：<br><em>"我发现翻译后的结果是这种看不懂的 Markdown，我要变成知识卡片那样用户友好的，你继续改一下"</em></span></li>
+        <li><span class="step-num">5</span><span class="step-text">等待重新生成 → 验证新格式的效果</span></li>
+      </ol>
+    </div>
+
+    <div class="conclusion">
+      <div class="conclusion-label">核心结论</div>
+      <p>成功运行互联网黑话翻译器，且翻译功能通过后台调用大模型实现。关键理解：此应用有"两次 AI 调用"——一次生成代码，一次执行翻译。扣子编程内置了大模型 API，无需用户自行配置。</p>
+    </div>
+
+    <div class="recall rule" style="margin-top:20px">
+      <div class="recall-label">判定口诀</div>
+      <p>记住：<strong>"看到应用里有'翻译/生成/对话'等功能，立刻想到'这是有AI能力的应用，有第二层AI调用'；看到'游戏/计算类'，想到'普通逻辑，无AI能力'。"</strong></p>
+    </div>
+
+    <div class="recall warning">
+      <div class="recall-label">易错警示</div>
+      <p>需要注意的是：<strong>输出格式不对是正常的，不要放弃。</strong> 正确做法是继续迭代提示词——告诉 AI 你发现的问题和期望的改进方向，反复打磨直到满意。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Part 11 ══ -->
+<section>
+  <div class="part-number">第十一部分</div>
+  <h2>第一周通关项目——纸片人男友与多模态 AI 产品</h2>
+
+  <p>完成 2048 游戏和黑话翻译器的基础演示之后，来看基础篇第一周的最终通关项目。</p>
+  <p><strong>通关项目</strong>：从零打造"纸片人男友"，并让你的闺蜜爱上他。</p>
+
+  <!-- Example EX-09 -->
+  <div class="example">
+    <div class="example-tag">项目预览</div>
+    <div class="example-title">EX-09：基础篇第 8 课——纸片人男友（多模态 AI 产品）</div>
+
+    <div class="example-label">演示内容</div>
+    <p>课程官网基础篇第 8 课标题"八、难度再次升级！从零打造'纸片人男友'并让你的闺蜜爱上他"；产品展示包含多个虚拟角色卡片（林屿/顾渊/苏慕/沈叙）；系统架构图展示三条并行数据流。</p>
+
+    <!-- Diagram: character selection UI -->
+    <div class="diagram">
+      <svg viewBox="0 0 680 110" xmlns="http://www.w3.org/2000/svg" aria-label="纸片人男友角色选择界面">
+        <text x="340" y="24" text-anchor="middle" font-family="inherit" font-size="13" font-weight="700" fill="#222">选择你的纸片人男友</text>
+        <rect x="20" y="36" width="140" height="64" rx="6" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
+        <text x="90" y="64" text-anchor="middle" font-family="inherit" font-size="13" font-weight="700" fill="#333">林屿</text>
+        <text x="90" y="82" text-anchor="middle" font-family="inherit" font-size="10" fill="#888">温柔学长型</text>
+        <rect x="180" y="36" width="140" height="64" rx="6" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
+        <text x="250" y="64" text-anchor="middle" font-family="inherit" font-size="13" font-weight="700" fill="#333">顾渊</text>
+        <text x="250" y="82" text-anchor="middle" font-family="inherit" font-size="10" fill="#888">冷酷霸道型</text>
+        <rect x="340" y="36" width="140" height="64" rx="6" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
+        <text x="410" y="64" text-anchor="middle" font-family="inherit" font-size="13" font-weight="700" fill="#333">苏慕</text>
+        <text x="410" y="82" text-anchor="middle" font-family="inherit" font-size="10" fill="#888">阳光活泼型</text>
+        <rect x="500" y="36" width="140" height="64" rx="6" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
+        <text x="570" y="64" text-anchor="middle" font-family="inherit" font-size="13" font-weight="700" fill="#333">沈叙</text>
+        <text x="570" y="82" text-anchor="middle" font-family="inherit" font-size="10" fill="#888">成熟稳重型</text>
+      </svg>
+    </div>
+
+    <!-- Diagram: Three parallel data flows -->
+    <div class="diagram">
+      <svg viewBox="0 0 680 140" xmlns="http://www.w3.org/2000/svg" aria-label="纸片人男友系统架构：三条并行数据流">
+        <text x="340" y="20" text-anchor="middle" font-family="inherit" font-size="12" font-weight="700" fill="#555">完整数据流：这次有三条路同时走</text>
+        <!-- User input -->
+        <rect x="260" y="30" width="160" height="32" rx="4" fill="#d6eaff" stroke="#a0c4f0" stroke-width="1"/>
+        <text x="340" y="51" text-anchor="middle" font-family="inherit" font-size="11" fill="#333">用户发送消息</text>
+        <!-- Three paths -->
+        <line x1="340" y1="62" x2="130" y2="80" stroke="#4a90d9" stroke-width="1.5"/>
+        <line x1="340" y1="62" x2="340" y2="80" stroke="#4a90d9" stroke-width="1.5"/>
+        <line x1="340" y1="62" x2="550" y2="80" stroke="#4a90d9" stroke-width="1.5"/>
+        <!-- Path 1: LLM -->
+        <rect x="30" y="80" width="200" height="48" rx="4" fill="#eaf5ed" stroke="#1E803D" stroke-width="1"/>
+        <text x="130" y="100" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#1E803D">LLM（大语言模型）</text>
+        <text x="130" y="118" text-anchor="middle" font-family="inherit" font-size="10" fill="#555">生成文字对话回复</text>
+        <!-- Path 2: TTS -->
+        <rect x="240" y="80" width="200" height="48" rx="4" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
+        <text x="340" y="100" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#e65100">TTS（语音合成）</text>
+        <text x="340" y="118" text-anchor="middle" font-family="inherit" font-size="10" fill="#555">生成角色语音</text>
+        <!-- Path 3: Image -->
+        <rect x="450" y="80" width="200" height="48" rx="4" fill="#fce4ec" stroke="#e91e63" stroke-width="1"/>
+        <text x="550" y="100" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#c2185b">图像生成</text>
+        <text x="550" y="118" text-anchor="middle" font-family="inherit" font-size="10" fill="#555">生成角色照片</text>
+      </svg>
+      <div class="diagram-caption">三路并行：文字 + 语音 + 图像同时生成</div>
+    </div>
+
+    <div class="example-label">分析步骤</div>
+    <div class="steps">
+      <ol>
+        <li><span class="step-num">1</span><span class="step-text">理解该项目使用了三种 AI 能力同时调用：LLM（大语言模型）处理对话、TTS 将回复转为语音、图像生成让角色"发照片"给用户</span></li>
+        <li><span class="step-num">2</span><span class="step-text">这三种能力在扣子编程内均已内置，无需配置 API Key——这是扣子编程适合新手的核心原因</span></li>
+        <li><span class="step-num">3</span><span class="step-text">通关标准：真实发布产品，让真实用户（女朋友/闺蜜）实际使用</span></li>
+      </ol>
+    </div>
+
+    <div class="conclusion">
+      <div class="conclusion-label">核心结论</div>
+      <p>第一周通关项目为多模态 AI 角色扮演应用，通关标准是"让闺蜜爱上他"，即真实用户体验验证，而非技术上的运行成功。</p>
+    </div>
+
+    <div class="recall analogy" style="margin-top:20px">
+      <div class="recall-label">类比锚点</div>
+      <p>可以这样理解：<strong>"纸片人男友项目就像'三位乐手同台演奏'——大语言模型负责说话（文字），TTS 负责唱歌（语音），图像生成负责露脸（发照片），三者同时运行，共同构成角色体验。"</strong></p>
+    </div>
+
+    <div class="recall rule">
+      <div class="recall-label">判定口诀</div>
+      <p>记住：<strong>"纸片人男友 = LLM + TTS + 图像生成，三路并行，扣子编程内置，无需配置 API Key。"</strong></p>
+    </div>
+
+    <div class="recall warning">
+      <div class="recall-label">易错警示</div>
+      <p>需要注意的是：<strong>通关标准不是"代码跑起来了"，而是"让真实用户爱上他"。</strong> 这意味着你需要发布产品、让真实用户使用并给出反馈，用真实的用户体验来验证产品质量。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Part 12 ══ -->
+<section>
+  <div class="part-number">第十二部分</div>
+  <h2>课程红线与社区规范</h2>
+
+  <p>在课程正式开始之前，有两条红线需要了解：</p>
+
+  <p><strong>红线一：版权保护</strong></p>
+  <ul>
+    <li>课程所有内容（文档、直播、回放）均有版权</li>
+    <li>禁止转载、泄露、盗版传播课程资料</li>
+    <li>所有直播和文档均有学员水印，可溯源到具体账号</li>
+    <li>发现盗版即走法律程序</li>
+  </ul>
+
+  <p><strong>红线二：群内规范</strong></p>
+  <ul>
+    <li>禁止在交流群内拉人（邀请非学员进群）</li>
+    <li>禁止在交流群内卖课</li>
+    <li>禁止在交流群内打广告</li>
+    <li>发现即清退</li>
+  </ul>
+
+  <p><strong>如何在社群中正确提问</strong>：在交流群中发"举手"标签后提问；提问时需提供：①具体清晰的问题描述、②足够的背景信息（你在做什么/卡在哪一步/想实现什么效果）、③截图（没有截图教练很难判断问题）。</p>
+</section>
+
+<!-- ══ Summary ══ -->
+<div class="summary">
+  <h2>本课总结</h2>
+
+  <h3>核心要点</h3>
+  <ul>
+    <li><strong>ID2B 框架</strong>：Idea（找优质想法）→ AI 编程（开发实现）→ Business（商业变现）；AI 编程是"To"，是工具，不是终点；课程以海外软件市场为主要方向</li>
+    <li><strong>AI 编程六阶段</strong>：从阶段 0（玩具/聊天框）到阶段 5（全职员工/AGI），阶段 1（副驾/Cursor/Trae）是分水岭，阶段 5 在 2028 年前是伪命题</li>
+    <li><strong>两级课程目标</strong>：保底目标（AI 帮你做，万事不求人）是基础；挑战目标（AI 替你做，拥有 AI 员工）的前提是学习者自己先有 Business</li>
+    <li><strong>学而时习之</strong>：习 = 反复实践（鸟屡次飞翔），不是反复阅读；看完图文教材必须当天动手实操；慢就是快，宁可慢也不跳过细节</li>
+    <li><strong>AI 浏览器辅助学习</strong>：Tabbit（科学上网）或豆包电脑版（国内免费），截图+语境提问是核心操作模式，配合语音输入法效率更高</li>
+    <li><strong>扣子编程云端沙箱</strong>：在云端临时开启一台虚拟电脑运行代码，无需配置本地环境；平台内置 LLM/TTS/图像生成 API，新手无需配置 API Key</li>
+    <li><strong>两类应用的区别</strong>：无 AI 能力应用（如 2048 游戏）仅有 AI 生成代码；有 AI 能力应用（如黑话翻译器）在运行时还会调用大模型处理用户输入</li>
+    <li><strong>创建应用四步</strong>：输入需求（功能+风格）→ 等待生成（期间用 AI 浏览器学习）→ 预览验收 → 部署分享</li>
+    <li><strong>第一周通关项目</strong>：纸片人男友（LLM + TTS + 图像生成三路并行），通关标准：发布后让真实用户使用</li>
+  </ul>
+
+  <h3>易错提醒</h3>
+  <ul>
+    <li><span class="warn-inline">不要把学 AI 编程本身当作目标</span>——AI 编程是"To"，是把 Idea 变成 Business 的工具</li>
+    <li><span class="warn-inline">"会聊天就能当员工用"是误导</span>——仅靠聊天停留在阶段 0 玩具，必须越过阶段 1 这道工程化分水岭</li>
+    <li><span class="warn-inline">不能跳过保底目标直达挑战目标</span>——"你得先有一摊自己的Business，你才能知道让员工干什么"</li>
+    <li><span class="warn-inline">照抄老师的话不等于学会</span>——真正学会的标志是能用自己的话表达出来</li>
+    <li><span class="warn-inline">"学而时习之"不是"多看几遍"</span>——"习"的象形本义是鸟屡次飞翔，即反复实践；看完不动手等于没学</li>
+    <li><span class="warn-inline">遇到看不懂的内容不能直接跳过</span>——应该立刻截图+语境提问，把每个"看不懂"变成学习机会</li>
+    <li><span class="warn-inline">不是所有扣子编程项目都调用了 AI</span>——2048 游戏只是 AI 写的普通 JS 代码，运行时不涉及任何 AI</li>
+    <li><span class="warn-inline">等待代码生成时不要发呆</span>——这段时间应该用 AI 浏览器截取终端日志，问 AI "这在干啥"</li>
+    <li><span class="warn-inline">提示词一次不完美不是失败</span>——继续对话描述发现的问题和期望的改进，产品打磨本就是反复迭代的过程</li>
+    <li><span class="warn-inline">通关标准不是"技术上运行成功"</span>——纸片人男友的通关标准是"让真实用户爱上他"，需要真实发布并获得真实用户的使用反馈</li>
+  </ul>
+
+  <h3>知识应用范围</h3>
+  <p><strong>ID2B 框架</strong>可迁移到：分析任何个人项目的"想法-实现-变现"路径；判断某类 AI 工具对应哪个阶段的需求。</p>
+  <p><strong>AI 编程六阶段模型</strong>可迁移到：评估市面上的 AI 工具属于哪个能力层级；规划个人 AI 能力提升路径；理解"会聊天"和"能用 AI 编程做出产品"之间的本质差异。</p>
+  <p><strong>两级目标框架</strong>可迁移到：制定个人分阶段学习计划；判断自己当前是否具备追求挑战目标的条件；评估"独立完成"和"拥有专职助手"之间的能力差距。</p>
+  <p><strong>"学而时习之"原则</strong>可迁移到：任何技能性学习场景；设计个人每日的学习-实操节奏；判断自己是否真正"学会"了某个知识点。</p>
+  <p><strong>AI 浏览器截图提问</strong>可迁移到：阅读英文技术文档；理解代码报错信息；自主学习任何新技术工具。</p>
+  <p><strong>扣子编程云端沙箱机制</strong>可迁移到：评估不同 AI 编程平台的环境差异；后续从扣子编程迁移到本地开发（Cursor/Trae）时的知识基础。</p>
+  <p><strong>自然语言提示词创建应用</strong>可迁移到：快速验证产品原型；为朋友制作定制化小工具；理解"无 AI 能力"和"有 AI 能力"两类产品的设计差异。</p>
+</div>
+
+</article>
+</body>
+</html>
