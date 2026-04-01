@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>互动练习 · 品类分化：消费升级的最大红利</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #E9EEEA; color: #1a1a1a; min-height: 100vh; }
+
+  /* Header */
+  .app-header { background: #2F4F4F; color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .app-title { font-size: 15px; font-weight: 700; line-height: 1.4; }
+  .app-counter { font-size: 13px; color: rgba(255,255,255,0.7); white-space: nowrap; margin-left: 16px; }
+
+  /* Progress */
+  .progress-wrap { background: #d0d8d0; height: 5px; }
+  .progress-bar { background: #1E803D; height: 5px; transition: width 0.3s ease; }
+
+  /* Main */
+  .main { max-width: 720px; margin: 0 auto; padding: 24px 16px 100px; }
+
+  /* PO label */
+  .po-label { font-size: 11px; font-weight: 700; color: #2F4F4F; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+
+  /* Question card */
+  .question-card { background: #fff; border-radius: 10px; padding: 24px; margin-bottom: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+
+  /* Level badge */
+  .level-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 14px; }
+  .level-1 { background: #e8f5ee; color: #1E803D; }
+  .level-2 { background: #fff3e0; color: #e07000; }
+  .level-3 { background: #fde8e8; color: #c0392b; }
+
+  /* Question stem */
+  .q-stem { font-size: 15px; line-height: 1.8; color: #1a1a1a; margin-bottom: 18px; }
+  .q-instruction { font-size: 13px; color: #666; margin-bottom: 14px; font-style: italic; }
+
+  /* Choice options */
+  .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+  .option-label { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border: 1.5px solid #e0e0e0; border-radius: 8px; cursor: pointer; font-size: 14px; line-height: 1.6; transition: border-color 0.15s, background 0.15s; }
+  .option-label:hover { border-color: #2F4F4F; background: #f5f8f5; }
+  .option-label input[type="radio"] { margin-top: 3px; flex-shrink: 0; accent-color: #2F4F4F; }
+  .option-label.selected { border-color: #2F4F4F; background: #f0f5f0; }
+  .option-label.correct-ans { border-color: #1E803D; background: #e8f5ee; }
+  .option-label.wrong-ans { border-color: #F87171; background: #fef2f2; }
+
+  /* Fill questions */
+  .fill-questions { font-size: 15px; line-height: 2.4; margin-bottom: 18px; }
+  .fill-item { display: inline; }
+  .fill-input { width: 80px; border: none; border-bottom: 2px solid #2F4F4F; text-align: center; background: transparent; font-size: 15px; color: #1a1a1a; outline: none; padding: 0 4px; }
+  .fill-input:focus { border-bottom-color: #1E803D; }
+  .fill-input.correct { border-bottom-color: #1E803D; background: #e8f5ee; border-radius: 4px 4px 0 0; }
+  .fill-input.wrong { border-bottom-color: #F87171; background: #fef2f2; border-radius: 4px 4px 0 0; }
+
+  /* Matching */
+  .match-table { width: 100%; border-collapse: collapse; margin-bottom: 18px; font-size: 14px; }
+  .match-table th { background: #2F4F4F; color: #fff; padding: 8px 12px; text-align: left; font-size: 12px; font-weight: 600; }
+  .match-table td { padding: 10px 12px; border-bottom: 1px solid #eee; vertical-align: top; line-height: 1.6; }
+  .match-table tr:last-child td { border-bottom: none; }
+  .match-input { width: 50px; border: none; border-bottom: 2px solid #2F4F4F; text-align: center; background: transparent; font-size: 15px; font-weight: 700; color: #2F4F4F; outline: none; text-transform: uppercase; }
+  .match-input.correct { border-bottom-color: #1E803D; background: #e8f5ee; border-radius: 4px 4px 0 0; }
+  .match-input.wrong { border-bottom-color: #F87171; background: #fef2f2; border-radius: 4px 4px 0 0; }
+  .options-list { list-style: none; padding: 0; margin-bottom: 18px; }
+  .options-list li { padding: 8px 12px; background: #f8f8f8; border-radius: 6px; font-size: 14px; line-height: 1.6; margin-bottom: 6px; }
+
+  /* Ordering */
+  .ordering-items { list-style: none; padding: 0; margin-bottom: 14px; }
+  .ordering-items li { padding: 8px 14px; background: #f0f5f0; border-radius: 6px; font-size: 14px; line-height: 1.6; margin-bottom: 6px; display: flex; gap: 10px; }
+  .ordering-items li .item-key { font-weight: 700; color: #2F4F4F; flex-shrink: 0; }
+  .ordering-input-wrap { margin-bottom: 18px; }
+  .ordering-input-wrap label { font-size: 13px; color: #666; display: block; margin-bottom: 6px; }
+  .ordering-input { width: 200px; border: none; border-bottom: 2px solid #2F4F4F; text-align: center; background: transparent; font-size: 16px; font-weight: 700; color: #2F4F4F; outline: none; letter-spacing: 4px; padding: 4px 8px; }
+  .ordering-input.correct { border-bottom-color: #1E803D; }
+  .ordering-input.wrong { border-bottom-color: #F87171; }
+
+  /* Feedback */
+  .feedback { padding: 10px 14px; border-radius: 8px; font-size: 14px; margin-bottom: 14px; display: none; line-height: 1.6; }
+  .feedback.correct { background: #e8f5ee; color: #1E803D; border: 1px solid #b7e0c5; display: block; }
+  .feedback.wrong { background: #fef2f2; color: #c0392b; border: 1px solid #fca5a5; display: block; }
+  .feedback.hint { background: #fff8e1; color: #856404; border: 1px solid #fde68a; display: block; }
+
+  /* Submit button */
+  .btn-group { display: flex; justify-content: flex-end; }
+  .btn-submit { background: #2F4F4F; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .btn-submit:hover { background: #1a3333; }
+  .btn-submit:disabled { background: #ccc; cursor: not-allowed; }
+
+  /* Nav bar */
+  .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.97); border-top: 1px solid #ddd; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; backdrop-filter: blur(4px); z-index: 100; }
+  .nav-btn { background: none; border: 1.5px solid #2F4F4F; color: #2F4F4F; padding: 8px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .nav-btn:hover { background: #2F4F4F; color: #fff; }
+  .nav-btn:disabled { opacity: 0; pointer-events: none; }
+  .nav-stats { font-size: 13px; color: #666; text-align: center; }
+  .nav-stats strong { color: #2F4F4F; }
+
+  /* Summary modal */
+  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: center; justify-content: center; padding: 16px; }
+  .modal-bg.show { display: flex; }
+  .modal { background: #fff; border-radius: 14px; padding: 32px 28px; max-width: 520px; width: 100%; max-height: 80vh; overflow-y: auto; }
+  .modal-title { font-size: 20px; font-weight: 700; color: #2F4F4F; margin-bottom: 6px; }
+  .modal-score { font-size: 40px; font-weight: 700; color: #2F4F4F; margin: 16px 0 4px; }
+  .modal-subtitle { font-size: 14px; color: #666; margin-bottom: 20px; }
+  .modal-comment { font-size: 15px; padding: 14px 18px; border-radius: 8px; margin-bottom: 20px; line-height: 1.7; }
+  .modal-comment.great { background: #e8f5ee; color: #1E803D; }
+  .modal-comment.good { background: #fff3e0; color: #e07000; }
+  .modal-comment.ok { background: #fff8e1; color: #856404; }
+  .modal-comment.low { background: #fef2f2; color: #c0392b; }
+  .detail-title { font-size: 13px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+  .detail-item { padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; line-height: 1.6; }
+  .detail-item:last-child { border-bottom: none; }
+  .detail-item .q-id { font-size: 11px; font-weight: 700; color: #999; margin-bottom: 4px; }
+  .detail-item .q-result { display: flex; align-items: center; gap: 8px; }
+  .tag-correct { background: #e8f5ee; color: #1E803D; font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 700; }
+  .tag-wrong { background: #fef2f2; color: #c0392b; font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 700; }
+  .correct-ans-show { font-size: 13px; color: #666; margin-top: 6px; }
+  .correct-ans-show strong { color: #1E803D; }
+  .btn-retry { background: #2F4F4F; color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 20px; }
+
+  @media (max-width: 600px) {
+    .main { padding: 16px 12px 90px; }
+    .question-card { padding: 18px; }
+    .app-title { font-size: 13px; }
+    .match-table { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="app-title">互动练习 · 品类分化：消费升级的最大红利</div>
+  <div class="app-counter" id="header-counter">1 / 12</div>
+</div>
+<div class="progress-wrap">
+  <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+</div>
+
+<div class="main" id="main-area"></div>
+
+<div class="nav-bar">
+  <button class="nav-btn" id="prev-btn" onclick="navigate(-1)" disabled>← 上一题</button>
+  <div class="nav-stats" id="nav-stats">已完成 <strong>0</strong> / 12</div>
+  <button class="nav-btn" id="next-btn" onclick="navigate(1)">下一题 →</button>
+</div>
+
+<div class="modal-bg" id="summary-modal">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<script>
+const exerciseData = {
+  meta: { title: `品类分化：消费升级的最大红利`, totalQuestions: 12 },
+  questions: [
+    {
+      id: `PO-01-Q1`,
+      po: `PO-01：品类分化的定义与认知隔离`,
+      level: 1, levelLabel: `同构题`,
+      type: `choice`,
+      stem: `下列哪个选项最准确地描述了"品类分化"发生的两个必要条件？`,
+      options: [
+        `A. 某企业研发了全新产品并申请了专利，且媒体进行了大量报道`,
+        `B. 某细分需求的市场规模大到足以养活一家专业公司，且消费者形成了明确的品类区分意识（认知隔离）`,
+        `C. 某品类的年销售额超过10亿元，且有三家以上品牌参与竞争`,
+        `D. 某企业通过广告宣传成功将自己与竞品区分开来，获得了更高的市场份额`
+      ],
+      answer: { primary: `B` }
+    },
+    {
+      id: `PO-01-Q2`,
+      po: `PO-01：品类分化的定义与认知隔离`,
+      level: 2, levelLabel: `变式题`,
+      type: `choice`,
+      stem: `以下四个情景中，哪一个最能说明"精品咖啡"已从"饮料"这一大品类中完成了认知隔离？`,
+      options: [
+        `A. 某精品咖啡品牌在全国开了100家门店，年营收超过5亿元`,
+        `B. 朋友聚会时，有人带来了手冲咖啡，大家默认他是"懂咖啡的人"，并不觉得他应该带其他饮料`,
+        `C. 便利店开始大量引进瓶装精品咖啡，与果汁、茶饮摆放在同一货架`,
+        `D. 消费者在奶茶店点单时，若对方没有咖啡，会特意转去附近的咖啡专门店，且认为两者不能互相替代`
+      ],
+      answer: { primary: `D` }
+    },
+    {
+      id: `PO-01-Q3`,
+      po: `PO-01：品类分化的定义与认知隔离`,
+      level: 3, levelLabel: `挑战题`,
+      type: `choice`,
+      stem: `某母婴品牌正在评估"婴儿益生菌"是否已从"婴儿营养品"中完成品类分化。以下哪个判断最准确？`,
+      options: [
+        `A. 已完成分化——因为市面上有超过50个婴儿益生菌品牌，且年销售额已超过100亿元`,
+        `B. 已完成分化——因为婴儿益生菌和普通钙铁锌的配方成分完全不同，属于不同产品`,
+        `C. 已完成分化——因为当家长被推荐"婴儿营养品"时，会主动追问"是益生菌还是其他"，说明两者在家长认知中已明确区分，且市场规模足以支撑多家专业公司存活`,
+        `D. 尚未完成分化——因为益生菌的功能在医学上尚有争议，消费者认知尚不统一`
+      ],
+      answer: { primary: `C` }
+    },
+    {
+      id: `PO-02-Q1`,
+      po: `PO-02：新品类的专属痛点调研方法`,
+      level: 1, levelLabel: `同构题`,
+      type: `choice`,
+      stem: `足力健在创立老人鞋品类前，采用了哪种核心调研方式来发现专属痛点？`,
+      options: [
+        `A. 向老人发放问卷，收集对现有鞋子的满意度打分`,
+        `B. 研究竞品老人鞋的电商评论，归纳用户投诉热词`,
+        `C. 深入公园、商场、老人家中，直接测量约4000个老人的脚型`,
+        `D. 邀请50名老人到公司试穿样品鞋，记录穿着体验反馈`
+      ],
+      answer: { primary: `C` }
+    },
+    {
+      id: `PO-02-Q2`,
+      po: `PO-02：新品类的专属痛点调研方法`,
+      level: 2, levelLabel: `变式题`,
+      type: `matching`,
+      stem: `将足力健发现的老人穿鞋三大专属痛点与对应的解决方案正确配对（在每个痛点后填入对应解决方案的字母）：`,
+      matchItems: [
+        { key: `1`, text: `挤脚（67.4%老人脚变宽，足弓塌陷导致的形状问题）` },
+        { key: `2`, text: `磨脚（52.1%老人脚后跟磨损最重，皮下脂肪流失干裂）` },
+        { key: `3`, text: `打滑（55.17%老人因穿鞋不当摔倒，腿无力+触地面积小）` }
+      ],
+      matchOptions: [
+        { key: `A`, text: `U型跟——厚海绵向上翻起包裹脚后跟，避免干裂脚跟磨到硬鞋跟` },
+        { key: `B`, text: `宽鞋楦——鞋头部分单独加宽，适配变宽变形的老人脚型` },
+        { key: `C`, text: `大底面积 + 防撞鞋头弧度 + 防滑鞋底材质` }
+      ],
+      answer: { primary: `1-B,2-A,3-C`, matchAnswers: { '1': 'B', '2': 'A', '3': 'C' } }
+    },
+    {
+      id: `PO-02-Q3`,
+      po: `PO-02：新品类的专属痛点调研方法`,
+      level: 3, levelLabel: `挑战题`,
+      type: `choice`,
+      stem: `某运动品牌计划为"中年女性健步走"创立新品类。参照足力健的调研路径，以下哪个行动方案最符合"发现专属痛点"的方法论？`,
+      options: [
+        `A. 先研究竞品的健步鞋参数，找出功能空白，再针对空白点进行产品设计`,
+        `B. 在电商平台搜索"中年女性运动鞋"评论，统计差评关键词，排名最高的即为核心痛点`,
+        `C. 在公园、社区、健身步道实地观察中年女性健步走场景，直接测量脚型和步态特征，归纳"中年女性专属、年轻人不存在"的痛点，针对性设计方案，最后以复购率验证品类独立性`,
+        `D. 委托调研公司进行全国性问卷调研，样本量达到10000人，以统计显著性为依据确定痛点优先级`
+      ],
+      answer: { primary: `C` }
+    },
+    {
+      id: `PO-03-Q1`,
+      po: `PO-03：红利的识别与利用时机`,
+      level: 1, levelLabel: `同构题`,
+      type: `choice`,
+      stem: `根据课程定义，下列哪个选项最准确地描述了"红利"的本质？`,
+      options: [
+        `A. 企业通过长期技术积累和品牌建设获得的持续性竞争优势`,
+        `B. 短暂的供需失衡——某渠道或市场出现供给不足、需求旺盛的窗口，早进入者获得显著超额回报`,
+        `C. 政府对新兴行业给予的补贴政策和税收优惠`,
+        `D. 企业凭借规模效应在成熟市场中形成的成本优势`
+      ],
+      answer: { primary: `B` }
+    },
+    {
+      id: `PO-03-Q2`,
+      po: `PO-03：红利的识别与利用时机`,
+      level: 2, levelLabel: `变式题`,
+      type: `ordering`,
+      stem: `某食品品牌在2020年发现抖音直播带货ROI高达1:10，显著高于行业均值。将以下利用红利的步骤按正确顺序排列（填入字母序列，如：X-X-X-X-X）：`,
+      orderItems: [
+        { key: `A`, text: `规模化投入直播资源（签约头部主播、自建直播间）` },
+        { key: `B`, text: `识别目标用户的媒介习惯（目标用户刷抖音频率远高于其他平台）` },
+        { key: `C`, text: `小规模测试（投入5万元测试直播带货ROI）` },
+        { key: `D`, text: `识别抖音直播"边看边买"的品效合一红利逻辑` },
+        { key: `E`, text: `同步布局私域流量和产品口碑，为直播红利消退后建立壁垒` }
+      ],
+      answer: { primary: `D-B-C-A-E`, alternatives: [`DBCAE`] }
+    },
+    {
+      id: `PO-03-Q3`,
+      po: `PO-03：红利的识别与利用时机`,
+      level: 3, levelLabel: `挑战题`,
+      type: `choice`,
+      stem: `2024年，某宠物食品品牌发现在小红书投放"宠物测评"内容，ROI高达1:9，行业均值仅为1:2。竞争者已开始入场。该品牌应如何应对？`,
+      options: [
+        `A. 立即将90%预算押注小红书，最大化在红利消退前的收益`,
+        `B. 在持续投放小红书的同时，同步建立品牌自有科普内容矩阵和宠物主社群，把流量沉淀为私域资产，构建红利消退后的壁垒`,
+        `C. 先观望3个月，确认竞争者ROI是否有所下滑，再决定是否加大投入`,
+        `D. 向投资人展示该红利数据，以"持续高ROI"为核心卖点进行融资`
+      ],
+      answer: { primary: `B` }
+    },
+    {
+      id: `PO-04-Q1`,
+      po: `PO-04：效率攻坚战的策略与壁垒构建`,
+      level: 1, levelLabel: `同构题`,
+      type: `choice`,
+      stem: `判断以下陈述是否正确：\n\n足力健选择在2017年红利顶峰期启动自建工厂，核心原因是此时利润充裕，可以用红利收益支持基础设施投资，同时在竞争者大规模涌入前完成效率升级，形成壁垒。`,
+      options: [
+        `A. 对`,
+        `B. 错`
+      ],
+      answer: { primary: `A` }
+    },
+    {
+      id: `PO-04-Q2`,
+      po: `PO-04：效率攻坚战的策略与壁垒构建`,
+      level: 2, levelLabel: `变式题`,
+      type: `fill-multi`,
+      stem: `足力健自建工厂完成效率攻坚后，实现了三项关键效率指标（请填写括号内的数值）：`,
+      fillParts: [
+        { before: `（1）生产成本降低了`, after: `；`, key: `f1`, answer: `15%`, hint: `15%` },
+        { before: `（2）原价率达到`, after: `以上；`, key: `f2`, answer: `90%`, hint: `90%` },
+        { before: `（3）定倍率仅`, after: `倍（同期互联网电商均值为3倍，行业一般水平为5-10倍）。`, key: `f3`, answer: `2.5`, hint: `2.5` }
+      ]
+    },
+    {
+      id: `PO-04-Q3`,
+      po: `PO-04：效率攻坚战的策略与壁垒构建`,
+      level: 3, levelLabel: `挑战题`,
+      type: `choice`,
+      stem: `某连锁便利店品牌，目前依赖某外卖平台的流量红利（日均订单ROI=1:6），但竞争者正大量涌入同一平台，ROI已从1:6下滑至1:3。该企业的效率攻坚战应优先聚焦于：`,
+      options: [
+        `A. 继续加大外卖平台投放预算，以更高曝光维持订单量，等待竞争者因亏损自然退出`,
+        `B. 建立中央配送中心（降低单店成本+提升品质稳定性），同步开发会员积分体系（降低对外卖平台依赖），优化库存周转（减少损耗，提升原价率）`,
+        `C. 迅速新开200家门店，以规模优势摊薄固定成本，压制竞争者`,
+        `D. 将产品线升级为精品有机食品，通过品牌溢价摆脱低价竞争`
+      ],
+      answer: { primary: `B` }
+    }
+  ]
+};
+
+const TOTAL = 12;
+const state = {
+  currentQ: 0,
+  completed: new Set(),
+  firstTryCorrect: new Set(),
+  userAnswers: {},
+  isCorrect: {},
+  attempts: {}
+};
+
+function normalize(str) {
+  if (!str) return '';
+  return str.trim().toLowerCase().replace(/[\s\-,，、]/g, '').replace(/[""]/g, '"');
+}
+
+function checkAnswer(q, userInput) {
+  if (q.type === 'choice') {
+    const sel = typeof userInput === 'string' ? userInput.trim().toUpperCase() : '';
+    return sel === q.answer.primary.trim().toUpperCase();
+  }
+  if (q.type === 'ordering') {
+    const n = normalize(userInput);
+    const correct = normalize(q.answer.primary);
+    if (n === correct) return true;
+    if (q.answer.alternatives) return q.answer.alternatives.some(a => normalize(a) === n);
+    return false;
+  }
+  if (q.type === 'matching') {
+    // userInput is object {1: val, 2: val, 3: val}
+    const correct = q.answer.matchAnswers;
+    return Object.keys(correct).every(k => {
+      const u = (userInput[k] || '').trim().toUpperCase();
+      return u === correct[k].toUpperCase();
+    });
+  }
+  if (q.type === 'fill-multi') {
+    // userInput is object {f1: val, f2: val, f3: val}
+    return q.fillParts.every(p => {
+      const u = normalize(userInput[p.key] || '');
+      const c = normalize(p.answer);
+      return u === c;
+    });
+  }
+  return false;
+}
+
+function renderQuestion(idx) {
+  const q = exerciseData.questions[idx];
+  const poLabel = q.po;
+  const levelClass = `level-${q.level}`;
+  const stars = q.level === 1 ? '⭐' : q.level === 2 ? '⭐⭐' : '⭐⭐⭐';
+  const storedAnswer = state.userAnswers[q.id];
+  const isLocked = state.isCorrect[q.id] === true;
+  const wasSubmitted = state.completed.has(q.id);
+
+  let answerHtml = '';
+
+  if (q.type === 'choice') {
+    answerHtml = `<div class="options" id="options-${q.id}">`;
+    q.options.forEach(opt => {
+      const letter = opt.trim().charAt(0);
+      const checked = storedAnswer === letter ? 'checked' : '';
+      let extraClass = '';
+      if (wasSubmitted) {
+        if (letter === q.answer.primary) extraClass = 'correct-ans';
+        else if (storedAnswer === letter && !state.isCorrect[q.id]) extraClass = 'wrong-ans';
+      }
+      answerHtml += `<label class="option-label ${extraClass}" onclick="selectOption('${q.id}','${letter}')">
+        <input type="radio" name="q_${q.id}" value="${letter}" ${checked} ${isLocked ? 'disabled' : ''}>
+        <span>${opt}</span>
+      </label>`;
+    });
+    answerHtml += `</div>`;
+
+  } else if (q.type === 'fill-multi') {
+    answerHtml = `<div class="fill-questions">`;
+    q.fillParts.forEach(p => {
+      const val = (storedAnswer && storedAnswer[p.key]) || '';
+      const inputClass = wasSubmitted ? (state.isCorrect[q.id] || (storedAnswer && normalize(storedAnswer[p.key]) === normalize(p.answer)) ? 'correct' : 'wrong') : '';
+      answerHtml += `<span class="fill-item">${p.before}<input type="text" class="fill-input ${inputClass}" id="fill-${q.id}-${p.key}" value="${val}" ${isLocked ? 'disabled' : ''}>${p.after}</span> `;
+    });
+    answerHtml += `</div>`;
+
+  } else if (q.type === 'matching') {
+    answerHtml = `<table class="match-table">
+      <thead><tr><th>痛点</th><th>填入解决方案字母</th></tr></thead><tbody>`;
+    q.matchItems.forEach(item => {
+      const val = (storedAnswer && storedAnswer[item.key]) || '';
+      const inputClass = wasSubmitted ? (storedAnswer && storedAnswer[item.key] && storedAnswer[item.key].toUpperCase() === q.answer.matchAnswers[item.key].toUpperCase() ? 'correct' : 'wrong') : '';
+      answerHtml += `<tr><td>${item.key}. ${item.text}</td>
+        <td><input type="text" class="match-input ${inputClass}" id="match-${q.id}-${item.key}" value="${val}" maxlength="1" ${isLocked ? 'disabled' : ''}></td></tr>`;
+    });
+    answerHtml += `</tbody></table>
+    <ul class="options-list">`;
+    q.matchOptions.forEach(opt => {
+      answerHtml += `<li><strong>${opt.key}.</strong> ${opt.text}</li>`;
+    });
+    answerHtml += `</ul>`;
+
+  } else if (q.type === 'ordering') {
+    const val = storedAnswer || '';
+    const inputClass = wasSubmitted ? (state.isCorrect[q.id] ? 'correct' : 'wrong') : '';
+    answerHtml = `<ul class="ordering-items">`;
+    q.orderItems.forEach(item => {
+      answerHtml += `<li><span class="item-key">${item.key}.</span><span>${item.text}</span></li>`;
+    });
+    answerHtml += `</ul>
+    <div class="ordering-input-wrap">
+      <label>按正确顺序填入字母（用 - 连接，如：X-X-X-X-X）</label>
+      <input type="text" class="ordering-input ${inputClass}" id="ord-${q.id}" value="${val}" placeholder="X-X-X-X-X" ${isLocked ? 'disabled' : ''}>
+    </div>`;
+  }
+
+  // Feedback
+  let feedbackHtml = '';
+  if (wasSubmitted) {
+    if (state.isCorrect[q.id]) {
+      feedbackHtml = `<div class="feedback correct">✅ 正确！</div>`;
+    } else {
+      feedbackHtml = `<div class="feedback wrong">❌ 答错了，可以继续修改重试。</div>`;
+    }
+  } else {
+    feedbackHtml = `<div class="feedback" id="fb-${q.id}"></div>`;
+  }
+
+  const stemDisplay = q.stem.replace(/\n/g, '<br>');
+
+  const html = `
+    <div class="po-label">${poLabel}</div>
+    <div class="question-card"
+         data-track-id="${q.id}"
+         data-track-type="question"
+         data-track-trigger="visible"
+         data-track-meta='{"level":${q.level},"levelLabel":"${q.levelLabel}","type":"${q.type}"}'>
+      <div class="level-badge ${levelClass}">${stars} ${q.levelLabel}</div>
+      <div class="q-stem">${stemDisplay}</div>
+      ${answerHtml}
+      ${feedbackHtml}
+      <div class="btn-group">
+        <button class="btn-submit" onclick="submitAnswer('${q.id}')" ${isLocked ? 'disabled' : ''} data-track-action="/submit_answer">
+          ${isLocked ? '已完成 ✓' : '提交答案'}
+        </button>
+      </div>
+    </div>`;
+
+  document.getElementById('main-area').innerHTML = html;
+  updateNav();
+}
+
+function selectOption(qId, letter) {
+  const q = exerciseData.questions.find(x => x.id === qId);
+  if (state.isCorrect[qId]) return;
+  state.userAnswers[qId] = letter;
+  document.querySelectorAll(`input[name="q_${qId}"]`).forEach(r => {
+    r.checked = r.value === letter;
+    r.closest('.option-label').classList.toggle('selected', r.value === letter);
+  });
+}
+
+function getAnswer(q) {
+  if (q.type === 'choice') {
+    return state.userAnswers[q.id] || null;
+  }
+  if (q.type === 'ordering') {
+    const el = document.getElementById(`ord-${q.id}`);
+    return el ? el.value.trim() : (state.userAnswers[q.id] || null);
+  }
+  if (q.type === 'matching') {
+    const ans = {};
+    q.matchItems.forEach(item => {
+      const el = document.getElementById(`match-${q.id}-${item.key}`);
+      if (el) ans[item.key] = el.value.trim();
+    });
+    return ans;
+  }
+  if (q.type === 'fill-multi') {
+    const ans = {};
+    q.fillParts.forEach(p => {
+      const el = document.getElementById(`fill-${q.id}-${p.key}`);
+      if (el) ans[p.key] = el.value.trim();
+    });
+    return ans;
+  }
+  return null;
+}
+
+function submitAnswer(qId) {
+  const q = exerciseData.questions.find(x => x.id === qId);
+  const answer = getAnswer(q);
+
+  // Empty check
+  let isEmpty = false;
+  if (answer === null || answer === '') isEmpty = true;
+  if (typeof answer === 'object' && answer !== null) {
+    isEmpty = Object.values(answer).every(v => !v || v.trim() === '');
+  }
+  if (isEmpty) {
+    showFeedback(qId, 'hint', '请先填写答案再提交。');
+    return;
+  }
+
+  // Save answer
+  state.userAnswers[qId] = answer;
+
+  // First attempt tracking
+  const isFirst = !state.completed.has(qId);
+  if (isFirst) state.completed.add(qId);
+
+  const correct = checkAnswer(q, answer);
+  state.isCorrect[qId] = correct;
+  if (isFirst && correct) state.firstTryCorrect.add(qId);
+
+  // Re-render to show result state
+  renderQuestion(state.currentQ);
+
+  // Check if all done
+  if (state.completed.size === TOTAL) {
+    setTimeout(showSummary, 600);
+  }
+}
+
+function showFeedback(qId, type, msg) {
+  const el = document.getElementById(`fb-${qId}`);
+  if (el) {
+    el.className = `feedback ${type}`;
+    el.textContent = msg;
+  }
+}
+
+function navigate(dir) {
+  const newIdx = state.currentQ + dir;
+  if (newIdx < 0 || newIdx >= TOTAL) return;
+  state.currentQ = newIdx;
+  renderQuestion(newIdx);
+  window.scrollTo(0, 0);
+}
+
+function updateNav() {
+  const idx = state.currentQ;
+  document.getElementById('prev-btn').disabled = idx === 0;
+  document.getElementById('next-btn').disabled = idx === TOTAL - 1;
+  document.getElementById('header-counter').textContent = `${idx + 1} / ${TOTAL}`;
+  document.getElementById('nav-stats').innerHTML = `已完成 <strong>${state.completed.size}</strong> / ${TOTAL}`;
+  const pct = (state.completed.size / TOTAL) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+function showSummary() {
+  const firstCorrect = state.firstTryCorrect.size;
+  const rate = Math.round((firstCorrect / TOTAL) * 100);
+  let commentClass, commentText;
+  if (rate >= 90) { commentClass = 'great'; commentText = `🎉 太棒了！一次正确率 ${rate}%，品类分化的核心概念掌握得非常扎实！`; }
+  else if (rate >= 70) { commentClass = 'good'; commentText = `👍 不错！一次正确率 ${rate}%，核心框架已基本掌握，再巩固几道错题就更完美了。`; }
+  else if (rate >= 50) { commentClass = 'ok'; commentText = `💪 继续加油！一次正确率 ${rate}%，建议回顾错题对应的课程内容，重点理解判断标准。`; }
+  else { commentClass = 'low'; commentText = `📖 建议复习！一次正确率 ${rate}%，推荐重新学习课程后再做一遍练习。`; }
+
+  let detailHtml = '';
+  exerciseData.questions.forEach(q => {
+    const correct = state.isCorrect[q.id];
+    const tag = correct ? `<span class="tag-correct">✓ 正确</span>` : `<span class="tag-wrong">✗ 错误</span>`;
+    let correctAnsHtml = '';
+    if (!correct && state.completed.has(q.id)) {
+      let ans = q.answer ? q.answer.primary : '';
+      if (q.type === 'fill-multi') {
+        ans = q.fillParts.map(p => `${p.before.replace(/（\d+）/, '').trim()} ${p.answer}`).join('；');
+      } else if (q.type === 'matching') {
+        ans = q.matchItems.map(item => `${item.key}-${q.answer.matchAnswers[item.key]}`).join(', ');
+      }
+      correctAnsHtml = `<div class="correct-ans-show">正确答案：<strong>${ans}</strong></div>`;
+    }
+    detailHtml += `<div class="detail-item">
+      <div class="q-id">${q.id} · ${q.levelLabel}</div>
+      <div class="q-result">${tag} <span style="font-size:13px;color:#666;">${q.stem.replace(/\n/g,'').substring(0,40)}...</span></div>
+      ${correctAnsHtml}
+    </div>`;
+  });
+
+  document.getElementById('modal-content').innerHTML = `
+    <div class="modal-title">练习完成！</div>
+    <div class="modal-score">${firstCorrect} / ${TOTAL}</div>
+    <div class="modal-subtitle">一次答对 ${firstCorrect} 题 · 一次正确率 ${rate}%</div>
+    <div class="modal-comment ${commentClass}">${commentText}</div>
+    <div class="detail-title">答题详情</div>
+    ${detailHtml}
+    <button class="btn-retry" onclick="retryAll()">重新练习</button>`;
+
+  document.getElementById('summary-modal').classList.add('show');
+}
+
+function retryAll() {
+  state.currentQ = 0;
+  state.completed.clear();
+  state.firstTryCorrect.clear();
+  Object.keys(state.userAnswers).forEach(k => delete state.userAnswers[k]);
+  Object.keys(state.isCorrect).forEach(k => delete state.isCorrect[k]);
+  Object.keys(state.attempts).forEach(k => delete state.attempts[k]);
+  document.getElementById('summary-modal').classList.remove('show');
+  renderQuestion(0);
+  document.getElementById('progress-bar').style.width = '0%';
+}
+
+// Init
+renderQuestion(0);
+</script>
+
+<script src="https://g-avatar-anchor-cdn.ztgame.com/scholai/aicp/aicp-runtime.1.0.2.js"></script>
+</body>
+</html>
