@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>品类分化与足力健的商业逻辑 - 思维导图</title>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader@0.16"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f5f5f5; }
+    #toolbar {
+      position: fixed; top: 16px; right: 16px; z-index: 100;
+    }
+    #save-png-btn {
+      padding: 8px 20px;
+      background: #4a90e2; color: white; border: none; border-radius: 6px;
+      cursor: pointer; font-size: 14px;
+    }
+    #save-png-btn:hover { background: #357abd; }
+    .markmap { width: 100vw; height: 100vh; }
+  </style>
+</head>
+<body>
+  <div id="toolbar">
+    <button id="save-png-btn" onclick="savePNG()">保存为 PNG</button>
+  </div>
+  <div class="markmap">
+    <script type="text/template">
+# 品类分化与足力健的商业逻辑
+
+## 品类分化的定义与触发机制
+- 品类分化定义：非主流需求达到经济可行规模后，从大品类中独立成为新品类
+- 触发条件一：市场整体规模持续扩大
+- 触发条件二：细分需求销量增长至可养活一家专业公司的门槛
+- 规律：新趋势带来新品类，新品类带来新品牌
+
+## 认知隔离的概念与判断依据
+- 认知隔离定义：消费者用不同名称指称两个品类，且拒绝混用
+- 判断标准：消费者对混用行为产生明确排斥（如穿跑鞋打篮球被鄙视）
+- 认知隔离完成即标志品类分化完成
+
+## 新品类的用户需求调研方法
+- 调研对象：研究目标群体的生理或行为特征，而非泛泛收集主观意见
+- 调研方式：深入实地（公园、商场、家访）进行测量和观察
+- 归纳专属痛点：找到该人群独有、其他人群不存在的问题
+- 针对痛点设计差异化解决方案
+- 验证指标：以复购率等行为数据确认品质兑现与认知隔离建立
+
+## 红利的本质、识别与利用时机
+- 红利本质：短暂的供需失衡
+- 生命周期：红利出现、爆发扩大、竞争者涌入后消失
+- 识别方法：寻找投资回报率显著高于正常水平的渠道或媒介
+- 利用策略：小规模测试验证后，在窗口期内快速规模化复制
+- 红利必然消失，不可依赖，需同步布局效率壁垒
+
+## 效率攻坚战的策略与壁垒构建逻辑
+- 红利消退后进入效率竞争阶段
+- 核心动作一：提升品质，垂直整合供应链，消除代工管理风险
+- 核心动作二：降低生产成本，全链路自制
+- 核心动作三：控制定倍率，低定倍率使竞争者难以低成本复制
+- 效率壁垒本质：让竞争者难以匹配的系统性能力
+
+## 品类分化的完整创业路径
+- 第一步：识别品类机会，发现正在分化或尚未被满足的细分需求
+- 第二步：调研用户痛点，通过实地调研找到该人群专属痛点
+- 第三步：抓红利，识别并利用短暂供需失衡窗口快速增长
+- 第四步：建效率壁垒，红利消退后通过效率提升构筑护城河
+- 整体逻辑：机会识别是起点，效率壁垒是终点，四步环环相扣
+    </script>
+  </div>
+  <script>
+    async function savePNG() {
+      const svg = document.querySelector('svg.markmap');
+      if (!svg) { alert('思维导图尚未加载完成，请稍后再试'); return; }
+
+      const scale = 2;
+      const padding = 24;
+      const bbox = svg.getBBox();
+      const w = bbox.width + padding * 2;
+      const h = bbox.height + padding * 2;
+
+      // 将 live 元素的 computedStyle 内联到克隆节点，确保样式完整保留
+      const clone = svg.cloneNode(true);
+      const liveEls = Array.from(svg.querySelectorAll('*'));
+      const cloneEls = Array.from(clone.querySelectorAll('*'));
+      const inlineProps = [
+        'fill', 'fill-opacity', 'stroke', 'stroke-width', 'stroke-opacity',
+        'stroke-linecap', 'stroke-linejoin', 'stroke-dasharray',
+        'opacity', 'font-size', 'font-family', 'font-weight',
+        'text-anchor', 'dominant-baseline', 'display', 'visibility'
+      ];
+      liveEls.forEach((el, i) => {
+        const cloneEl = cloneEls[i];
+        if (!cloneEl) return;
+        const computed = window.getComputedStyle(el);
+        inlineProps.forEach(prop => {
+          const val = computed.getPropertyValue(prop);
+          if (val) cloneEl.setAttribute(prop, val);
+        });
+        // 强制移除 filter（避免黑色轮廓）
+        cloneEl.removeAttribute('filter');
+        cloneEl.style.filter = 'none';
+      });
+      clone.querySelectorAll('filter').forEach(el => el.remove());
+
+      clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+      clone.setAttribute('width', w);
+      clone.setAttribute('height', h);
+      clone.setAttribute('viewBox', `${bbox.x - padding} ${bbox.y - padding} ${w} ${h}`);
+
+      // 注入样式：去掉文字下划线，禁止所有 filter
+      const styleEl = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+      styleEl.textContent = '* { filter: none !important; } a, text, tspan { text-decoration: none !important; }';
+      clone.insertBefore(styleEl, clone.firstChild);
+
+      const svgStr = new XMLSerializer().serializeToString(clone);
+      const dataUri = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgStr);
+
+      const canvas = document.createElement('canvas');
+      canvas.width = w * scale;
+      canvas.height = h * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(scale, scale);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, w, h);
+
+      const filename = document.title.replace(' - 思维导图', '') + '_思维导图.png';
+
+      const img = new Image();
+      img.onload = async function () {
+        try {
+          ctx.drawImage(img, 0, 0, w, h);
+
+          if (window.showSaveFilePicker) {
+            try {
+              const handle = await window.showSaveFilePicker({
+                suggestedName: filename,
+                types: [{ description: 'PNG 图片', accept: { 'image/png': ['.png'] } }]
+              });
+              const writable = await handle.createWritable();
+              canvas.toBlob(async (blob) => {
+                await writable.write(blob);
+                await writable.close();
+              }, 'image/png');
+              return;
+            } catch (e) {
+              if (e.name === 'AbortError') return;
+            }
+          }
+
+          const a = document.createElement('a');
+          a.download = filename;
+          a.href = canvas.toDataURL('image/png');
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        } catch (e) {
+          alert('PNG 导出失败：' + e.message);
+        }
+      };
+      img.onerror = function () {
+        alert('图片渲染失败，无法导出 PNG。');
+      };
+      img.src = dataUri;
+    }
+  </script>
+</body>
+</html>

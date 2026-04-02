@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idea to Business · 开营仪式</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#333;font-size:16px;line-height:1.75;display:flex;height:100vh;overflow:hidden}
+#sidebar{width:240px;min-width:240px;height:100vh;overflow-y:auto;background:#f8f8f8;border-right:1px solid #eee;padding:24px 0;flex-shrink:0}
+#sidebar-title{font-size:12px;font-weight:700;color:#999;letter-spacing:.08em;padding:0 20px 12px}
+.nav-item{display:block;padding:7px 20px;font-size:13px;color:#555;cursor:pointer;border-left:3px solid transparent;line-height:1.4}
+.nav-item.level2{padding-left:32px;font-size:12.5px;color:#777}
+.nav-item:hover{color:#222;background:#f0f0f0}
+.nav-item.active{color:#111;font-weight:600;border-left-color:#333;background:#ececec}
+#main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+#content-area{flex:1;overflow-y:auto;padding:48px 64px 100px}
+.page{display:none;max-width:760px;margin:0 auto}
+.page.active{display:block}
+#nav-bar{background:#fff;border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:14px 64px;flex-shrink:0}
+.nav-btn{padding:8px 20px;font-size:14px;color:#444;background:none;border:1px solid #ddd;border-radius:6px;cursor:pointer;font-family:inherit}
+.nav-btn:hover{background:#f5f5f5}
+.nav-btn.hidden{visibility:hidden}
+#page-indicator{font-size:13px;color:#999}
+.breadcrumb{font-size:12px;color:#999;margin-bottom:28px;letter-spacing:.03em}
+h1.page-title{font-size:26px;font-weight:700;color:#111;margin-bottom:20px;line-height:1.3}
+h2.section-title{font-size:20px;font-weight:700;color:#111;margin:32px 0 12px}
+h3.sub-title{font-size:17px;font-weight:600;color:#222;margin:24px 0 8px}
+p{margin-bottom:14px}
+ul,ol{margin:10px 0 14px 0;padding-left:0;list-style:none}
+ul li,ol li{padding:4px 0 4px 22px;position:relative}
+ul li::before{content:"·";position:absolute;left:6px;color:#aaa}
+ol{counter-reset:step}
+ol li{counter-increment:step}
+ol li::before{content:counter(step);position:absolute;left:0;width:18px;height:18px;background:#333;color:#fff;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;top:5px}
+strong{font-weight:600}
+strong.hl{background:#fff8c5;padding:1px 3px;border-radius:2px}
+blockquote{border-left:3px solid #e0e0e0;padding:12px 20px;color:#555;margin:16px 0;background:#fafafa}
+.warn{color:#d9534f;font-weight:600}
+.cue{margin:18px 0;padding:14px 18px 14px 48px;position:relative;border-radius:4px}
+.cue-a{background:#f0f7f0;border-left:3px solid #1E803D}
+.cue-m{background:#fff8e1;border-left:3px solid #f0c040}
+.cue-w{background:#fff5f5;border-left:3px solid #d9534f}
+.cue-label{font-size:11px;font-weight:700;letter-spacing:.08em;margin-bottom:5px}
+.cue-a .cue-label{color:#1E803D}
+.cue-m .cue-label{color:#b8860b}
+.cue-w .cue-label{color:#d9534f}
+.cue-icon{position:absolute;left:14px;top:14px;font-size:16px}
+.ex-label{display:inline-block;font-size:12px;font-weight:700;color:#fff;background:#555;padding:3px 10px;border-radius:3px;margin-bottom:16px}
+.ex-sl{font-size:12px;font-weight:700;color:#888;letter-spacing:.05em;margin-bottom:6px}
+.ex-end{background:#f9f9f9;padding:14px 18px;border-left:3px solid #333;margin-top:16px}
+.kp{background:#fff8c5;padding:12px 16px;border-radius:4px;margin:12px 0;font-weight:500}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid #ddd;color:#444}
+td{padding:9px 12px;border-bottom:1px solid #eee;vertical-align:top}
+tr:last-child td{border-bottom:none}
+.fig{margin:24px 0;background:#fafafa;border-radius:6px;padding:20px;overflow-x:auto}
+.fig svg{display:block;margin:0 auto}
+.fig-cap{font-size:12px;color:#888;text-align:center;margin-top:10px}
+#hamburger{display:none;position:fixed;top:14px;left:14px;z-index:1000;background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px 10px;cursor:pointer;font-size:18px}
+@media(max-width:768px){
+  #sidebar{position:fixed;left:-260px;top:0;z-index:999;transition:left .25s;box-shadow:2px 0 12px rgba(0,0,0,.12)}
+  #sidebar.open{left:0}
+  #hamburger{display:block}
+  #content-area{padding:56px 24px 90px}
+  #nav-bar{padding:12px 24px}
+}
+</style>
+</head>
+<body>
+<button id="hamburger" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+<div id="sidebar">
+  <div id="sidebar-title">目录</div>
+  <div class="nav-item level1 active" onclick="goto(0)">导言</div>
+  <div class="nav-item level1" onclick="goto(1)">第一部分：开营仪式</div>
+  <div class="nav-item level1" onclick="goto(2)">第二部分：ID2B 框架</div>
+  <div class="nav-item level2" onclick="goto(3)">· EX-01 框架图示讲解</div>
+  <div class="nav-item level1" onclick="goto(4)">第三部分：AI 编程六阶段</div>
+  <div class="nav-item level2" onclick="goto(5)">· EX-02 六阶段图谱</div>
+  <div class="nav-item level1" onclick="goto(6)">第四部分：课程目标</div>
+  <div class="nav-item level2" onclick="goto(7)">· EX-03 目标两级结构</div>
+  <div class="nav-item level1" onclick="goto(8)">第五部分：课程形式</div>
+  <div class="nav-item level2" onclick="goto(9)">· 时间安排与学习平台</div>
+  <div class="nav-item level1" onclick="goto(10)">第六部分：学习方法</div>
+  <div class="nav-item level2" onclick="goto(11)">· EX-04 小二多案例</div>
+  <div class="nav-item level1" onclick="goto(12)">第七部分：学而时习之</div>
+  <div class="nav-item level2" onclick="goto(13)">· EX-05 习字字源</div>
+  <div class="nav-item level1" onclick="goto(14)">第八部分：AI 浏览器</div>
+  <div class="nav-item level2" onclick="goto(15)">· EX-06 浏览器演示</div>
+  <div class="nav-item level1" onclick="goto(16)">第九部分：扣子编程</div>
+  <div class="nav-item level2" onclick="goto(17)">· EX-07 2048 游戏</div>
+  <div class="nav-item level1" onclick="goto(18)">第十部分：黑话翻译器</div>
+  <div class="nav-item level2" onclick="goto(19)">· EX-08 翻译器演示</div>
+  <div class="nav-item level1" onclick="goto(20)">第十一部分：通关项目</div>
+  <div class="nav-item level2" onclick="goto(21)">· EX-09 纸片人男友</div>
+  <div class="nav-item level1" onclick="goto(22)">第十二部分：课程红线</div>
+  <div class="nav-item level1" onclick="goto(23)">本课总结（核心要点）</div>
+  <div class="nav-item level1" onclick="goto(24)">本课总结（易错+应用）</div>
+</div>
+<div id="main">
+<div id="content-area">
+
+<div class="page active" data-index="0">
+  <div class="breadcrumb">导言</div>
+  <h1 class="page-title">Idea to Business · AI 编程课程开营仪式</h1>
+  <p style="color:#888;margin-bottom:32px">第三期 · 2026年3月19日</p>
+  <h2 class="section-title">学完本课，你将能回答：</h2>
+  <ul>
+    <li>Idea to Business 框架中三个词各自代表什么，AI 编程在其中处于什么位置？</li>
+    <li>AI 编程能力的六个阶段分别是什么，如何判断自己目前处于哪个阶段？</li>
+    <li>课程的保底目标和挑战目标有什么区别？实现挑战目标需要什么前提条件？</li>
+    <li>"学而时习之"的核心含义是什么，如何将"看完立即动手"转化为真实行动？</li>
+    <li>遇到看不懂的技术内容时，怎样用 AI 浏览器通过截图提问来理解它？</li>
+    <li>扣子编程的云端沙箱是什么？没有 AI 能力和调用了 AI 能力的应用，本质上有什么不同？</li>
+    <li>如何在扣子编程中用自然语言提示词创建一个应用，并将它部署为可分享的链接？</li>
+  </ul>
+</div>
+
+<div class="page" data-index="1">
+  <div class="breadcrumb">第一部分</div>
+  <h1 class="page-title">开营仪式——从今天开始，普通人也能把想法变成生意</h1>
+  <p>本节课是"Idea to Business"AI 编程课程第三期的开营仪式，面向零基础学习者，也适合有一定基础希望建立完整体系的进阶学员。</p>
+  <p>今天的直播分为六个模块：</p>
+  <ol>
+    <li>课程概览（讲什么内容、达到什么目标）</li>
+    <li>课程形式与安排</li>
+    <li>学习的方法</li>
+    <li>入门篇导读与演示</li>
+    <li>课程红线</li>
+    <li>答疑</li>
+  </ol>
+  <p>无需提前了解任何技术知识，带着电脑和好奇心来就够了。</p>
+</div>
+
+<div class="page" data-index="2">
+  <div class="breadcrumb">第二部分</div>
+  <h1 class="page-title">课程讲什么——Idea to Business 框架解析</h1>
+  <p>AI 编程并不是这门课的终点，而是一种工具。要理解这一点，需要先弄清楚课程名称本身。</p>
+  <p><strong>注意：课程名称"Idea to Business"包含三个独立的词。</strong></p>
+  <ul>
+    <li><strong>Idea</strong>：如何找到一个又适合自己、又有商业潜力的优质想法——这是课程的起点</li>
+    <li><strong>to（AI 编程）</strong>：用 AI 编程将想法开发成可运行的软件产品——这是课程的核心工具</li>
+    <li><strong>Business</strong>：如何将软件产品商业化变现，以海外市场为主方向——这是课程的终点</li>
+  </ul>
+  <div class="fig">
+    <svg width="560" height="80" viewBox="0 0 560 80">
+      <rect x="10" y="20" width="120" height="40" rx="6" fill="#e8f4e8"/>
+      <text x="70" y="38" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="700" fill="#1E803D">Idea</text>
+      <text x="70" y="54" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#555">优质想法</text>
+      <text x="148" y="44" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#bbb">→</text>
+      <rect x="165" y="20" width="230" height="40" rx="6" fill="#fff8e1" stroke="#f0c040" stroke-width="2"/>
+      <text x="280" y="38" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="700" fill="#b8860b">to（AI 编程）</text>
+      <text x="280" y="54" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#555">连接 Idea 与 Business 的桥梁</text>
+      <text x="413" y="44" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#bbb">→</text>
+      <rect x="430" y="20" width="120" height="40" rx="6" fill="#fde8e8"/>
+      <text x="490" y="38" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="700" fill="#d9534f">Business</text>
+      <text x="490" y="54" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#555">商业变现</text>
+    </svg>
+    <div class="fig-cap">Idea to Business 三段式框架——AI 编程处于"To"的位置</div>
+  </div>
+  <p>这门课程的核心定位是：AI 编程是"To"，是连接 Idea 和 Business 的桥梁，不是学习的目的地本身。</p>
+  <div class="cue cue-a">
+    <span class="cue-icon">💡</span>
+    <div class="cue-label">类比锚点</div>
+    <p>可以这样理解：Idea to Business 就像"原材料→加工工厂→产品"的生产链——AI 编程处于"加工工厂"的位置，它不是最终的产品，而是将原材料转化为产品的工具。</p>
+  </div>
+  <div class="cue cue-m">
+    <span class="cue-icon">🔑</span>
+    <div class="cue-label">判定口诀</div>
+    <p>记住：看到"AI 编程"，立刻想到它在"To"里——是连接 Idea 和 Business 的桥梁，不是目标本身。</p>
+  </div>
+  <div class="cue cue-w">
+    <span class="cue-icon">⚠️</span>
+    <div class="cue-label">易错警示</div>
+    <p><span class="warn">不要把学会 AI 编程当作终点。</span>正确的认知是：学 AI 编程，是为了把自己的 Idea 实现出来、进而做成生意，AI 编程是手段，Business 才是目的。课程以海外市场为主，因为海外用户付费意愿更高，从商业角度更划算。</p>
+  </div>
+</div>
+
+<div class="page" data-index="3">
+  <div class="breadcrumb">第二部分 › 概念演示</div>
+  <div class="ex-label">EX-01 · ID2B 框架图示讲解</div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">演示内容</div>
+    <p>PPT 展示"课程讲什么？"，主标题下方标注"AI 编程在'To'里"，三个词的拆解如下：Idea（发现优质想法）→ AI 编程（开发实现）→ Business（商业化变现），AI 编程是连接 Idea 和 Business 的中间桥梁，课程以海外软件产品市场为主要方向。</p>
+  </div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">分析步骤</div>
+    <ol>
+      <li>Idea 部分：讲授如何判断一个 Idea 是否优质（既适合自己、又有商业潜力）</li>
+      <li>AI 编程（To）部分：作为实现工具，将 Idea 变成可运行的软件产品</li>
+      <li>Business 部分：讲授如何商业化（以海外市场为主，国内为辅），包括海外支付、商业模型设计</li>
+    </ol>
+  </div>
+  <div class="ex-end">
+    <div class="ex-sl">核心结论</div>
+    <p>AI 编程处于"To"的位置，是 Idea 转化为 Business 的技术桥梁，不是目标本身，而是达成目标的手段。</p>
+  </div>
+</div>
+
+<div class="page" data-index="4">
+  <div class="breadcrumb">第三部分</div>
+  <h1 class="page-title">AI 编程的六个阶段——你现在在哪里，能到达哪里</h1>
+  <p>理解了 Idea to Business 框架之后，接下来要搞清楚：AI 编程究竟分哪些阶段？"会用 ChatGPT 聊天"和"用 AI 编程做出产品"之间差多少？</p>
+  <p>AI 编程能力可以划分为六个递进阶段，从下往上依次为：</p>
+  <div class="fig">
+    <svg width="480" height="260" viewBox="0 0 480 260">
+      <rect x="10" y="220" width="460" height="32" rx="4" fill="#f5f5f5" stroke="#ddd"/>
+      <text x="20" y="241" font-family="sans-serif" font-size="12" fill="#888">阶段 0</text>
+      <text x="68" y="241" font-family="sans-serif" font-size="13" font-weight="700" fill="#555">玩具</text>
+      <text x="120" y="241" font-family="sans-serif" font-size="12" fill="#999">聊天框（ChatGPT / Claude）</text>
+      <line x1="10" x2="470" y1="192" y2="192" stroke="#d9534f" stroke-dasharray="6,4" stroke-width="1.5"/>
+      <text x="340" y="188" font-family="sans-serif" font-size="11" fill="#d9534f" font-weight="700">← 分水岭</text>
+      <rect x="10" y="156" width="460" height="32" rx="4" fill="#e8f4e8" stroke="#b8ddb8"/>
+      <text x="20" y="177" font-family="sans-serif" font-size="12" fill="#888">阶段 1</text>
+      <text x="68" y="177" font-family="sans-serif" font-size="13" font-weight="700" fill="#1E803D">副驾</text>
+      <text x="120" y="177" font-family="sans-serif" font-size="12" fill="#555">Cursor / Trae · 工程化起飞点</text>
+      <rect x="10" y="120" width="420" height="32" rx="4" fill="#f0f5ff" stroke="#c8d8f0"/>
+      <text x="20" y="141" font-family="sans-serif" font-size="12" fill="#888">阶段 2</text>
+      <text x="68" y="141" font-family="sans-serif" font-size="13" font-weight="700" fill="#445">外包</text>
+      <text x="120" y="141" font-family="sans-serif" font-size="12" fill="#777">能主导项目，与 AI 协作复杂任务</text>
+      <rect x="10" y="84" width="380" height="32" rx="4" fill="#f5f0ff" stroke="#d0c8f0"/>
+      <text x="20" y="105" font-family="sans-serif" font-size="12" fill="#888">阶段 3</text>
+      <text x="68" y="105" font-family="sans-serif" font-size="13" font-weight="700" fill="#554">搭档</text>
+      <text x="120" y="105" font-family="sans-serif" font-size="12" fill="#777">Agent / API · 调用和编排 AI 能力</text>
+      <rect x="10" y="48" width="340" height="32" rx="4" fill="#fff8f0" stroke="#f0d8c0"/>
+      <text x="20" y="69" font-family="sans-serif" font-size="12" fill="#888">阶段 4</text>
+      <text x="68" y="69" font-family="sans-serif" font-size="13" font-weight="700" fill="#755">实习生</text>
+      <text x="120" y="69" font-family="sans-serif" font-size="12" fill="#777">AutoDev · 自主完成开发测试交付</text>
+      <rect x="10" y="12" width="300" height="32" rx="4" fill="#fde8e8" stroke="#f0c0c0"/>
+      <text x="20" y="33" font-family="sans-serif" font-size="12" fill="#888">阶段 5</text>
+      <text x="68" y="33" font-family="sans-serif" font-size="13" font-weight="700" fill="#d9534f">全职员工</text>
+      <text x="145" y="33" font-family="sans-serif" font-size="12" fill="#999">AGI · 2028年前是伪命题</text>
+    </svg>
+    <div class="fig-cap">AI 编程六阶段图谱（从下往上递进，阶段1是分水岭）</div>
+  </div>
+  <table>
+    <tr><th>阶段</th><th>名称</th><th>代表工具</th><th>关键特征</th></tr>
+    <tr><td>0</td><td>玩具</td><td>聊天框</td><td>会聊天就能用，无法触及工程化开发</td></tr>
+    <tr><td>1</td><td>副驾</td><td>Cursor / Trae</td><td><strong>工程化起飞点</strong>，真正的分水岭</td></tr>
+    <tr><td>2</td><td>外包</td><td>—</td><td>能主导项目，与AI协作完成复杂任务</td></tr>
+    <tr><td>3</td><td>搭档</td><td>Agent / API</td><td>能调用和编排 AI 能力</td></tr>
+    <tr><td>4</td><td>实习生</td><td>AutoDev</td><td>完全连通物理世界，自主完成</td></tr>
+    <tr><td>5</td><td>全职员工</td><td>AGI</td><td>2028 年之前是伪命题</td></tr>
+  </table>
+  <div class="cue cue-a">
+    <span class="cue-icon">💡</span>
+    <div class="cue-label">类比锚点</div>
+    <p>可以这样理解：六阶段就像游戏里的"打怪升级"——每一层都需要积累前一层的能力才能解锁，不能跳关，下层是上层的地基。</p>
+  </div>
+  <div class="cue cue-m">
+    <span class="cue-icon">🔑</span>
+    <div class="cue-label">判定口诀</div>
+    <p>记住：看到"只用聊天框"，立刻想到"阶段 0 玩具，分水岭以下，尚未工程化起飞"。</p>
+  </div>
+  <div class="cue cue-w">
+    <span class="cue-icon">⚠️</span>
+    <div class="cue-label">易错警示</div>
+    <p><span class="warn">"很多人告诉你AI编程不用学，会聊天就行，那基本是玩具阶段"——这是一种常见误导。</span>聊天是起点，但能用 AI 编程做出真实产品，需要越过阶段 1 这道分水岭。</p>
+  </div>
+</div>
+
+<div class="page" data-index="5">
+  <div class="breadcrumb">第三部分 › 模型分析</div>
+  <div class="ex-label">EX-02 · AI 编程六阶段图谱</div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">演示内容</div>
+    <p>PPT 标题"AI 编程的六个阶段"，从下往上阶梯状排列六层（阶段 0 玩具→阶段 5 全职员工），阶段 1 与阶段 2 之间有明显"分水岭"虚线；阶段 5（AGI）注明"2028 年之前是伪命题"。</p>
+  </div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">分析步骤</div>
+    <ol>
+      <li>从最底层阶段 0（玩具）开始，向上递进理解每个阶段的代表工具和能力边界</li>
+      <li>识别分水岭：阶段 1 与阶段 2 之间——能否脱离聊天框做出真正的工程化产品，是本课程的核心起跳点</li>
+      <li>分析常见误区：认为直接用 ChatGPT/Claude 聊天就能"当员工用"的人，实际上停留在阶段 0，尚未建立下面的地基</li>
+    </ol>
+  </div>
+  <div class="ex-end">
+    <div class="ex-sl">核心结论</div>
+    <p>真正把 AI 当员工用、发挥生产力的人，必然已经掌握了阶段 1 及以上的能力。仅靠聊天是玩具阶段，无法实现真正的工程化产出。阶段 5（AGI 全职员工）在 2028 年之前仍是伪命题。</p>
+  </div>
+</div>
+
+<div class="page" data-index="6">
+  <div class="breadcrumb">第四部分</div>
+  <h1 class="page-title">课程目标——你来这里能得到什么</h1>
+  <p>搞清楚了"AI 编程能力的层级"，接下来要看清楚这门课程能带你到哪里。课程设置了两级目标：</p>
+  <h3 class="sub-title">保底目标</h3>
+  <p>帮你拥有完整的 Idea to Business 能力，想到什么就动手去实现，万事不求人，成为更好的自己。</p>
+  <h3 class="sub-title">挑战目标</h3>
+  <p>帮你拥有 AI 员工，从"AI 帮你做"升级到"AI 替你做"。</p>
+  <div class="fig">
+    <svg width="520" height="120" viewBox="0 0 520 120">
+      <rect x="10" y="20" width="220" height="80" rx="6" fill="#e8f4e8" stroke="#b8ddb8"/>
+      <text x="120" y="48" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="700" fill="#1E803D">保底目标</text>
+      <text x="120" y="68" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">AI 帮你做</text>
+      <text x="120" y="86" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#777">你是主体 / 执行者</text>
+      <text x="270" y="64" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#bbb">→</text>
+      <rect x="290" y="20" width="220" height="80" rx="6" fill="#fff8e1" stroke="#f0c040" stroke-width="2"/>
+      <text x="400" y="48" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="700" fill="#b8860b">挑战目标</text>
+      <text x="400" y="68" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">AI 替你做</text>
+      <text x="400" y="86" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#d9534f" font-weight="700">前提：你得先有自己的 Business</text>
+    </svg>
+    <div class="fig-cap">两级目标对比——保底是基础，挑战有前提</div>
+  </div>
+  <p><strong>保底目标的内涵</strong>：学完并真正练习到位之后，你可以不依赖任何人——你有了想法，自己加上 AI 就能实现，不需要找外包、不需要依赖别人的技能。</p>
+  <p><strong>挑战目标的前提</strong>：这是逻辑上的约束——要让 AI 员工干活，你得先知道让它干什么。</p>
+  <div class="cue cue-a">
+    <span class="cue-icon">💡</span>
+    <div class="cue-label">类比锚点</div>
+    <p>可以这样理解："拥有 AI 员工"就像"有了专职司机"——前提是你得知道要去哪里，即你自己得有 Business 方向。</p>
+  </div>
+  <div class="cue cue-m">
+    <span class="cue-icon">🔑</span>
+    <div class="cue-label">判定口诀</div>
+    <p>记住：看到"AI 替你做"，立刻想到"这是挑战目标，前提：你得先有自己的 Business，才知道让 AI 员工干什么"。</p>
+  </div>
+  <div class="cue cue-w">
+    <span class="cue-icon">⚠️</span>
+    <div class="cue-label">易错警示</div>
+    <p><span class="warn">不能跳过保底目标直达挑战目标。</span>正确的路径是：先把保底目标完成，先有自己的一摊业务，才知道让 AI 员工干什么。没有 Business 就谈 AI 员工，是逻辑上走不通的。</p>
+  </div>
+</div>
+
+<div class="page" data-index="7">
+  <div class="breadcrumb">第四部分 › 概念演示</div>
+  <div class="ex-label">EX-03 · 课程目标两级结构说明</div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">演示内容</div>
+    <p>PPT 标题"课程目标是什么？"，分两级：保底目标（帮你拥有完整 Idea to Business 能力，想到什么就动手实现，万事不求人，成为更好的自己）；挑战目标（帮你拥有 AI 员工，从"AI 帮你做"到"AI 替你做"；但前提是你得先有"Business"，不然让员工干什么？）。</p>
+  </div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">分析步骤</div>
+    <ol>
+      <li>保底目标：AI 作为工具帮你实现想法，你是执行者（万事求 AI 而非求人）</li>
+      <li>挑战目标：AI 作为员工替你执行，你是管理者（AI 是员工，你是老板）</li>
+      <li>逻辑约束：要让 AI 员工干活，你得先知道让它干什么 → 必须先有自己的 Business → 保底目标是挑战目标的前提</li>
+    </ol>
+  </div>
+  <div class="ex-end">
+    <div class="ex-sl">核心结论</div>
+    <p>无法跳过保底目标直达挑战目标。"拥有 AI 员工"的前提是学习者自己有业务方向，否则无法定义员工的工作内容。</p>
+  </div>
+</div>
+
+<div class="page" data-index="8">
+  <div class="breadcrumb">第五部分</div>
+  <h1 class="page-title">课程形式与安排——四大学习形式</h1>
+  <p>本期课程由四个模块组成：</p>
+  <div class="fig">
+    <svg width="560" height="110" viewBox="0 0 560 110">
+      <rect x="5" y="10" width="128" height="88" rx="5" fill="#f5f5f5"/>
+      <text x="69" y="40" text-anchor="middle" font-family="sans-serif" font-size="22">📖</text>
+      <text x="69" y="60" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#333">图文教程</text>
+      <text x="69" y="76" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888">70+ 篇详细图文</text>
+      <text x="69" y="90" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888">持续迭代更新</text>
+      <rect x="143" y="10" width="128" height="88" rx="5" fill="#f5f5f5"/>
+      <text x="207" y="40" text-anchor="middle" font-family="sans-serif" font-size="22">🎥</text>
+      <text x="207" y="60" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#333">直播</text>
+      <text x="207" y="76" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888">串讲答疑 / 加餐</text>
+      <text x="207" y="90" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888">助教 / 学员分享</text>
+      <rect x="281" y="10" width="128" height="88" rx="5" fill="#f5f5f5"/>
+      <text x="345" y="40" text-anchor="middle" font-family="sans-serif" font-size="22">💬</text>
+      <text x="345" y="60" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#333">交流和讨论</text>
+      <text x="345" y="76" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888">微信群 / 助教答疑</text>
+      <text x="345" y="90" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888">深海圈社区</text>
+      <rect x="419" y="10" width="128" height="88" rx="5" fill="#f5f5f5"/>
+      <text x="483" y="40" text-anchor="middle" font-family="sans-serif" font-size="22">⛵</text>
+      <text x="483" y="60" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#333">航海实战</text>
+      <text x="483" y="76" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888">不同主题实战</text>
+      <text x="483" y="90" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888">项目制学习</text>
+    </svg>
+    <div class="fig-cap">四大学习形式</div>
+  </div>
+  <p><strong>为什么用图文而非视频</strong>：视频课程不易更新，AI 工具迭代太快；而图文教材可以持续修订。此外，以往的观察是：学员看视频容易产生"看完就会了"的错觉，而不停下来动手实操。图文教材天然要求学员逐段操作，更有利于真正掌握。</p>
+</div>
+
+<div class="page" data-index="9">
+  <div class="breadcrumb">第五部分 › 时间安排与学习平台</div>
+  <h2 class="section-title">整体时间安排</h2>
+  <p>课程从 2026 年 3 月 19 日开营，2026 年 6 月 9 日结营，共约两个半月。</p>
+  <div class="fig">
+    <svg width="540" height="70" viewBox="0 0 540 70">
+      <text x="10" y="14" font-family="sans-serif" font-size="10" fill="#999">3月19日</text>
+      <text x="465" y="14" font-family="sans-serif" font-size="10" fill="#999">6月9日</text>
+      <rect x="10" y="20" width="155" height="36" rx="4" fill="#d4edda" stroke="#b8ddb8"/>
+      <text x="87" y="36" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="700" fill="#1E803D">第 1-3 周</text>
+      <text x="87" y="50" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#555">快速入门基础篇</text>
+      <rect x="175" y="20" width="355" height="36" rx="4" fill="#fff3cd" stroke="#f0c040"/>
+      <text x="352" y="36" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="700" fill="#b8860b">第 4-14 周</text>
+      <text x="352" y="50" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#555">进阶硬核篇（每天一篇，约50分钟/天）</text>
+    </svg>
+    <div class="fig-cap">课程时间线（约14周，讲师直播6-7次，助教/学员分享6-7次）</div>
+  </div>
+  <p>建议学习节奏：</p>
+  <ul>
+    <li><strong>入门篇（第 1-3 周）</strong>：门槛最低，可以稍快，先找感觉建立信心</li>
+    <li><strong>进阶篇（第 4 周起）</strong>：建议每天学一篇（约 3000 字，阅读约 20 分钟，实操约 30-60 分钟）</li>
+    <li><strong>每周作业</strong>：在官网提交，讲师和教练会阅卷，共性问题会在直播中答疑</li>
+  </ul>
+  <h2 class="section-title">学习平台</h2>
+  <p>课程教材、直播回放、作业提交、学员交流均在"深海圈 AI 编程"官网进行（课程群内有地址）。课程内容按周解锁，引导学员按节奏学习，不建议跳读。</p>
+</div>
+
+<div class="page" data-index="10">
+  <div class="breadcrumb">第六部分</div>
+  <h1 class="page-title">学习的方法——用小二多的案例理解什么叫真正的学会</h1>
+  <p>掌握工具和课程结构之后，最关键的问题来了：同样一门课，为什么有人学完能做出产品、有人学完什么都没改变？</p>
+  <p>往期所有没有学会的学员，只有一种共同原因：<strong>投入的时间不够。</strong>具体表现为囫囵吞枣、妄想一步登天、跳过不懂的部分继续往后学。</p>
+  <p>正确的学习姿势需要四点：耐心、知其然知其所以然、学而时习之、知行合一。</p>
+  <p>为了帮助理解什么是"真正学会"，来看一个真实案例。</p>
+</div>
+
+<div class="page" data-index="11">
+  <div class="breadcrumb">第六部分 › 方法示范</div>
+  <div class="ex-label">EX-04 · 优秀学员"小二多"案例复盘</div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">案例背景</div>
+    <p>学员"小二多"从纯小白开始跟着课程学习，从开始学习到第一次出单花了四个月，现每月收入约 4 万美金。他在深海圈社区发布了一篇万字复盘文章《摸索一年，走上出海 web 道路月入 4w 刀》，详细记录了学习历程。</p>
+  </div>
+  <div class="fig">
+    <svg width="480" height="90" viewBox="0 0 480 90">
+      <rect x="10" y="10" width="460" height="70" rx="6" fill="#f9f9f9" stroke="#ddd"/>
+      <text x="30" y="35" font-family="sans-serif" font-size="13" font-weight="700" fill="#333">《摸索一年，走上出海 web 道路月入 4w 刀》</text>
+      <text x="30" y="55" font-family="sans-serif" font-size="11" fill="#888">章节：新人第一问 · 踩坑盘点 · 需求真伪 · 产品设计基本原则…</text>
+      <rect x="340" y="22" width="120" height="46" rx="4" fill="#e8f4e8"/>
+      <text x="400" y="44" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#1E803D">$45,059</text>
+      <text x="400" y="60" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888">月收入（美元）</text>
+    </svg>
+    <div class="fig-cap">小二多在深海圈社区的复盘文章</div>
+  </div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">分析步骤</div>
+    <ol>
+      <li><strong>案例亮点 1——四个月的耐心</strong>：从零开始到第一次出单，花了整整四个月，没有急于求成</li>
+      <li><strong>案例亮点 2——知识内化</strong>：复盘文章中的每一句话，都是用他自己的语言写的，没有照抄老师的原话，但内容来源于课程所学</li>
+      <li><strong>内化的标志</strong>：老师的描述是"这些是我的，但又不是我的"——文章来自课程，但表达完全是学员自己的</li>
+    </ol>
+  </div>
+  <div class="ex-end">
+    <div class="ex-sl">核心结论</div>
+    <p>判断是否真正学会的标准，是能否用自己的话表达出来。学习成效由时间投入和内化深度决定，不由报名决定。</p>
+  </div>
+  <div class="cue cue-m">
+    <span class="cue-icon">🔑</span>
+    <div class="cue-label">判定口诀</div>
+    <p>记住：判断自己是否真正学会的标准——能不能用自己的话解释给别人听？不能，就还没学会。</p>
+  </div>
+  <div class="cue cue-w">
+    <span class="cue-icon">⚠️</span>
+    <div class="cue-label">易错警示</div>
+    <p><span class="warn">照抄老师的话不等于学会。</span>正确做法是将知识消化吸收后，用自己的语言重新表达出来——就像消化食物后变成身体的一部分，而不是把食物塞在口袋里。</p>
+  </div>
+</div>
+
+<div class="page" data-index="12">
+  <div class="breadcrumb">第七部分</div>
+  <h1 class="page-title">学而时习之——"习"字的本义告诉我们什么</h1>
+  <p>"学而时习之"是这门课的学习方法论核心。但这句话被误解了上千年——大多数人以为它是在说"时常复习"，而这恰恰是错的。</p>
+  <p><strong>互动提问</strong>：学而时习之是什么意思？请从以下四个选项中选择：</p>
+  <ul>
+    <li>A. 每天背诵全文</li>
+    <li>B. 学到东西后按时睡觉</li>
+    <li>C. 看不懂就多看几遍</li>
+    <li>D. 时不时就重新看一遍</li>
+  </ul>
+  <p>答案是：<strong>以上都不是。</strong></p>
+  <div class="cue cue-m">
+    <span class="cue-icon">🔑</span>
+    <div class="cue-label">判定口诀</div>
+    <p>记住：看到"学而时习之"，立刻想到：习 = 反复实践，不是反复阅读。课程内容看完必须当天动手做。</p>
+  </div>
+  <div class="cue cue-w">
+    <span class="cue-icon">⚠️</span>
+    <div class="cue-label">易错警示</div>
+    <p><span class="warn">很多人以为"学而时习之"是"定期复习"或"多看几遍"——这是误解。</span>"习"的象形本义是实践，不是复读。每一篇图文教材约 3000 字，阅读约 20 分钟，看完不动手等于没学。</p>
+  </div>
+  <p>此外，"慢就是快"是配套的核心原则：把每一个不懂的概念搞明白，宁可慢也不跳过细节。看起来进度最慢的那个人，往往最后走得最稳、出来得最快。</p>
+</div>
+
+<div class="page" data-index="13">
+  <div class="breadcrumb">第七部分 › 概念演示</div>
+  <div class="ex-label">EX-05 · "习"字字源拆解——学而时习之的本义</div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">演示内容</div>
+    <p>PPT 展示"习"字的篆书象形图，上方画着两个羽毛（代表鸟翅），下方画着一个太阳；旁边配有一只小鸟飞向太阳的插图。解释文字："鸟屡次尝试飞翔——小鸟不是飞一次就会，而是日复一日地振翅，直到翱翔。"</p>
+  </div>
+  <div class="fig">
+    <svg width="420" height="130" viewBox="0 0 420 130">
+      <text x="75" y="88" text-anchor="middle" font-family="serif" font-size="58" fill="#333">习</text>
+      <text x="75" y="115" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#888">篆书 · 象形</text>
+      <text x="148" y="68" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#ccc">=</text>
+      <rect x="168" y="18" width="110" height="36" rx="4" fill="#f0f5ff"/>
+      <text x="223" y="41" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#445">🪶 鸟翅（上）</text>
+      <text x="223" y="64" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#bbb">+</text>
+      <rect x="168" y="72" width="110" height="36" rx="4" fill="#fff8e1"/>
+      <text x="223" y="95" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#b8860b">☀️ 太阳（下）</text>
+      <text x="298" y="68" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#ccc">→</text>
+      <rect x="314" y="40" width="92" height="56" rx="4" fill="#e8f4e8"/>
+      <text x="360" y="66" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#1E803D">习 =</text>
+      <text x="360" y="82" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#555">反复飞翔</text>
+    </svg>
+    <div class="fig-cap">习字字源：鸟妈妈让小鸟反复飞向太阳，即反复实践的练习</div>
+  </div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">分析步骤</div>
+    <ol>
+      <li>从字源分析"习"字：象形字，鸟翅（上）+ 太阳（下）= 鸟妈妈让小鸟反复飞向太阳，即飞翔的练习</li>
+      <li>推导本义：学习的关键在于反复实践，而非反复阅读</li>
+      <li>应用到课程：看完图文教材（约 20 分钟）后，必须亲自动手实操，否则等于没学</li>
+    </ol>
+  </div>
+  <div class="ex-end">
+    <div class="ex-sl">核心结论</div>
+    <p>"学而时习之"的本义：学到东西后要时常去实践（动手做），而非重复阅读或背诵。"习"字的象形根源就是"反复飞翔的练习"，不是"翻书重温"。</p>
+  </div>
+  <div class="cue cue-a">
+    <span class="cue-icon">💡</span>
+    <div class="cue-label">类比锚点</div>
+    <p>这就像雏鸟学飞——小鸟不是看着飞就会了，是日复一日扑腾翅膀，直到真正飞起来。学课程也一样，看完一篇就要动手做，不做就等于没学。</p>
+  </div>
+</div>
+
+<div class="page" data-index="14">
+  <div class="breadcrumb">第八部分</div>
+  <h1 class="page-title">开挂学习工具——用 AI 浏览器把所有看不懂的东西变成机会</h1>
+  <p>掌握了学习原则之后，还需要掌握一个"开挂"工具：AI 浏览器。</p>
+  <div class="fig">
+    <svg width="480" height="95" viewBox="0 0 480 95">
+      <rect x="10" y="10" width="220" height="75" rx="5" fill="#f5f5f5"/>
+      <text x="120" y="32" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#333">AI 浏览器</text>
+      <text x="120" y="50" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#555">Tabbit（推荐，支持海外大模型）</text>
+      <text x="120" y="65" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#555">豆包电脑版（国内免费替代）</text>
+      <text x="120" y="80" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#888">Dia</text>
+      <rect x="250" y="10" width="220" height="75" rx="5" fill="#f5f5f5"/>
+      <text x="360" y="32" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#333">电脑语音输入法</text>
+      <text x="360" y="50" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#555">微信电脑版（自带，需升级开启）</text>
+      <text x="360" y="65" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#555">Typeless</text>
+      <text x="360" y="80" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#888">豆包电脑版</text>
+    </svg>
+    <div class="fig-cap">推荐工具清单</div>
+  </div>
+  <p><strong>什么是 AI 浏览器</strong>：一种内置了 AI 聊天侧边栏的浏览器，打开任何网页时可以随时调出 AI 助手，支持截图识别、文字提问、一键生成思维导图等功能。</p>
+  <p><strong>工具选择建议：</strong></p>
+  <ul>
+    <li>可以科学上网：使用 Tabbit（美团出品），可调用 GPT-4、MiniMax 等海外主流大模型</li>
+    <li>国内用户：使用豆包电脑版（完全免费），功能相同，使用国内大模型，思维导图功能体验尤其出色</li>
+    <li>建议设为默认浏览器，这样日常浏览时随时可以调用</li>
+  </ul>
+  <div class="cue cue-a">
+    <span class="cue-icon">💡</span>
+    <div class="cue-label">类比锚点</div>
+    <p>AI 浏览器的侧边栏就像"随时待命的家教"——遇到看不懂的图表或英文，截图给家教看，家教立刻用你能听懂的语言解释。</p>
+  </div>
+  <div class="cue cue-m">
+    <span class="cue-icon">🔑</span>
+    <div class="cue-label">判定口诀</div>
+    <p>记住：遇到看不懂的内容，立刻：①截图 ②发给 AI 侧边栏 ③加语境（"我是小学 6 年级学生，用我能听懂的"）→ 等通俗解释。</p>
+  </div>
+  <div class="cue cue-w">
+    <span class="cue-icon">⚠️</span>
+    <div class="cue-label">易错警示</div>
+    <p><span class="warn">不要遇到看不懂的就关掉跳过。</span>每一个"看不懂"都是学习机会——截图问 AI，这个动作本身就是在学习，也是"学而时习之"的即时实践。</p>
+  </div>
+</div>
+
+<div class="page" data-index="15">
+  <div class="breadcrumb">第八部分 › 方法示范</div>
+  <div class="ex-label">EX-06 · AI 浏览器截图提问功能演示</div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">演示内容</div>
+    <p>讲师打开 Tabbit 浏览器，进入 Hugging Face 某开源模型（Qwen3.5）的详情页，发现页面上有一个完全看不懂的折线图性能对比图表，演示完整的截图提问流程。</p>
+  </div>
+  <div class="fig">
+    <svg width="480" height="72" viewBox="0 0 480 72">
+      <rect x="10" y="16" width="110" height="40" rx="4" fill="#f0f5ff" stroke="#c8d8f0"/>
+      <text x="65" y="34" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#445">Hugging Face</text>
+      <text x="65" y="50" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888">折线图（看不懂）</text>
+      <text x="140" y="40" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#ccc">→</text>
+      <text x="175" y="34" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#555">截图框选</text>
+      <text x="175" y="50" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#aaa">+ 语境</text>
+      <text x="218" y="40" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#ccc">→</text>
+      <rect x="232" y="16" width="120" height="40" rx="4" fill="#e8f4e8" stroke="#b8ddb8"/>
+      <text x="292" y="34" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1E803D">AI 侧边栏</text>
+      <text x="292" y="50" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888">通俗解释输出</text>
+      <text x="370" y="40" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#ccc">→</text>
+      <rect x="384" y="16" width="86" height="40" rx="4" fill="#fff8e1"/>
+      <text x="427" y="40" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="700" fill="#b8860b">理解！</text>
+    </svg>
+    <div class="fig-cap">截图提问完整学习闭环</div>
+  </div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">操作步骤</div>
+    <ol>
+      <li>打开 Tabbit 浏览器（或豆包电脑版），进入任意网页</li>
+      <li>调出右侧 AI 助手侧边栏</li>
+      <li>遇到看不懂的内容（如英文折线图）时，使用系统截图工具框选目标区域</li>
+      <li>将截图发送给 AI 助手，并附加语境："这个图是什么意思？我是一个傻子。"</li>
+      <li>等待 AI 给出通俗解释</li>
+      <li>配合语音输入法（微信电脑版→设置→语音输入）可以不用打字，直接说出问题</li>
+    </ol>
+  </div>
+  <p><strong>补充功能——豆包一键生成思维导图</strong>：在豆包 AI 助手中，点击"生成思维导图"，AI 会将当前网页的核心内容自动整理为树状结构图，尤其适合整理英文技术文章。</p>
+  <div class="ex-end">
+    <div class="ex-sl">核心结论</div>
+    <p>能够独立完成"遇到不懂 → 截图 → 配语境提问 → 理解"的完整学习闭环，这就是"开挂式学习"。</p>
+  </div>
+</div>
+
+<div class="page" data-index="16">
+  <div class="breadcrumb">第九部分</div>
+  <h1 class="page-title">入门项目演示——什么是扣子编程</h1>
+  <p>完成工具准备之后，进入本次开营仪式的核心演示环节：亲手在扣子编程中做出第一个可分享的应用。</p>
+  <p>扣子编程（coze.cn）是字节跳动出品的 AI 编程平台。它最适合新手的原因是：<strong>开发环境完全由 AI 自动配置</strong>，用户无需安装任何软件、无需配置本地环境，只需打开网页，用自然语言描述需求，AI 就会自动完成代码编写。</p>
+  <p>更关键的是，扣子编程平台已经内置了大语言模型（LLM）、文字转语音（TTS）、图像生成等 AI 能力的 API 接口，新手无需自行申请和配置 API Key，就可以在产品中调用这些 AI 能力。</p>
+  <div class="cue cue-a">
+    <span class="cue-icon">💡</span>
+    <div class="cue-label">类比锚点</div>
+    <p>云端沙箱就像"在云端临时租用的一台电脑"——你的需求只需要在对话框里说出来，AI 把代码写进那台云上的电脑里运行，你本地的电脑不需要动任何东西。</p>
+  </div>
+  <p>工作界面由三栏组成：</p>
+  <div class="fig">
+    <svg width="460" height="95" viewBox="0 0 460 95">
+      <rect x="10" y="10" width="135" height="75" rx="4" fill="#f5f5f5" stroke="#ddd"/>
+      <text x="77" y="42" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#333">左侧</text>
+      <text x="77" y="58" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#666">终端日志（Bash）</text>
+      <text x="77" y="74" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888">AI 在做什么</text>
+      <rect x="163" y="10" width="135" height="75" rx="4" fill="#f0f5ff" stroke="#c8d8f0"/>
+      <text x="230" y="42" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#445">中间</text>
+      <text x="230" y="58" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#666">代码文件</text>
+      <text x="230" y="74" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888">编辑器</text>
+      <rect x="316" y="10" width="135" height="75" rx="4" fill="#e8f4e8" stroke="#b8ddb8"/>
+      <text x="383" y="42" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#1E803D">右侧</text>
+      <text x="383" y="58" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#666">沙箱预览</text>
+      <text x="383" y="74" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888">运行效果</text>
+    </svg>
+    <div class="fig-cap">扣子编程三栏工作界面</div>
+  </div>
+  <div class="cue cue-m">
+    <span class="cue-icon">🔑</span>
+    <div class="cue-label">判定口诀</div>
+    <p>记住：看到扣子编程三栏界面——左侧=终端日志（AI 在做什么），中间=代码文件，右侧=沙箱预览（运行效果）。</p>
+  </div>
+</div>
+
+<div class="page" data-index="17">
+  <div class="breadcrumb">第九部分 › 实操演示</div>
+  <div class="ex-label">EX-07 · 用扣子编程创建 2048 小游戏（无 AI 能力版）</div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">演示内容</div>
+    <p>在扣子编程（coze.cn）中输入以下提示词，等待 AI 生成代码，预览后部署获得可分享的公网链接：</p>
+    <blockquote>"我要做一个 2048 游戏。玩法就是传统的 2048 游戏，但是设计风格要用苹果公司的设计风格，看着像是最牛逼的设计师设计的。"</blockquote>
+  </div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">操作步骤</div>
+    <ol>
+      <li>打开 coze.cn → 进入"扣子编程"→ 点击"新建项目"</li>
+      <li>在对话框中输入需求（<strong>格式：功能描述 + 设计风格/交互要求</strong>）</li>
+      <li>发送后等待 AI 在左侧终端生成代码、在中间显示项目文件、在右侧沙箱预览运行结果</li>
+      <li><strong>等待期间（重要）</strong>：打开 AI 浏览器侧边栏，截取左侧 Bash 终端日志，发给 AI 问"这在干啥？"，把等待变成学习时间</li>
+      <li>预览区加载完成后，用键盘测试游戏</li>
+      <li>点击"部署"→ 获得可分享的公网链接 → 可以发给朋友玩</li>
+    </ol>
+  </div>
+  <div class="ex-end">
+    <div class="ex-sl">核心结论</div>
+    <p>成功运行一个 2048 游戏，获得公网分享链接。<strong>注意：此应用本身没有调用任何 AI 能力，只是 AI 帮你写了一段普通的 JavaScript 游戏代码，应用运行时不需要 AI 介入。</strong></p>
+  </div>
+  <div class="cue cue-m">
+    <span class="cue-icon">🔑</span>
+    <div class="cue-label">判定口诀</div>
+    <p>记住提示词的写法规律：扣子编程提示词结构——【功能需求】+【设计风格或交互要求】，两者都写，缺一不可。</p>
+  </div>
+  <div class="cue cue-w">
+    <span class="cue-icon">⚠️</span>
+    <div class="cue-label">易错警示</div>
+    <p><span class="warn">等待代码生成时不要发呆。</span>"你得去把你看不懂的东西问一遍"——等待期间用 AI 浏览器截图问问题，这是将每一段空档转化为主动学习的关键习惯。</p>
+  </div>
+</div>
+
+<div class="page" data-index="18">
+  <div class="breadcrumb">第十部分</div>
+  <h1 class="page-title">进阶演示——互联网黑话翻译器（含 AI 能力调用）</h1>
+  <p>2048 游戏展示了"AI 帮你写代码"，但应用本身没有调用 AI。接下来看一个截然不同的例子：一个在运行时会调用大语言模型的应用。</p>
+  <h3 class="sub-title">两类应用的本质区别</h3>
+  <div class="fig">
+    <svg width="520" height="120" viewBox="0 0 520 120">
+      <rect x="10" y="10" width="230" height="100" rx="5" fill="#f9f9f9" stroke="#ddd"/>
+      <text x="125" y="30" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="700" fill="#888">无 AI 能力应用（如 2048）</text>
+      <text x="55" y="58" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#555">用户提需求</text>
+      <text x="110" y="58" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ccc">→</text>
+      <text x="168" y="58" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#555">AI生成代码</text>
+      <text x="125" y="80" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ccc">↓</text>
+      <text x="125" y="100" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888">用户使用（无AI参与）</text>
+      <rect x="260" y="10" width="250" height="100" rx="5" fill="#e8f4e8" stroke="#b8ddb8"/>
+      <text x="385" y="30" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="700" fill="#1E803D">有 AI 能力应用（如翻译器）</text>
+      <text x="385" y="52" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#555">用户提需求 → AI生成代码 ← 第一层</text>
+      <text x="385" y="70" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ccc">↓</text>
+      <text x="385" y="88" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#555">用户输入 → 后台调用大模型</text>
+      <text x="385" y="104" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#1E803D">← 第二层（运行时）</text>
+    </svg>
+    <div class="fig-cap">双层 AI 调用机制对比</div>
+  </div>
+  <p><strong>第一层</strong>：你在扣子编程里描述需求 → AI 生成完整的代码项目（开发阶段的 AI 使用）</p>
+  <p><strong>第二层</strong>：用户打开你的产品，输入黑话后点击翻译 → 产品后台调用大语言模型处理并返回结果（运行阶段的 AI 使用）</p>
+  <div class="cue cue-w">
+    <span class="cue-icon">⚠️</span>
+    <div class="cue-label">易错警示</div>
+    <p><span class="warn">不是所有扣子编程项目都"调用了AI"。</span>2048 游戏只有第一层（AI 帮你写代码），没有第二层；黑话翻译器有两层，应用运行时会实际调用大模型。这是区分"普通应用"和"AI 能力应用"的核心判断标准。</p>
+  </div>
+</div>
+
+<div class="page" data-index="19">
+  <div class="breadcrumb">第十部分 › 实操演示</div>
+  <div class="ex-label">EX-08 · 用扣子编程创建互联网黑话翻译器（含 AI 能力调用）</div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">演示内容</div>
+    <p>在扣子编程中输入以下提示词，创建一个具备大模型翻译功能的 Web 应用：</p>
+    <blockquote>"使用 Next.js 框架。我要做一个「互联网黑话翻译器」因为我领导老说'赋能，对齐，颗粒度，握手，闭环'我听不懂。我希望左边让用户输入互联网黑话原文，点击'翻译'按钮，右边出来翻译后的大白话，还要有概念解析。"</blockquote>
+  </div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">操作步骤</div>
+    <ol>
+      <li>在扣子编程中新建项目，输入上述提示词（<strong>关键：提示词中要描述"用户输入→大模型翻译→返回结果"的交互逻辑</strong>）</li>
+      <li>等待 AI 生成代码（期间用 AI 浏览器学习看不懂的内容）</li>
+      <li>预览区加载完成后，输入测试用例："我们需要对齐颗粒度，形成闭环，打造护城河，下午来我办公室我单独给你赋能。"</li>
+      <li>点击"翻译成大白话"，查看效果</li>
+      <li>发现问题（输出为 Markdown 格式，用户不易阅读）→ 继续在对话框输入："我发现翻译后的结果是这种看不懂的 Markdown，我要变成知识卡片那样用户友好的，你继续改一下"</li>
+      <li>等待重新生成 → 验证新格式的效果</li>
+    </ol>
+  </div>
+  <div class="ex-end">
+    <div class="ex-sl">核心结论</div>
+    <p>成功运行互联网黑话翻译器，翻译功能通过后台调用大模型实现。此应用有"两次 AI 调用"——一次生成代码，一次执行翻译。扣子编程内置了大模型 API，无需用户自行配置。</p>
+    <p><strong>提示词调优是正常的产品打磨流程</strong>，第一次生成不完美不是失败，继续对话描述改进需求就好。</p>
+  </div>
+  <div class="cue cue-m">
+    <span class="cue-icon">🔑</span>
+    <div class="cue-label">判定口诀</div>
+    <p>记住：看到应用里有"翻译/生成/对话"等功能，立刻想到"有AI能力，有第二层AI调用"；看到"游戏/计算类"，想到"普通逻辑，无AI能力"。</p>
+  </div>
+</div>
+
+<div class="page" data-index="20">
+  <div class="breadcrumb">第十一部分</div>
+  <h1 class="page-title">第一周通关项目——纸片人男友与多模态 AI 产品</h1>
+  <p>完成 2048 游戏和黑话翻译器的基础演示之后，来看基础篇第一周的最终通关项目。</p>
+  <p><strong>通关项目</strong>：从零打造"纸片人男友"，并让你的闺蜜爱上他。</p>
+  <div class="fig">
+    <svg width="480" height="90" viewBox="0 0 480 90">
+      <rect x="10" y="10" width="460" height="70" rx="6" fill="#f5f0ff" stroke="#d0c8f0"/>
+      <text x="240" y="32" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="700" fill="#554">选择你的纸片人男友</text>
+      <rect x="30" y="44" width="80" height="26" rx="4" fill="#fff" stroke="#d0c8f0"/>
+      <text x="70" y="61" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#554">林屿</text>
+      <rect x="130" y="44" width="80" height="26" rx="4" fill="#fff" stroke="#d0c8f0"/>
+      <text x="170" y="61" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#554">顾渊</text>
+      <rect x="230" y="44" width="80" height="26" rx="4" fill="#fff" stroke="#d0c8f0"/>
+      <text x="270" y="61" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#554">苏慕</text>
+      <rect x="330" y="44" width="80" height="26" rx="4" fill="#fff" stroke="#d0c8f0"/>
+      <text x="370" y="61" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#554">沈叙</text>
+    </svg>
+    <div class="fig-cap">纸片人男友产品 UI 示意</div>
+  </div>
+</div>
+
+<div class="page" data-index="21">
+  <div class="breadcrumb">第十一部分 › 项目预览</div>
+  <div class="ex-label">EX-09 · 基础篇第 8 课——纸片人男友（多模态 AI 产品）</div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">演示内容</div>
+    <p>课程官网基础篇第 8 课标题"八、难度再次升级！从零打造'纸片人男友'并让你的闺蜜爱上他"；产品展示包含多个虚拟角色卡片（林屿/顾渊/苏慕/沈叙）；系统架构图展示三条并行数据流。</p>
+  </div>
+  <div class="fig">
+    <svg width="460" height="110" viewBox="0 0 460 110">
+      <text x="230" y="18" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#554">完整数据流：三条路同时走</text>
+      <rect x="10" y="30" width="140" height="28" rx="4" fill="#f5f0ff" stroke="#d0c8f0"/>
+      <text x="80" y="49" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#554">① LLM 大语言模型</text>
+      <rect x="10" y="68" width="140" height="28" rx="4" fill="#e8f4e8" stroke="#b8ddb8"/>
+      <text x="80" y="87" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1E803D">② TTS 文字转语音</text>
+      <rect x="10" y="106" width="140" height="0" rx="4"/>
+      <text x="80" y="108" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#aaa">③ 图像生成（发照片）</text>
+      <text x="168" y="72" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#ccc">→</text>
+      <rect x="182" y="52" width="120" height="44" rx="4" fill="#fff8e1" stroke="#f0c040"/>
+      <text x="242" y="72" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#b8860b">三路并行处理</text>
+      <text x="320" y="75" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#ccc">→</text>
+      <rect x="334" y="52" width="116" height="44" rx="4" fill="#f5f5f5"/>
+      <text x="392" y="72" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#333">汇总输出</text>
+      <text x="392" y="88" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#888">给用户</text>
+    </svg>
+    <div class="fig-cap">纸片人男友系统架构——三路 AI 能力并行</div>
+  </div>
+  <div style="margin-bottom:16px">
+    <div class="ex-sl">分析步骤</div>
+    <ol>
+      <li>理解该项目使用了三种 AI 能力同时调用：<strong>LLM</strong>（处理对话，生成文字回复）、<strong>TTS</strong>（将回复转为语音输出）、<strong>图像生成</strong>（让角色"发照片"给用户）</li>
+      <li>这三种能力在扣子编程内均已内置，无需配置 API Key——这是扣子编程适合新手的核心原因</li>
+      <li>通关标准：真实发布产品，让真实用户（女朋友/闺蜜）实际使用</li>
+    </ol>
+  </div>
+  <div class="ex-end">
+    <div class="ex-sl">核心结论</div>
+    <p>第一周通关项目为多模态 AI 角色扮演应用，通关标准是"让闺蜜爱上他"，即真实用户体验验证，而非技术上的运行成功。</p>
+  </div>
+  <div class="cue cue-a">
+    <span class="cue-icon">💡</span>
+    <div class="cue-label">类比锚点</div>
+    <p>纸片人男友项目就像"三位乐手同台演奏"——大语言模型负责说话（文字），TTS 负责唱歌（语音），图像生成负责露脸（发照片），三者同时运行，共同构成角色体验。</p>
+  </div>
+  <div class="cue cue-m">
+    <span class="cue-icon">🔑</span>
+    <div class="cue-label">判定口诀</div>
+    <p>记住：纸片人男友 = LLM + TTS + 图像生成，三路并行，扣子编程内置，无需配置 API Key。</p>
+  </div>
+  <div class="cue cue-w">
+    <span class="cue-icon">⚠️</span>
+    <div class="cue-label">易错警示</div>
+    <p><span class="warn">通关标准不是"代码跑起来了"，而是"让真实用户爱上他"。</span>这意味着你需要发布产品、让真实用户使用并给出反馈，用真实的用户体验来验证产品质量。</p>
+  </div>
+</div>
+
+<div class="page" data-index="22">
+  <div class="breadcrumb">第十二部分</div>
+  <h1 class="page-title">课程红线与社区规范</h1>
+  <h3 class="sub-title">红线一：版权保护</h3>
+  <ul>
+    <li>课程所有内容（文档、直播、回放）均有版权</li>
+    <li>禁止转载、泄露、盗版传播课程资料</li>
+    <li>所有直播和文档均有学员水印，可溯源到具体账号</li>
+    <li>发现盗版即走法律程序</li>
+  </ul>
+  <h3 class="sub-title">红线二：群内规范</h3>
+  <ul>
+    <li>禁止在交流群内拉人（邀请非学员进群）</li>
+    <li>禁止在交流群内卖课</li>
+    <li>禁止在交流群内打广告</li>
+    <li>发现即清退</li>
+  </ul>
+  <h3 class="sub-title">如何在社群中正确提问</h3>
+  <p>在交流群中发"举手"标签后提问；提问时需提供：</p>
+  <ol>
+    <li>具体清晰的问题描述</li>
+    <li>足够的背景信息（你在做什么/卡在哪一步/想实现什么效果）</li>
+    <li>截图（没有截图教练很难判断问题）</li>
+  </ol>
+  <p>对于直播中回答不到的问题，在官网课程目录中先自行查找——很多关于后续课程内容的问题，在已公开的课程目录里就有答案。</p>
+</div>
+
+<div class="page" data-index="23">
+  <div class="breadcrumb">本课总结</div>
+  <h1 class="page-title">核心要点</h1>
+  <div class="kp"><strong>ID2B 框架</strong>：Idea（找优质想法）→ AI 编程（开发实现）→ Business（商业变现）；AI 编程是"To"，是工具，不是终点；课程以海外软件市场为主要方向</div>
+  <div class="kp"><strong>AI 编程六阶段</strong>：从阶段 0（玩具/聊天框）到阶段 5（全职员工/AGI），本课程覆盖阶段 0-1，以阶段 1（副驾/Cursor/Trae）为分水岭，阶段 5 在 2028 年前是伪命题</div>
+  <div class="kp"><strong>两级课程目标</strong>：保底目标（AI 帮你做，万事不求人）是基础；挑战目标（AI 替你做，拥有 AI 员工）的前提是学习者自己先有 Business</div>
+  <div class="kp"><strong>学而时习之</strong>：习 = 反复实践（鸟屡次飞翔），不是反复阅读；看完图文教材必须当天动手实操；慢就是快，宁可慢也不跳过细节</div>
+  <div class="kp"><strong>AI 浏览器辅助学习</strong>：Tabbit（科学上网）或豆包电脑版（国内免费），截图+语境提问是核心操作模式，配合语音输入法效率更高</div>
+  <div class="kp"><strong>扣子编程云端沙箱</strong>：在云端临时开启一台虚拟电脑运行代码，无需配置本地环境；平台内置 LLM/TTS/图像生成 API，新手无需配置 API Key</div>
+  <div class="kp"><strong>两类应用的区别</strong>：无 AI 能力应用（如 2048 游戏）仅有 AI 生成代码；有 AI 能力应用（如黑话翻译器）在运行时还会调用大模型处理用户输入</div>
+  <div class="kp"><strong>创建应用四步流程</strong>：输入需求（功能+风格）→ 等待生成（期间用 AI 浏览器学习）→ 预览验收 → 部署分享</div>
+  <div class="kp"><strong>第一周通关项目</strong>：纸片人男友（LLM + TTS + 图像生成三路并行），通关标准：发布后让真实用户使用</div>
+</div>
+
+<div class="page" data-index="24">
+  <div class="breadcrumb">本课总结</div>
+  <h1 class="page-title">易错提醒与知识应用范围</h1>
+  <h2 class="section-title">易错提醒</h2>
+  <ul>
+    <li><span class="warn">不要把学 AI 编程本身当作目标</span>——AI 编程是"To"，是把 Idea 变成 Business 的工具，目标是做出产品、创造商业价值</li>
+    <li><span class="warn">"会聊天就能当员工用"是误导</span>——仅靠聊天停留在阶段 0 玩具，必须越过阶段 1 这道工程化分水岭才能真正做出产品</li>
+    <li><span class="warn">不能跳过保底目标直达挑战目标</span>——没有自己的 Business 就谈 AI 员工，逻辑上行不通；"你得先有一摊自己的 business，你才能知道让员工干什么"</li>
+    <li><span class="warn">照抄老师的话不等于学会</span>——真正学会的标志是能用自己的话表达出来；复盘时如果每句话都是原话照抄，说明知识还停在表面</li>
+    <li><span class="warn">"学而时习之"不是"多看几遍"</span>——"习"的象形本义是鸟屡次飞翔，即反复实践；看完不动手等于没学</li>
+    <li><span class="warn">遇到看不懂的内容不能直接跳过</span>——应该立刻截图+语境提问，把每个"看不懂"变成学习机会</li>
+    <li><span class="warn">不是所有扣子编程项目都调用了 AI</span>——2048 游戏只是 AI 写的普通 JS 代码，运行时不涉及任何 AI；只有描述了"翻译/生成/对话"等功能的应用，才会在运行时调用大模型</li>
+    <li><span class="warn">等待代码生成时不要发呆</span>——这段时间应该用 AI 浏览器截取终端日志，问 AI"这在干啥"，把等待变成主动学习</li>
+    <li><span class="warn">提示词一次不完美不是失败</span>——继续对话描述发现的问题和期望的改进，产品打磨本就是反复迭代的过程</li>
+    <li><span class="warn">通关标准不是"技术上运行成功"</span>——纸片人男友的通关标准是"让真实用户爱上他"，需要真实发布并获得真实用户的使用反馈</li>
+  </ul>
+  <h2 class="section-title">知识应用范围</h2>
+  <p><strong>ID2B 框架</strong>可迁移到：分析任何个人项目的"想法-实现-变现"路径；判断某类 AI 工具对应哪个阶段的需求。</p>
+  <p><strong>AI 编程六阶段模型</strong>可迁移到：评估市面上的 AI 工具属于哪个能力层级；规划个人 AI 能力提升路径。</p>
+  <p><strong>"学而时习之"原则</strong>可迁移到：任何技能性学习场景；设计个人每日的学习-实操节奏；判断自己是否真正"学会"了某个知识点。</p>
+  <p><strong>AI 浏览器截图提问工具</strong>可迁移到：阅读英文技术文档；理解代码报错信息；自主学习任何新技术工具。</p>
+  <p><strong>自然语言提示词创建应用</strong>可迁移到：快速验证产品原型；为朋友制作定制化小工具；作为后续学习本地开发的入门起点。</p>
+</div>
+
+</div><!-- end content-area -->
+<div id="nav-bar">
+  <button class="nav-btn hidden" id="prev-btn" onclick="move(-1)">← 上一页</button>
+  <span id="page-indicator">1 / 25</span>
+  <button class="nav-btn" id="next-btn" onclick="move(1)">下一页 →</button>
+</div>
+</div>
+
+<script>
+const TOTAL = 25;
+let cur = 0;
+const pages = document.querySelectorAll('.page');
+const navItems = document.querySelectorAll('.nav-item');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const indicator = document.getElementById('page-indicator');
+function goto(n) {
+  pages[cur].classList.remove('active');
+  navItems[cur].classList.remove('active');
+  cur = Math.max(0, Math.min(TOTAL - 1, n));
+  pages[cur].classList.add('active');
+  navItems[cur].classList.add('active');
+  navItems[cur].scrollIntoView({block:'nearest'});
+  document.getElementById('content-area').scrollTop = 0;
+  prevBtn.classList.toggle('hidden', cur === 0);
+  nextBtn.classList.toggle('hidden', cur === TOTAL - 1);
+  indicator.textContent = (cur + 1) + ' / ' + TOTAL;
+  document.getElementById('sidebar').classList.remove('open');
+}
+function move(d) { goto(cur + d); }
+</script>
+</body>
+</html>
