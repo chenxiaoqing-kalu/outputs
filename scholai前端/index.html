@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scholai · AI 教育内容平台</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --paper: #F7F4EF;
+    --ink: #1a1a1a;
+    --ink-light: #6b7280;
+    --accent: #2F4F4F;
+    --accent-hover: #03301C;
+    --accent-light: #E9EEEA;
+    --border: #E2DDD6;
+    --white: #ffffff;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── 导航栏 ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: rgba(247, 244, 239, 0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    padding: 0 48px;
+    height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 17px; font-weight: 700; color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-logo-mark {
+    width: 28px; height: 28px;
+    background: var(--accent);
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav-logo-mark svg { width: 14px; height: 14px; color: #fff; }
+  .nav-tag {
+    font-size: 10px; font-weight: 600;
+    background: var(--accent); color: #fff;
+    padding: 2px 7px; border-radius: 4px;
+    letter-spacing: 0.3px;
+  }
+  .nav-actions { display: flex; align-items: center; gap: 12px; }
+  .btn-ghost {
+    padding: 7px 16px; border-radius: 8px;
+    font-size: 14px; font-weight: 500;
+    color: var(--ink-light); background: transparent; border: none;
+    cursor: pointer; transition: all 0.15s; text-decoration: none;
+    display: inline-flex; align-items: center;
+  }
+  .btn-ghost:hover { background: var(--accent-light); color: var(--ink); }
+  .btn-primary {
+    padding: 8px 20px; border-radius: 9px;
+    font-size: 14px; font-weight: 600;
+    color: #fff; background: var(--accent); border: none;
+    cursor: pointer; transition: all 0.15s; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    box-shadow: 0 2px 8px rgba(47,79,79,0.25);
+  }
+  .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(47,79,79,0.3); }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 160px 48px 100px;
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--accent-light); color: var(--accent);
+    font-size: 12px; font-weight: 600;
+    padding: 4px 12px; border-radius: 20px;
+    border: 1px solid #C8D8D2;
+    margin-bottom: 24px;
+  }
+  .hero-badge span { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+  .hero h1 {
+    font-size: 48px; font-weight: 800;
+    line-height: 1.15; letter-spacing: -1.5px;
+    color: var(--ink); margin-bottom: 20px;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero p {
+    font-size: 17px; line-height: 1.7;
+    color: var(--ink-light); margin-bottom: 36px;
+  }
+  .hero-actions { display: flex; align-items: center; gap: 14px; }
+  .btn-hero {
+    padding: 14px 32px; border-radius: 12px;
+    font-size: 16px; font-weight: 700;
+    color: #fff; background: var(--accent); border: none;
+    cursor: pointer; transition: all 0.2s; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    box-shadow: 0 4px 16px rgba(47,79,79,0.3);
+  }
+  .btn-hero:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(47,79,79,0.35); }
+  .btn-hero svg { width: 18px; height: 18px; }
+  .hero-note { font-size: 13px; color: var(--ink-light); }
+
+  /* Hero 右侧卡片 */
+  .hero-visual {
+    background: var(--white);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 12px 48px rgba(0,0,0,0.07);
+    overflow: hidden;
+  }
+  .hv-bar {
+    background: #F2F0EB;
+    border-bottom: 1px solid var(--border);
+    padding: 12px 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .hv-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .hv-title { margin-left: 8px; font-size: 12px; font-weight: 600; color: var(--ink-light); }
+  .hv-body { padding: 20px; }
+  .hv-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 12px; border-radius: 10px;
+    margin-bottom: 6px; transition: background 0.1s;
+  }
+  .hv-item:hover { background: var(--accent-light); }
+  .hv-icon {
+    width: 34px; height: 34px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .hv-icon svg { width: 15px; height: 15px; }
+  .hv-icon.green { background: #E8F5EE; color: #2d6a4f; }
+  .hv-icon.blue  { background: #EEF0FE; color: #4a58e0; }
+  .hv-icon.orange { background: #FEF3E8; color: #c2670a; }
+  .hv-name { font-size: 13px; font-weight: 500; color: var(--ink); flex: 1; }
+  .hv-tag {
+    font-size: 10px; font-weight: 600;
+    padding: 2px 7px; border-radius: 4px;
+  }
+  .hv-tag.html { background: #E8F5EE; color: #2d6a4f; }
+  .hv-tag.pdf  { background: #FEF3E8; color: #c2670a; }
+  .hv-tag.md   { background: #EEF0FE; color: #4a58e0; }
+
+  /* ── 特性 ── */
+  .features {
+    max-width: 1100px; margin: 0 auto;
+    padding: 80px 48px;
+  }
+  .section-label {
+    font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: 34px; font-weight: 800;
+    letter-spacing: -0.8px; color: var(--ink);
+    margin-bottom: 48px;
+  }
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .feature-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .feature-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+  }
+  .feature-icon svg { width: 20px; height: 20px; }
+  .feature-icon.green { background: #E8F5EE; color: #2d6a4f; }
+  .feature-icon.blue  { background: #EEF0FE; color: #4a58e0; }
+  .feature-icon.orange { background: #FEF3E8; color: #c2670a; }
+  .feature-card h3 { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+  .feature-card p  { font-size: 13.5px; line-height: 1.65; color: var(--ink-light); }
+
+  /* ── CTA ── */
+  .cta {
+    max-width: 1100px; margin: 0 auto 80px;
+    padding: 0 48px;
+  }
+  .cta-inner {
+    background: var(--accent);
+    border-radius: 20px;
+    padding: 60px 48px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(47,79,79,0.25);
+  }
+  .cta-inner h2 {
+    font-size: 30px; font-weight: 800;
+    color: #fff; margin-bottom: 12px; letter-spacing: -0.5px;
+  }
+  .cta-inner p { font-size: 15px; color: rgba(255,255,255,0.75); margin-bottom: 28px; }
+  .btn-cta {
+    padding: 13px 32px; border-radius: 11px;
+    font-size: 15px; font-weight: 700;
+    color: var(--accent); background: #fff; border: none;
+    cursor: pointer; transition: all 0.15s; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 48px;
+    text-align: center;
+    font-size: 13px; color: var(--ink-light);
+  }
+</style>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    Scholai
+    <span class="nav-tag">Beta</span>
+  </a>
+  <div class="nav-actions">
+    <a class="btn-primary" href="login.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      免费体验
+    </a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div>
+    <div class="hero-badge"><span></span>AI 驱动的教育内容平台</div>
+    <h1>一键生成<br><em>专业教学课件</em></h1>
+    <p>上传视频、音频或文档，Scholai 自动生成分页图文教材、互动习题、思维导图，帮助教育者专注于教学本身。</p>
+    <div class="hero-actions">
+      <a class="btn-hero" href="login.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        立即体验
+      </a>
+    </div>
+  </div>
+
+  <!-- 右侧预览卡片 -->
+  <div class="hero-visual">
+    <div class="hv-bar">
+      <div class="hv-dot" style="background:#fc5c57"></div>
+      <div class="hv-dot" style="background:#fdbc2c"></div>
+      <div class="hv-dot" style="background:#25c940"></div>
+      <span class="hv-title">课件管理</span>
+    </div>
+    <div class="hv-body">
+      <div class="hv-item">
+        <div class="hv-icon green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <span class="hv-name">养老政策解读 图文教材</span>
+        <span class="hv-tag html">HTML</span>
+      </div>
+      <div class="hv-item">
+        <div class="hv-icon green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <span class="hv-name">养老政策解读 互动练习</span>
+        <span class="hv-tag html">HTML</span>
+      </div>
+      <div class="hv-item">
+        <div class="hv-icon orange">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <span class="hv-name">足力健品类分化 教学设计</span>
+        <span class="hv-tag pdf">PDF</span>
+      </div>
+      <div class="hv-item">
+        <div class="hv-icon blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <span class="hv-name">奈飞文化手册 知识图谱</span>
+        <span class="hv-tag md">MD</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 特性 -->
+<section class="features">
+  <div class="section-label">核心能力</div>
+  <div class="section-title">从原始素材到成品课件</div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon green">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
+      </div>
+      <h3>分页图文教材</h3>
+      <p>将视频、音频、文档自动转换为精美的分页 HTML 教材，支持图片注入与排版优化。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon blue">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
+      </div>
+      <h3>互动习题生成</h3>
+      <p>基于教学目标自动生成选择题、填空题、判断题，支持三级难度与即时反馈渲染。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon orange">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><line x1="12" y1="8" x2="5" y2="16"/><line x1="12" y1="8" x2="19" y2="16"/></svg>
+      </div>
+      <h3>知识思维导图</h3>
+      <p>提取核心知识点，自动构建交互式思维导图，帮助学员建立系统化知识体系。</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-inner">
+    <h2>准备好提升教学效率了吗？</h2>
+    <p>加入已有教育者，用 AI 重新定义课件制作方式</p>
+    <a class="btn-cta" href="login.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      免费开始体验
+    </a>
+  </div>
+</section>
+
+<footer>
+  © 2026 Scholai · AI 教育内容平台
+</footer>
+
+</body>
+</html>
