@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>习题集：非谓语的主动形式</title>
+    <script src="https://g-avatar-anchor-cdn.ztgame.com/scholai/aicp/aicp-runtime.1.0.2.js"></script>
+    <style>
+        :root {
+            --primary: #2F4F4F;
+            --correct: #1E803D;
+            --wrong: #F87171;
+            --bg: #E9EEEA;
+            --text: #333333;
+            --white: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #E0E0E0;
+            border-radius: 4px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        main {
+            flex: 1;
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .question-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #EEE;
+        }
+
+        .level-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .level-1 { background-color: #E8F5E9; color: var(--correct); }
+        .level-2 { background-color: #FFF3E0; color: #E65100; }
+        .level-3 { background-color: #FFEBEE; color: var(--wrong); }
+
+        .instruction {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .stem {
+            font-size: 18px;
+            margin-bottom: 25px;
+            white-space: pre-wrap;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border: 2px solid #EEE;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-label:hover {
+            border-color: var(--primary);
+            background-color: #F8F9FA;
+        }
+
+        .option-label.selected {
+            border-color: var(--primary);
+            background-color: #E8F5E9;
+        }
+        
+        .option-label.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .option-input {
+            margin-right: 15px;
+        }
+
+        .fill-questions {
+            line-height: 2.2;
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+
+        .fill-item {
+            display: inline;
+        }
+
+        .fill-input {
+            width: 120px;
+            border: none;
+            border-bottom: 2px solid var(--primary);
+            text-align: center;
+            background: transparent;
+            font-size: 16px;
+            padding: 0 5px;
+            margin: 0 5px;
+            outline: none;
+        }
+        
+        .fill-input:focus {
+            border-bottom-color: var(--correct);
+        }
+        
+        .fill-input:disabled {
+            background-color: #f5f5f5;
+            color: #666;
+        }
+
+        textarea.transform-input {
+            width: 100%;
+            height: 100px;
+            padding: 15px;
+            border: 2px solid #EEE;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: vertical;
+            outline: none;
+            margin-bottom: 25px;
+        }
+
+        textarea.transform-input:focus {
+            border-color: var(--primary);
+        }
+        
+        textarea.transform-input:disabled {
+            background-color: #f5f5f5;
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .feedback.correct {
+            display: block;
+            background-color: #E8F5E9;
+            color: var(--correct);
+            border: 1px solid #A5D6A7;
+        }
+
+        .feedback.wrong {
+            display: block;
+            background-color: #FFEBEE;
+            color: var(--wrong);
+            border: 1px solid #FFCDD2;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1a2e2e;
+        }
+
+        .btn-primary:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-nav {
+            background-color: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-nav:hover:not(:disabled) {
+            background-color: #F8F9FA;
+        }
+
+        .btn-nav:disabled {
+            border-color: #ccc;
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .summary {
+            display: none;
+            text-align: center;
+        }
+
+        .summary h2 {
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .stat-cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: #F8F9FA;
+            padding: 20px;
+            border-radius: 12px;
+            min-width: 120px;
+            border: 1px solid #EEE;
+        }
+
+        .stat-val {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .review-list {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .review-item {
+            background: #F8F9FA;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #CCC;
+        }
+
+        .review-item.correct-review {
+            border-left-color: var(--correct);
+        }
+
+        .review-item.wrong-review {
+            border-left-color: var(--wrong);
+        }
+
+        .review-stem {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .review-ans {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .review-ans.err {
+            color: var(--wrong);
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+
+        .review-ans.corr {
+            color: var(--correct);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1 id="course-title">课件加载中...</h1>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="progress-text"><span id="completed-count">0</span> / <span id="total-count">0</span> 已完成</div>
+    </header>
+
+    <main id="app-main">
+        <div id="question-area" style="display: none;">
+            <div class="question-container" id="q-container" data-track-id="" data-track-type="question" data-track-trigger="visible" data-track-meta='{}'>
+                <div class="question-meta">
+                    <span class="q-num">第 <span id="q-idx">1</span> 题</span>
+                    <span class="level-badge" id="q-level">同构题</span>
+                </div>
+                
+                <div class="instruction" id="q-instruction">判断题</div>
+                <div class="stem" id="q-stem">题干</div>
+                
+                <div id="q-input-area">
+                    <!-- 输入区动态生成 -->
+                </div>
+
+                <div class="feedback" id="q-feedback">反馈信息</div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" id="btn-submit" data-track-action="/submit_answer">提交答案</button>
+                </div>
+            </div>
+            
+            <div class="nav-buttons">
+                <button class="btn btn-nav" id="btn-prev">上一题</button>
+                <button class="btn btn-nav" id="btn-next">下一题</button>
+            </div>
+        </div>
+
+        <div class="summary" id="summary-area">
+            <h2>🎉 练习完成！</h2>
+            <div class="stat-cards">
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-total">0</div>
+                    <div class="stat-label">总题数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-correct">0</div>
+                    <div class="stat-label">一次答对</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-rate">0%</div>
+                    <div class="stat-label">准确率</div>
+                </div>
+            </div>
+            <h3 id="stat-comment" style="color: var(--primary); margin-bottom: 20px;">非常好！</h3>
+            
+            <div class="review-list" id="review-list">
+                <!-- 错题回顾动态生成 -->
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+const exerciseData = {
+  meta: { title: "习题集：非谓语的主动形式", totalQuestions: 12 },
+  questions: [
+    {
+      id: `PO-01-Q1`, level: 1, levelLabel: "同构题", type: "choice",
+      stem: `人在紧张时手心不断出汗（sweat），这里的“出汗”虽然不受大脑刻意控制，但在变为非谓语动词时，仍然属于主动状态，应使用 sweating。这一说法是否正确？`,
+      instruction: `判断题`,
+      options: [`对`, `错`],
+      answer: { primary: `对` }
+    },
+    {
+      id: `PO-01-Q2`, level: 2, levelLabel: "变式题", type: "choice",
+      stem: `秋天到了，树叶从树上落下来（fall）。在句子“Look at the leaves ________ from the trees.”中，尽管树叶自己没有意识去“落”，但这里的动作属性是怎样的？应该填入什么形式？`,
+      instruction: `选择题`,
+      options: [
+        `A. 被动状态，填 fallen`,
+        `B. 主动状态，填 falling`,
+        `C. 被动状态，填 being fallen`,
+        `D. 主动状态，填 to fall`
+      ],
+      answer: { primary: `B` }
+    },
+    {
+      id: `PO-01-Q3`, level: 3, levelLabel: "挑战题", type: "choice",
+      stem: `在句子“Hearing the sudden loud noise, his heart started ________ faster out of control.”中，关于心脏跳动（beat）的分析，下列哪项是最准确的判断？`,
+      instruction: `选择题`,
+      options: [
+        `A. 因为心脏跳动不受意志控制，所以是被动动作，应填 beaten`,
+        `B. 因为是听到声音之后发生的结果，所以是目的状语，应填 to beat`,
+        `C. 尽管不受意志控制，但动作由心脏自身发出，为主动状态，且与主句动作同时伴随发生，应填 beating`,
+        `D. 因为是过去发生的事情，应填 having beaten`
+      ],
+      answer: { primary: `C` }
+    },
+    {
+      id: `PO-02-Q1`, level: 1, levelLabel: "同构题", type: "transform",
+      stem: `请将非谓语动词的三种基本主动形式与其表示的时间逻辑进行配对：\n1. doing\n2. having done\n3. to do\n\nA. 动作后发生或表目的\nB. 动作先发生或已完成\nC. 动作伴随发生，无明显先后`,
+      instruction: `配对题（格式要求：填写形如 1-C, 2-B, 3-A）`,
+      answer: { primary: `1-C, 2-B, 3-A`, keywords: ["1-C", "2-B", "3-A"] }
+    },
+    {
+      id: `PO-02-Q2`, level: 2, levelLabel: "变式题", type: "fill",
+      stem: `如果要表达一个非谓语动作在主句谓语动作之前就已经完成，我们应该使用 ________ 的形式。（请填写非谓语的主动形式符号表示）`,
+      instruction: `填空题`,
+      answer: { primary: `having done`, keywords: ["having done"] }
+    },
+    {
+      id: `PO-02-Q3`, level: 3, levelLabel: "挑战题", type: "choice",
+      stem: `分析以下两个动作的时间逻辑：“完成作业”和“出去玩”。如果我们要表达“完成作业后，他出去玩了”，对于“完成(finish)”这个非谓语动词，应选择哪种形式才能准确体现这种时间先后顺序？`,
+      instruction: `选择题`,
+      options: [
+        `A. finishing`,
+        `B. to finish`,
+        `C. having finished`,
+        `D. finish`
+      ],
+      answer: { primary: `C` }
+    },
+    {
+      id: `PO-03-Q1`, level: 1, levelLabel: "同构题", type: "fill",
+      stem: `当你想表达“我碰巧正在看书”时，主句动词是 happen（固定搭配接 to do），且动作“看书(read)”正在进行，那么结合后形成的非谓语结构是：happen ________ (read) a book。`,
+      instruction: `填空题`,
+      answer: { primary: `to be reading`, keywords: ["to be reading", "to be"] }
+    },
+    {
+      id: `PO-03-Q2`, level: 2, levelLabel: "变式题", type: "choice",
+      stem: `He didn't notice me come in. He seemed ________ deep in thought at that moment. \n（他没注意到我进来。那一刻他似乎正在沉思。）`,
+      instruction: `选择题`,
+      options: [
+        `A. to absorb`,
+        `B. to be absorbed`,
+        `C. to have absorbed`,
+        `D. absorbing`
+      ],
+      answer: { primary: `B` }
+    },
+    {
+      id: `PO-03-Q3`, level: 3, levelLabel: "挑战题", type: "choice",
+      stem: `对比以下关于 appear (显得，似乎) 的用法，哪个选项正确地表达了“他们似乎正在讨论一个重要问题”的含义？`,
+      instruction: `选择题`,
+      options: [
+        `A. They appear to discuss an important problem. (似乎将要讨论)`,
+        `B. They appear discussing an important problem. (搭配错误)`,
+        `C. They appear to have discussed an important problem. (似乎已经讨论过)`,
+        `D. They appear to be discussing an important problem. (似乎正在讨论)`
+      ],
+      answer: { primary: `D` }
+    },
+    {
+      id: `PO-04-Q1`, level: 1, levelLabel: "同构题", type: "choice",
+      stem: `句子“He worked hard day and night, only to fail the final exam.”中使用了 only to fail 结构，这表示他努力工作是为了在考试中不及格。这一理解是否正确？`,
+      instruction: `判断题`,
+      options: [`对`, `错`],
+      answer: { primary: `错` }
+    },
+    {
+      id: `PO-04-Q2`, level: 2, levelLabel: "变式题", type: "choice",
+      stem: `He rushed to the post office in the heavy rain, ________ that it was closed.\n（他冒着大雨冲向邮局，却发现邮局已经关门了。）`,
+      instruction: `选择题`,
+      options: [
+        `A. finding`,
+        `B. to find`,
+        `C. only to find`,
+        `D. only finding`
+      ],
+      answer: { primary: `C` }
+    },
+    {
+      id: `PO-04-Q3`, level: 3, levelLabel: "挑战题", type: "choice",
+      stem: `阅读以下两个句子：\n① He opened the door carefully to avoid waking up the baby.\n② He lifted the rock, only to drop it on his own feet.\n关于这两个句子中不定式（to do）用法的分析，最准确的一项是：`,
+      instruction: `选择题`,
+      options: [
+        `A. ①和②中的不定式都表示动作的目的`,
+        `B. ①中表示意料之外的结果，②中表示动作的目的`,
+        `C. ①中表示动作的目的，②中表示意料之外的、事与愿违的结果`,
+        `D. ①和②中的不定式都表示伴随状态`
+      ],
+      answer: { primary: `C` }
+    }
+  ]
+};
+
+const state = {
+  currentQ: 0,
+  completed: new Set(),
+  firstTryCorrect: new Set(),
+  userAnswers: {},
+  isCorrect: {},
+  attempts: {}
+};
+
+// DOM Elements
+const els = {
+    title: document.getElementById('course-title'),
+    progressFill: document.getElementById('progress-fill'),
+    completedCount: document.getElementById('completed-count'),
+    totalCount: document.getElementById('total-count'),
+    qArea: document.getElementById('question-area'),
+    summaryArea: document.getElementById('summary-area'),
+    container: document.getElementById('q-container'),
+    qIdx: document.getElementById('q-idx'),
+    qLevel: document.getElementById('q-level'),
+    qInst: document.getElementById('q-instruction'),
+    qStem: document.getElementById('q-stem'),
+    qInput: document.getElementById('q-input-area'),
+    feedback: document.getElementById('q-feedback'),
+    btnSubmit: document.getElementById('btn-submit'),
+    btnPrev: document.getElementById('btn-prev'),
+    btnNext: document.getElementById('btn-next'),
+};
+
+function init() {
+    els.title.textContent = exerciseData.meta.title;
+    els.totalCount.textContent = exerciseData.meta.totalQuestions;
+    updateProgress();
+    renderQuestion();
+    els.qArea.style.display = 'block';
+
+    els.btnSubmit.addEventListener('click', handleSubmit);
+    els.btnPrev.addEventListener('click', () => {
+        if (state.currentQ > 0) {
+            state.currentQ--;
+            renderQuestion();
+        }
+    });
+    els.btnNext.addEventListener('click', () => {
+        if (state.currentQ < exerciseData.meta.totalQuestions - 1) {
+            state.currentQ++;
+            renderQuestion();
+        } else {
+            showSummary();
+        }
+    });
+}
+
+function updateProgress() {
+    const total = exerciseData.meta.totalQuestions;
+    const completed = state.completed.size;
+    els.completedCount.textContent = completed;
+    els.progressFill.style.width = `${(completed / total) * 100}%`;
+}
+
+function renderQuestion() {
+    const q = exerciseData.questions[state.currentQ];
+    const userAns = state.userAnswers[q.id] || '';
+    const isCorr = state.isCorrect[q.id];
+
+    els.qIdx.textContent = state.currentQ + 1;
+    els.qLevel.textContent = q.levelLabel;
+    els.qLevel.className = `level-badge level-${q.level}`;
+    els.qInst.textContent = q.instruction;
+    
+    // Process stem for fill-in-the-blanks
+    if (q.type === 'fill' && q.stem.includes('________')) {
+        let parts = q.stem.split('________');
+        let html = `<div class="fill-questions"><span class="fill-item">${parts[0]}</span>`;
+        for(let i=1; i<parts.length; i++) {
+            html += `<input type="text" class="fill-input" id="fill-in-${i}" ${isCorr ? 'disabled' : ''} value="${userAns}">`;
+            html += `<span class="fill-item">${parts[i]}</span>`;
+        }
+        html += `</div>`;
+        els.qStem.innerHTML = html;
+        els.qInput.innerHTML = '';
+    } else {
+        els.qStem.textContent = q.stem;
+        els.qInput.innerHTML = generateInputUI(q, userAns, isCorr);
+    }
+
+    els.container.dataset.trackId = q.id;
+    els.container.dataset.trackMeta = JSON.stringify({ level: q.level, levelLabel: q.levelLabel, type: q.type });
+
+    // Buttons & Feedback state
+    els.btnPrev.disabled = state.currentQ === 0;
+    
+    if (isCorr) {
+        els.btnSubmit.disabled = true;
+        showFeedback(true, '✅ 回答正确！');
+        els.btnNext.textContent = state.currentQ === exerciseData.meta.totalQuestions - 1 ? '查看报告' : '下一题';
+        els.btnNext.classList.add('btn-primary');
+        els.btnNext.classList.remove('btn-nav');
+    } else {
+        els.btnSubmit.disabled = false;
+        els.feedback.style.display = 'none';
+        els.btnNext.textContent = state.currentQ === exerciseData.meta.totalQuestions - 1 ? '完成' : '跳过';
+        els.btnNext.classList.remove('btn-primary');
+        els.btnNext.classList.add('btn-nav');
+    }
+
+    // Attach Choice Click Events
+    if (q.type === 'choice' && !isCorr) {
+        document.querySelectorAll('.option-label').forEach((el, idx) => {
+            el.addEventListener('click', () => {
+                document.querySelectorAll('.option-label').forEach(e => e.classList.remove('selected'));
+                el.classList.add('selected');
+                el.querySelector('input').checked = true;
+            });
+        });
+    }
+}
+
+function generateInputUI(q, userAns, isCorr) {
+    if (q.type === 'choice') {
+        return `<div class="options">
+            ${q.options.map((opt, idx) => {
+                const checked = userAns === String.fromCharCode(65+idx) || userAns === opt || opt.startsWith(userAns + '.');
+                return `<label class="option-label ${checked ? 'selected' : ''} ${isCorr ? 'disabled' : ''}">
+                    <input type="radio" name="ans" class="option-input" value="${String.fromCharCode(65+idx)}" ${checked ? 'checked' : ''} ${isCorr ? 'disabled' : ''}>
+                    ${opt}
+                </label>`;
+            }).join('')}
+        </div>`;
+    } else if (q.type === 'fill' || q.type === 'transform') {
+        return `<textarea class="transform-input" id="text-ans" placeholder="请输入您的答案..." ${isCorr ? 'disabled' : ''}>${userAns}</textarea>`;
+    }
+    return '';
+}
+
+function normalizeStr(s) {
+    if (!s) return "";
+    return s.toString().toLowerCase().replace(/[\s.,;?!，。、]/g, '');
+}
+
+function handleSubmit() {
+    const q = exerciseData.questions[state.currentQ];
+    let userVal = '';
+
+    if (q.type === 'choice') {
+        const checked = document.querySelector('input[name="ans"]:checked');
+        if (!checked) {
+            alert('请先选择一个答案');
+            return;
+        }
+        // Extract A/B/C/D or exact match
+        const idx = checked.value.charCodeAt(0) - 65;
+        userVal = q.options[idx];
+        if (userVal.match(/^[A-D]\./)) {
+            userVal = userVal.charAt(0);
+        } else if (userVal === '对' || userVal === '错') {
+            userVal = userVal;
+        }
+    } else if (q.type === 'fill' && q.stem.includes('________')) {
+        const input = document.getElementById('fill-in-1');
+        if (!input || !input.value.trim()) {
+            alert('请输入答案');
+            return;
+        }
+        userVal = input.value.trim();
+    } else {
+        const ta = document.getElementById('text-ans');
+        if (!ta.value.trim()) {
+            alert('请输入答案');
+            return;
+        }
+        userVal = ta.value.trim();
+    }
+
+    state.userAnswers[q.id] = userVal;
+    
+    // Check answer
+    let correct = false;
+    const ansObj = q.answer;
+    
+    if (q.type === 'choice') {
+        // match primary or A/B/C/D
+        if (userVal === ansObj.primary || userVal === ansObj.primary.charAt(0)) {
+            correct = true;
+        }
+    } else {
+        const nUser = normalizeStr(userVal);
+        const nPri = normalizeStr(ansObj.primary);
+        if (nUser === nPri) {
+            correct = true;
+        } else if (ansObj.keywords) {
+            let matchCount = 0;
+            ansObj.keywords.forEach(kw => {
+                if (nUser.includes(normalizeStr(kw))) matchCount++;
+            });
+            if (matchCount === ansObj.keywords.length) correct = true;
+        }
+    }
+
+    const isFirstTry = !state.completed.has(q.id);
+    state.completed.add(q.id);
+    updateProgress();
+
+    if (correct) {
+        state.isCorrect[q.id] = true;
+        if (isFirstTry) {
+            state.firstTryCorrect.add(q.id);
+        }
+        renderQuestion(); // Re-render to lock and show correct
+    } else {
+        showFeedback(false, '❌ 答错了，请修改后重试');
+    }
+}
+
+function showFeedback(isCorrect, msg) {
+    els.feedback.className = `feedback ${isCorrect ? 'correct' : 'wrong'}`;
+    els.feedback.textContent = msg;
+}
+
+function showSummary() {
+    els.qArea.style.display = 'none';
+    els.summaryArea.style.display = 'block';
+
+    const total = exerciseData.meta.totalQuestions;
+    const firstCorr = state.firstTryCorrect.size;
+    const rate = Math.round((firstCorr / total) * 100);
+
+    document.getElementById('stat-total').textContent = total;
+    document.getElementById('stat-correct').textContent = firstCorr;
+    document.getElementById('stat-rate').textContent = `${rate}%`;
+
+    const commentEl = document.getElementById('stat-comment');
+    if (rate >= 90) commentEl.textContent = '🏅 太棒了！你已经完全掌握了！';
+    else if (rate >= 70) commentEl.textContent = '🌟 继续加油！掌握得不错！';
+    else if (rate >= 50) commentEl.textContent = '💪 多加练习！你可以的！';
+    else commentEl.textContent = '📚 建议复习一下相关知识点哦！';
+
+    // Review List
+    const reviewList = document.getElementById('review-list');
+    let html = '<h3>题目回顾</h3>';
+    
+    exerciseData.questions.forEach((q, i) => {
+        const isCorr = state.firstTryCorrect.has(q.id);
+        const ans = state.userAnswers[q.id] || '未作答';
+        
+        let correctText = q.answer.primary;
+        
+        html += `<div class="review-item ${isCorr ? 'correct-review' : 'wrong-review'}">
+            <div class="review-stem">${i+1}. [${q.levelLabel}] ${q.stem.replace(/________/g, '___')}</div>
+            <div class="review-ans">
+                你的回答: <span class="${isCorr ? 'corr' : 'err'}">${ans}</span>
+                ${!isCorr ? ` 正确答案: <span class="corr">${correctText}</span>` : ''}
+            </div>
+        </div>`;
+    });
+    
+    reviewList.innerHTML = html;
+}
+
+// Start
+init();
+</script>
+</body>
+</html>

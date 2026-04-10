@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>非谓语的主动形式</title>
+<style>
+:root {
+  --primary-color: #333333;
+  --bg-color: #ffffff;
+  --sidebar-bg: #f8f9fa;
+  --sidebar-width: 260px;
+  --accent-color: #d9534f;
+  --logic-color: #1E803D;
+  --highlight-bg: #fff8c4;
+  --border-color: #e5e7eb;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--primary-color);
+  background-color: var(--bg-color);
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  line-height: 1.6;
+}
+
+/* Sidebar */
+#sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+  padding: 24px 16px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+#sidebar h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 24px;
+  color: #111;
+}
+
+.toc-item {
+  display: block;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  color: #4b5563;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toc-item:hover {
+  background-color: #e5e7eb;
+}
+
+.toc-item.active {
+  background-color: #e5e7eb;
+  color: #111;
+  font-weight: 600;
+  border-left: 3px solid var(--accent-color);
+}
+
+.toc-level-1 { margin-left: 0; }
+.toc-level-2 { margin-left: 12px; }
+
+/* Right Panel */
+#right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--bg-color);
+}
+
+/* Content Area */
+#content-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 48px 64px 100px 64px;
+}
+
+.page {
+  display: none;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.page.active {
+  display: block;
+}
+
+/* Typography & Content Styles */
+.breadcrumb {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+h1 { font-size: 32px; font-weight: 700; margin-bottom: 24px; color: #111; }
+h2 { font-size: 24px; font-weight: 600; margin-top: 40px; margin-bottom: 16px; color: #111; }
+h3 { font-size: 20px; font-weight: 600; margin-top: 32px; margin-bottom: 16px; color: #111; }
+p { font-size: 16px; margin-bottom: 20px; text-align: left; }
+ul, ol { font-size: 16px; margin-bottom: 20px; padding-left: 24px; }
+li { margin-bottom: 8px; }
+
+.highlight {
+  background-color: var(--highlight-bg);
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.emphasize {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.logic-term {
+  color: var(--logic-color);
+  font-weight: 600;
+}
+
+blockquote {
+  margin: 0 0 24px 0;
+  padding: 16px 24px;
+  border-left: 4px solid var(--border-color);
+  background-color: #f9fafb;
+  color: #374151;
+}
+
+/* Example Box Style (No card border, just subtle background) */
+.example-box {
+  padding: 24px;
+  background-color: #f9fafb;
+  margin: 32px 0;
+  border-radius: 8px;
+}
+
+.example-title {
+  font-weight: 600;
+  font-size: 18px;
+  color: #111;
+  margin-bottom: 16px;
+}
+
+.step-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.step-list li {
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 12px;
+}
+
+.step-list li::before {
+  content: counter(step-counter);
+  counter-increment: step-counter;
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  background-color: var(--border-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+.step-list {
+  counter-reset: step-counter;
+}
+
+/* SVG Figure placeholder styling */
+.svg-placeholder {
+  width: 100%;
+  padding: 40px 20px;
+  margin: 32px 0;
+  background-color: #f3f4f6;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  border: 1px dashed #d1d5db;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+/* Nav Bar */
+#nav-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 64px;
+  backdrop-filter: blur(4px);
+}
+
+.nav-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #f3f4f6;
+  color: #374151;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: inherit;
+}
+
+.nav-btn:hover { background-color: #e5e7eb; }
+.nav-btn:disabled { opacity: 0; pointer-events: none; }
+
+#page-indicator {
+  font-size: 14px;
+  color: #6b7280;
+  font-variant-numeric: tabular-nums;
+}
+</style>
+</head>
+<body>
+
+<nav id="sidebar">
+  <h2>非谓语的主动形式</h2>
+  <div id="toc-container">
+    <a class="toc-item toc-level-1 active" onclick="goToPage(0)">学习目标</a>
+    <a class="toc-item toc-level-1" onclick="goToPage(1)">第一部分：语境判断</a>
+    <a class="toc-item toc-level-2" onclick="goToPage(2)">示例：寒冷情境判断</a>
+    <a class="toc-item toc-level-1" onclick="goToPage(3)">第二部分：形式与逻辑</a>
+    <a class="toc-item toc-level-2" onclick="goToPage(4)">示例：时间分类梳理</a>
+    <a class="toc-item toc-level-1" onclick="goToPage(5)">第三部分：进行时应用</a>
+    <a class="toc-item toc-level-2" onclick="goToPage(6)">示例：pretend 固定搭配</a>
+    <a class="toc-item toc-level-1" onclick="goToPage(7)">第四部分：意料之外结果</a>
+    <a class="toc-item toc-level-2" onclick="goToPage(8)">示例：语境分析</a>
+    <a class="toc-item toc-level-1" onclick="goToPage(9)">本课总结</a>
+  </div>
+</nav>
+
+<div id="right-panel">
+  <div id="content-area">
+
+    <!-- Page 0: Cover & Goals -->
+    <div class="page active" data-index="0">
+      <div class="breadcrumb">课程概览</div>
+      <h1>非谓语的主动形式</h1>
+      <p><strong>学完本课，你将能回答：</strong></p>
+      <ul>
+        <li>如何判断特定语境中（如不受控制的生理动作）非谓语动作的主动状态属性？</li>
+        <li>非谓语动词的三种基本主动形式及其对应的时间发生逻辑分别是什么？</li>
+        <li>如何使用 <span class="logic-term">to be doing</span> 结构来满足固定搭配与进行语态的双重要求？</li>
+        <li>怎样解释并应用 <span class="logic-term">only to do</span> 结构来表达与前提努力相反的意料之外的结果？</li>
+      </ul>
+    </div>
+
+    <!-- Page 1: Part 1 Concept -->
+    <div class="page" data-index="1">
+      <div class="breadcrumb">第一部分 › 概念建构</div>
+      <h2>第一部分：非谓语主动形式的语境判断——生理动作算主动还是被动？</h2>
+      <p>在英语语法中，非谓语主动形式的难点往往不在于形式本身，而是在于一些特殊的语境和词的判断。当你不知道某个动作到底是主动还是被动时，你需要进行大量的练习、犯错、复盘与总结。让我们先从一个贴近生活的情境入手，来判断一下生理本能反应到底该用什么语态。</p>
+      
+      <div class="svg-placeholder">[图：屏幕上书写着绿色的“非谓语的主动形式”大标题，右侧有红色手写词 tremble 和 trembling]</div>
+      
+      <p>打个比方：<strong class="highlight">"将语法中的“主动状态”比作“人体自然的生理反应”，因为它们共享“自身发出、无需外界施加”的特征"</strong>。为了更清楚地理解这一点，来看一个例子：</p>
+    </div>
+
+    <!-- Page 2: Part 1 Example -->
+    <div class="page" data-index="2">
+      <div class="breadcrumb">第一部分 › 示例演示</div>
+      <div class="example-box">
+        <div class="example-title">【语境判断】寒冷情境下的生理反应动作状态判断</div>
+        <p>大雪天一个无家可归的人缩在角落里面，他的手就不停地在抖 (tremble)。这里的“抖”，如果用非谓语的话，应该是主动还是被动？</p>
+        
+        <p><strong>分析步骤</strong>：</p>
+        <ul class="step-list">
+          <li>确认动作的发出者：手。</li>
+          <li>判断动作的性质：人在极寒或紧张状态下（比如紧张时腿抖、冒汗），手抖是不受大脑控制的。但这并不是他在故意搞笑作怪，动作依然是由手自身发出的（它是“动”的）。</li>
+          <li>得出结论：自身发出的动作即属于主动状态。</li>
+          <li>变形：应用非谓语主动形式 <span class="logic-term">trembling</span>。</li>
+        </ul>
+        <p><strong>判定结果</strong>：主动状态（trembling）</p>
+      </div>
+
+      <p>从这个例子可以看出，即使动作不受主观意识控制，只要它是从物理源头自身发出的，就依然是主动语态。简单来说：<strong class="highlight">"看到“生理本能（发抖、冒汗）”，立刻想到“自己发出的动作，选主动（doing）”"</strong>。</p>
+      <p>需要注意的是：<strong class="emphasize">"不要以为动作不受大脑控制就是被动，错误的做法是选 done，正确做法是认准动作发出源头选 doing"</strong>。</p>
+    </div>
+
+    <!-- Page 3: Part 2 Concept -->
+    <div class="page" data-index="3">
+      <div class="breadcrumb">第二部分 › 概念建构</div>
+      <h2>第二部分：非谓语基本主动形式与时间逻辑——基础知识分类复习</h2>
+      <p>理解了主动状态的判断标准后，我们来复习一下非谓语动词的三种基本主动形式及其与主句之间的时间先后逻辑。</p>
+
+      <div class="svg-placeholder">[图：电子白板左侧依次列出红色的 doing, having done, to do，右侧用红色笔迹标注着“伴随”、“先发生/完成”、“后发生”]</div>
+
+      <p>学习基础知识，要像管理生活环境一样清晰。可以这样理解：<strong class="highlight">"将“基础知识在脑中的管理”比作“整理房间”，因为它们共享“分类存放、条理清晰才好找”的特征"</strong>。不要让知识点在脑子里面打架，它要非常规整地待在它该待的地方。下面通过梳理来明确这三种形式的时间逻辑：</p>
+    </div>
+
+    <!-- Page 4: Part 2 Example -->
+    <div class="page" data-index="4">
+      <div class="breadcrumb">第二部分 › 示例梳理</div>
+      <div class="example-box">
+        <div class="example-title">【形式归类】非谓语动词基本主动形式的时间分类</div>
+        <p>非谓语的主动形式复习，区分 <span class="logic-term">doing, having done, to do</span> 的时间发生关系。</p>
+        
+        <p><strong>分类梳理</strong>：</p>
+        <ul class="step-list">
+          <li><strong>doing</strong>：表示“伴随”状态，与主句动作在时间上无先后顺序。</li>
+          <li><strong>having done</strong>：表示动作在主句动作之前“先发生”，或者表示该动作“已做完（完成）”。</li>
+          <li><strong>to do</strong>：大家最熟悉的用法是作目的状语，而在时间发生逻辑上，它表示“后发生”。</li>
+        </ul>
+        <p><strong>对应关系</strong>：doing (伴随/无先后)；having done (先发生/完成)；to do (后发生)</p>
+      </div>
+
+      <p>有了前面的铺垫，我们在做题时就能建立快速反应。记住：<strong class="highlight">"看到“表伴随”，立刻想到“doing，时间无先后”"</strong>；同时：<strong class="highlight">"看到“having done”，立刻想到“先发生或已完成”"</strong>；另外：<strong class="highlight">"看到“表目的”，立刻想到“to do，时间后发生”"</strong>。</p>
+      <p>常见的误区是混淆它们的时间轴位置：<strong class="emphasize">"不要把基础概念记混，正确做法是认准形式对应的时间轴位置"</strong>。</p>
+    </div>
+
+    <!-- Page 5: Part 3 Concept -->
+    <div class="page" data-index="5">
+      <div class="breadcrumb">第三部分 › 概念建构</div>
+      <h2>第三部分：固定搭配中的非谓语进行时应用——pretend to be doing 怎么推导？</h2>
+      <p>当基本的形式搞清楚后，我们遇到固定搭配就会简单很多。有的时候，固定搭配的句法要求与实际语境的时态要求会同时出现，这时我们需要对非谓语结构进行叠加。</p>
+
+      <div class="svg-placeholder">[图：白板上写有 to be doing -> 主动，下方推导 pretend -> pretend to -> pretend to be doing -> 正在，并圈画出“固搭”]</div>
+
+      <p>这就像一个拼图游戏：<strong class="highlight">"将“复合不定式”比作“拼图组合”，因为它们共享“满足双重条件（固搭+时态）拼接而成”的特征"</strong>。这个原理如何应用？看下面的例子：</p>
+    </div>
+
+    <!-- Page 6: Part 3 Example -->
+    <div class="page" data-index="6">
+      <div class="breadcrumb">第三部分 › 模型推演</div>
+      <div class="example-box">
+        <div class="example-title">【模型推演】pretend 与不定式进行时的固定搭配</div>
+        <p>如果我想表达“假装正在做某事”，使用 pretend 这个词，应该如何写这个固定搭配？</p>
+        
+        <p><strong>推导步骤</strong>：</p>
+        <ul class="step-list">
+          <li>分析固定搭配：pretend 后面必须加不定式 to do，构成 <span class="logic-term">pretend to</span>。</li>
+          <li>分析时态语义：根据语境，我还需要表达“正在做”的意思，即进行时 <span class="logic-term">be doing</span>。</li>
+          <li>结构合并：我又有这个 to，又有表示“正在”的意思，那就只能将两者合并，写出 <span class="logic-term">to be doing</span> 结构。</li>
+          <li>得出完整结构：将两者拼凑，最终得到 pretend to be doing。</li>
+        </ul>
+        <p><strong>正确写法</strong>：pretend to be doing</p>
+      </div>
+
+      <p>这个分析揭示了一个关键点：复杂的语法结构往往是由简单的固定要求叠加而成的。一个实用的口诀是：<strong class="highlight">"看到“固定搭配要求 to + 语义要求正在”，立刻想到“推导出 to be doing”"</strong>；或者直接记住：<strong class="highlight">"看到“假装正在”，立刻想到“pretend to be doing”"</strong>。</p>
+      <p>容易犯的错误是漏掉介词：<strong class="emphasize">"只写 pretend doing 是错的，正确做法是遵从 pretend to 的固定搭配原则"</strong>。</p>
+    </div>
+
+    <!-- Page 7: Part 4 Concept -->
+    <div class="page" data-index="7">
+      <div class="breadcrumb">第四部分 › 概念建构</div>
+      <h2>第四部分：不定式表意料之外结果的用法——only to do 的残酷反差</h2>
+      <p>最后，我们要探讨一下 <span class="logic-term">to do</span> 除了表目的之外，另一个非常喜欢考的固定用法，即搭配 only 构成 only to do 结构。</p>
+
+      <div class="svg-placeholder">[图：白板右下角用黑色笔迹书写着 only 和 only to do，讲师的光标在此处不断画圈强调]</div>
+
+      <p>它表示的是一种非常意料之外的结果。打个比方：<strong class="highlight">"将“only to do”比作“残酷的生活玩笑”，因为它们共享“满怀期待去努力却遭遇巨大反差结果”的特征"</strong>。下面这个例子展示了两种典型的生活情形：</p>
+    </div>
+
+    <!-- Page 8: Part 4 Example -->
+    <div class="page" data-index="8">
+      <div class="breadcrumb">第四部分 › 语境分析</div>
+      <div class="example-box">
+        <div class="example-title">【语境分析】only to do 意料之外结果的语境分析</div>
+        <p>理解 only to find 的语境：他在战场上打了很多年的仗，回到家发现他老婆跑了；你拼尽全力跑到公交车站，结果只发现它已经走了。</p>
+        
+        <p><strong>分析步骤</strong>：</p>
+        <ul class="step-list">
+          <li>给出主句的努力动作：比如在战场打仗多年试图回家团聚，或者拼尽全力跑到公交车站。</li>
+          <li>点明隐藏的前提：这种努力的前提是你心里有正向的预期（觉得万一能赶上车，或者满心期待见到家人）。如果你知道肯定赶不上，车肯定已经走了，你就不会跑了。</li>
+          <li>给出客观事实：事与愿违，老婆离开了家，或者车已经走了。</li>
+          <li>结论：由于结果与强烈的正向预期产生了巨大反差，这种意料之外的遗憾和挫败感，就需要使用 <span class="logic-term">only to do</span> 结构来强调。</li>
+        </ul>
+        <p><strong>结构用法</strong>：使用 only to find / only to do 表达意料之外的遗憾结果。</p>
+      </div>
+
+      <p>总结一下这道题的核心逻辑：这也是只有在你深刻理解了语境前提后才能做对的题目。可以这样理解：<strong class="highlight">"将“意料之外”比作“跑到车站车刚走”，因为它们共享“努力与回报截然相反”的特征"</strong>。简单来说：<strong class="highlight">"看到“拼尽全力却事与愿违的语境”，立刻想到“only to do 结构”"</strong>。</p>
+      <p>需要注意的是：<strong class="emphasize">"不要以为所有结果状语都用 doing，遇到强烈转折和意料之外的结果，正确做法是使用 only to do"</strong>。</p>
+    </div>
+
+    <!-- Page 9: Conclusion -->
+    <div class="page" data-index="9">
+      <div class="breadcrumb">本课总结</div>
+      <h2>本课总结</h2>
+      
+      <h3>核心要点</h3>
+      <ul>
+        <li>非谓语动作的主动状态属性（不受大脑控制的生理反应只要由自身发出也是主动）。</li>
+        <li>非谓语动词的三种主动形式及其对应时间特征（doing伴随，having done先发生，to do后发生）。</li>
+        <li>to be doing 结构的使用规则（兼顾固定搭配 to 与进行时 be doing）。</li>
+        <li>only to do 结构表意料之外结果的固定搭配逻辑。</li>
+      </ul>
+
+      <h3>易错提醒</h3>
+      <ul>
+        <li>不要以为动作不受大脑控制就是被动，错误的做法是选 done，正确做法是认准动作发出源头选 doing</li>
+        <li>不要把基础概念记混，正确做法是认准形式对应的时间轴位置</li>
+        <li>只写 pretend doing 是错的，正确做法是遵从 pretend to 的固定搭配原则</li>
+        <li>不要以为所有结果状语都用 doing，遇到强烈转折和意料之外的结果，正确做法是使用 only to do</li>
+      </ul>
+
+      <h3>知识应用范围</h3>
+      <p>这些知识可以广泛迁移应用于判断各种看似被动但实则为生理本能（如流汗、落叶等）的主动语态选择；适用于所有需依据主句从句时间顺序选择非谓语填空的语法题；适用于 pretend to, happen to 等必接不定式的进行时填空；以及阅读理解中长难句语义转折的推断。</p>
+    </div>
+
+  </div><!-- end content-area -->
+  
+  <div id="nav-bar">
+    <button id="prev-btn" class="nav-btn" onclick="prevPage()">← 上一页</button>
+    <div id="page-indicator">1 / 10</div>
+    <button id="next-btn" class="nav-btn" onclick="nextPage()">下一页 →</button>
+  </div>
+</div>
+
+<script>
+  const TOTAL = 10;
+  let currentPage = 0;
+
+  function updateUI() {
+    // Update pages
+    document.querySelectorAll('.page').forEach(page => {
+      page.classList.remove('active');
+    });
+    document.querySelector(`.page[data-index="${currentPage}"]`).classList.add('active');
+
+    // Update TOC
+    document.querySelectorAll('.toc-item').forEach((item, index) => {
+      if (index === currentPage) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+
+    // Update indicator
+    document.getElementById('page-indicator').textContent = `${currentPage + 1} / ${TOTAL}`;
+
+    // Update buttons
+    document.getElementById('prev-btn').disabled = currentPage === 0;
+    document.getElementById('next-btn').disabled = currentPage === TOTAL - 1;
+
+    // Scroll top
+    document.getElementById('content-area').scrollTop = 0;
+  }
+
+  function goToPage(index) {
+    if (index >= 0 && index < TOTAL) {
+      currentPage = index;
+      updateUI();
+    }
+  }
+
+  function prevPage() {
+    goToPage(currentPage - 1);
+  }
+
+  function nextPage() {
+    goToPage(currentPage + 1);
+  }
+
+  // Initialize
+  updateUI();
+</script>
+</body>
+</html>
