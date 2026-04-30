@@ -1,1052 +1,844 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>人形机器人（仿人机器人）</title>
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人形机器人（仿人机器人）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    background: #ffffff;
-    color: #333333;
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-  }
+        body {
+            font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+            line-height: 1.8;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-  /* ── Sidebar ── */
-  #sidebar {
-    width: 240px;
-    min-width: 240px;
-    height: 100vh;
-    overflow-y: auto;
-    background: #f8f8f8;
-    border-right: 1px solid #e8e8e8;
-    padding: 24px 0 80px;
-    flex-shrink: 0;
-  }
+        #sidebar {
+            width: 240px;
+            background-color: #f8f9fa;
+            border-right: 1px solid #e9ecef;
+            padding: 20px 0;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
 
-  #sidebar h2 {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    color: #999;
-    text-transform: uppercase;
-    padding: 0 20px 12px;
-  }
+        #sidebar h2 {
+            padding: 0 20px 15px;
+            font-size: 16px;
+            font-weight: 600;
+            border-bottom: 1px solid #e9ecef;
+            margin-bottom: 15px;
+        }
 
-  .nav-item {
-    display: block;
-    padding: 6px 20px;
-    font-size: 13px;
-    color: #555;
-    cursor: pointer;
-    line-height: 1.4;
-    border-left: 3px solid transparent;
-    transition: background 0.15s;
-  }
+        .toc-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 14px;
+            color: #555;
+        }
 
-  .nav-item:hover { background: #efefef; color: #111; }
+        .toc-item.level-2 {
+            padding-left: 32px;
+            font-size: 13px;
+            color: #777;
+        }
 
-  .nav-item.active {
-    background: #efefef;
-    border-left-color: #333;
-    color: #111;
-    font-weight: 500;
-  }
+        .toc-item:hover {
+            background-color: #e9ecef;
+        }
 
-  .nav-item.level2 { padding-left: 32px; font-size: 12.5px; }
-  .nav-item.section-header { font-weight: 600; color: #333; margin-top: 8px; }
+        .toc-item.active {
+            background-color: #007bff;
+            color: white;
+        }
 
-  /* ── Right Panel ── */
-  #right-panel {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-  }
+        #right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
 
-  #content-area {
-    flex: 1;
-    overflow-y: auto;
-    padding: 48px 64px 120px;
-  }
+        #content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 60px 100px;
+        }
 
-  .page { display: none; width: 100%; max-width: 760px; }
-  .page.active { display: block; }
+        .page {
+            display: none;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-  /* ── Breadcrumb ── */
-  .breadcrumb {
-    font-size: 12px;
-    color: #999;
-    margin-bottom: 32px;
-    letter-spacing: 0.03em;
-  }
+        .page.active {
+            display: block;
+        }
 
-  /* ── Typography ── */
-  h1 { font-size: 28px; font-weight: 700; line-height: 1.3; margin-bottom: 20px; color: #111; }
-  h2 { font-size: 22px; font-weight: 600; line-height: 1.35; margin-bottom: 16px; color: #1a1a1a; margin-top: 36px; }
-  h3 { font-size: 17px; font-weight: 600; margin-bottom: 12px; color: #222; margin-top: 28px; }
-  h4 { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: #333; margin-top: 20px; }
+        .breadcrumb {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
 
-  p { font-size: 15px; line-height: 1.75; margin-bottom: 16px; color: #333; }
-  p:last-child { margin-bottom: 0; }
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            line-height: 1.3;
+        }
 
-  strong, b { font-weight: 600; color: #111; }
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 40px 0 20px;
+            line-height: 1.4;
+        }
 
-  .highlight {
-    background: #fff9c4;
-    padding: 1px 3px;
-    border-radius: 2px;
-    font-weight: 600;
-  }
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 30px 0 15px;
+            line-height: 1.4;
+        }
 
-  em-red {
-    color: #c0392b;
-    font-style: normal;
-  }
+        p {
+            margin-bottom: 18px;
+            font-size: 16px;
+            text-align: left;
+        }
 
-  /* ── Cover Page ── */
-  .cover-title { font-size: 34px; font-weight: 700; color: #111; line-height: 1.25; margin-bottom: 12px; }
-  .cover-sub { font-size: 16px; color: #777; margin-bottom: 40px; }
+        ul {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
 
-  .objectives-block { margin-top: 32px; }
-  .objectives-block p.label {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    color: #888;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-  .objectives-block ul { list-style: none; padding: 0; }
-  .objectives-block ul li {
-    font-size: 15px;
-    color: #333;
-    line-height: 1.6;
-    padding: 7px 0 7px 20px;
-    position: relative;
-    border-bottom: 1px solid #f0f0f0;
-  }
-  .objectives-block ul li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #bbb;
-  }
+        li {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
 
-  /* ── Section Intro Page ── */
-  .section-intro-num {
-    font-size: 72px;
-    font-weight: 800;
-    color: #f0f0f0;
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-  .section-intro-title {
-    font-size: 30px;
-    font-weight: 700;
-    color: #111;
-    margin-bottom: 20px;
-  }
-  .section-intro-desc { font-size: 16px; color: #555; line-height: 1.7; }
+        strong.highlight {
+            font-weight: 600;
+            background-color: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
 
-  /* ── Key Term ── */
-  .key-term {
-    font-size: 15px;
-    font-weight: 700;
-    color: #111;
-    background: #fff9c4;
-    padding: 1px 4px;
-    border-radius: 2px;
-  }
+        blockquote {
+            border-left: 4px solid #007bff;
+            padding: 15px 20px;
+            margin: 25px 0;
+            background-color: #f8f9fa;
+            font-style: normal;
+        }
 
-  /* ── Recall Block ── */
-  .recall-block {
-    margin: 24px 0;
-    padding-left: 16px;
-    border-left: 3px solid #e0e0e0;
-  }
-  .recall-block .recall-type {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: #999;
-    text-transform: uppercase;
-    margin-bottom: 4px;
-  }
-  .recall-block p {
-    font-size: 14.5px;
-    color: #444;
-    margin-bottom: 0;
-  }
+        .example-box {
+            margin: 30px 0;
+            padding: 25px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
 
-  /* ── Example Box ── */
-  .example-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: #888;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
+        .example-title {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #007bff;
+        }
 
-  .source-text {
-    font-size: 14.5px;
-    color: #555;
-    line-height: 1.7;
-    padding: 16px 0;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 20px;
-    font-style: italic;
-  }
+        .step-number {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
 
-  .step-list { list-style: none; padding: 0; margin: 12px 0 20px; }
-  .step-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    margin-bottom: 12px;
-    font-size: 15px;
-    line-height: 1.65;
-    color: #333;
-  }
-  .step-num {
-    min-width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: #333;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
+        .warning {
+            color: #d9534f;
+            font-weight: 500;
+        }
 
-  .conclusion-block {
-    margin-top: 24px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-  }
-  .conclusion-block .label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: #888;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
+        .key-concept {
+            background-color: #fff3cd;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
 
-  /* ── Warning Block ── */
-  .warning-block {
-    margin: 20px 0;
-    padding: 14px 16px;
-    background: #fff8f8;
-    border-left: 3px solid #c0392b;
-  }
-  .warning-block p { font-size: 14.5px; color: #555; margin: 0; }
-  .warning-block strong { color: #c0392b; }
+        .recall-cue {
+            border-left: 3px solid #1E803D;
+            padding: 12px 18px;
+            margin: 20px 0;
+            background-color: #f0fff4;
+        }
 
-  /* ── Table ── */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-    margin: 16px 0 24px;
-  }
-  th {
-    background: #f5f5f5;
-    font-weight: 600;
-    text-align: left;
-    padding: 10px 14px;
-    border-bottom: 2px solid #e0e0e0;
-    color: #333;
-  }
-  td {
-    padding: 9px 14px;
-    border-bottom: 1px solid #f0f0f0;
-    color: #444;
-    line-height: 1.55;
-  }
-  tr:last-child td { border-bottom: none; }
+        .recall-cue .cue-type {
+            font-weight: 600;
+            color: #1E803D;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
 
-  /* ── Summary Page ── */
-  .summary-section { margin-bottom: 32px; }
-  .summary-section h3 {
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #888;
-    margin-bottom: 16px;
-    margin-top: 0;
-  }
-  .summary-list { list-style: none; padding: 0; }
-  .summary-list li {
-    font-size: 15px;
-    color: #333;
-    line-height: 1.65;
-    padding: 8px 0 8px 20px;
-    border-bottom: 1px solid #f5f5f5;
-    position: relative;
-  }
-  .summary-list li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 16px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #ccc;
-  }
-  .warning-list li::before { background: #e57373; }
+        #nav-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border-top: 1px solid #e9ecef;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-  .transfer-block {
-    font-size: 15px;
-    color: #333;
-    line-height: 1.75;
-  }
+        .nav-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: background-color 0.2s;
+        }
 
-  /* ── Navigation Bar ── */
-  #nav-bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 64px;
-    background: #fff;
-    border-top: 1px solid #ececec;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 48px;
-    z-index: 10;
-  }
+        .nav-btn:hover {
+            background-color: #0056b3;
+        }
 
-  .nav-btn {
-    font-size: 14px;
-    font-weight: 500;
-    color: #333;
-    background: none;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 8px 20px;
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
-  }
-  .nav-btn:hover { background: #f5f5f5; border-color: #bbb; }
-  .nav-btn:disabled, .nav-btn[style*="visibility: hidden"] { visibility: hidden; }
+        .nav-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
 
-  #page-indicator {
-    font-size: 13px;
-    color: #999;
-    letter-spacing: 0.04em;
-  }
+        .page-number {
+            font-size: 15px;
+            color: #666;
+        }
 
-  /* ── Mobile ── */
-  #hamburger {
-    display: none;
-    position: fixed;
-    top: 14px;
-    left: 14px;
-    z-index: 200;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    width: 36px;
-    height: 36px;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-  }
+        .learning-objectives {
+            background-color: #f0f7ff;
+            padding: 20px 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
 
-  @media (max-width: 768px) {
-    #sidebar {
-      position: fixed;
-      left: -260px;
-      top: 0;
-      z-index: 150;
-      transition: left 0.25s;
-    }
-    #sidebar.open { left: 0; }
-    #hamburger { display: flex; }
-    #content-area { padding: 48px 24px 120px; }
-    #nav-bar { padding: 0 16px; }
-    .cover-title { font-size: 26px; }
-  }
-</style>
+        .learning-objectives h3 {
+            margin-top: 0;
+            font-size: 17px;
+            color: #007bff;
+        }
+
+        .summary-section {
+            margin: 30px 0;
+        }
+
+        .summary-section h3 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            #sidebar {
+                position: fixed;
+                left: -240px;
+                top: 0;
+                bottom: 0;
+                z-index: 1000;
+                transition: left 0.3s;
+            }
+
+            #sidebar.open {
+                left: 0;
+            }
+
+            .hamburger {
+                display: block;
+                position: fixed;
+                top: 15px;
+                left: 15px;
+                z-index: 1001;
+                background: #007bff;
+                color: white;
+                border: none;
+                width: 40px;
+                height: 40px;
+                border-radius: 6px;
+                font-size: 20px;
+                cursor: pointer;
+            }
+
+            #content-area {
+                padding: 60px 20px 100px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .hamburger {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<button id="hamburger" onclick="toggleSidebar()">☰</button>
-
-<nav id="sidebar">
-  <h2>目录</h2>
-  <div class="nav-item active" onclick="goTo(0)">封面</div>
-
-  <div class="nav-item section-header" onclick="goTo(1)">第一部分：定义与命名</div>
-  <div class="nav-item level2" onclick="goTo(2)">概念讲解</div>
-  <div class="nav-item level2" onclick="goTo(3)">案例：词源分析</div>
-
-  <div class="nav-item section-header" onclick="goTo(4)">第二部分：设计动机与分类</div>
-  <div class="nav-item level2" onclick="goTo(5)">设计动机</div>
-  <div class="nav-item level2" onclick="goTo(6)">案例：环境匹配逻辑</div>
-  <div class="nav-item level2" onclick="goTo(7)">产品分类</div>
-  <div class="nav-item level2" onclick="goTo(8)">案例：三类对比</div>
-
-  <div class="nav-item section-header" onclick="goTo(9)">第三部分：功能与原理</div>
-  <div class="nav-item level2" onclick="goTo(10)">功能亮点</div>
-  <div class="nav-item level2" onclick="goTo(11)">案例：三维功能结构</div>
-  <div class="nav-item level2" onclick="goTo(12)">工作原理概述</div>
-  <div class="nav-item level2" onclick="goTo(13)">案例：六步闭环详解</div>
-
-  <div class="nav-item section-header" onclick="goTo(14)">第四部分：发展历程</div>
-  <div class="nav-item level2" onclick="goTo(15)">四阶段框架</div>
-  <div class="nav-item level2" onclick="goTo(16)">案例：WABOT-1（1973）</div>
-  <div class="nav-item level2" onclick="goTo(17)">案例：ASIMO（2000）</div>
-  <div class="nav-item level2" onclick="goTo(18)">案例：Atlas/DARPA（2013）</div>
-  <div class="nav-item level2" onclick="goTo(19)">AI范式期（2020s至今）</div>
-
-  <div class="nav-item section-header" onclick="goTo(20)">第五部分：挑战与趋势</div>
-  <div class="nav-item level2" onclick="goTo(21)">挑战框架</div>
-  <div class="nav-item level2" onclick="goTo(22)">案例：多维挑战体系</div>
-  <div class="nav-item level2" onclick="goTo(23)">发展趋势</div>
-  <div class="nav-item level2" onclick="goTo(24)">案例：八大趋势</div>
-
-  <div class="nav-item section-header" onclick="goTo(25)">本课总结</div>
-</nav>
-
-<div id="right-panel">
-  <div id="content-area">
-
-    <!-- PAGE 0: Cover -->
-    <div class="page active" data-index="0">
-      <p class="cover-title">人形机器人<br>（仿人机器人）</p>
-      <p class="cover-sub">来源：百度百科词条 · 综合科普教材</p>
-      <div class="objectives-block">
-        <p class="label">学完本课，你将能回答</p>
-        <ul>
-          <li>"人形机器人"和"humanoid robot"这两个名字从哪里来？</li>
-          <li>为什么要把机器人设计成人形？</li>
-          <li>人形机器人有哪几类，各有什么不同？</li>
-          <li>人形机器人能做什么，三大功能是什么？</li>
-          <li>人形机器人是怎么"感知-思考-行动"的？</li>
-          <li>从1973年到现在，人形机器人经历了哪几个关键阶段？</li>
-          <li>人形机器人发展面临哪四类挑战，各自的根本矛盾是什么？</li>
-          <li>未来推动人形机器人发展的技术与社会动力是什么？</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- PAGE 1: Section 1 Intro -->
-    <div class="page" data-index="1">
-      <div class="section-intro-num">01</div>
-      <p class="section-intro-title">定义与命名</p>
-      <p class="section-intro-desc">"人形机器人"这个名字从哪里来？两个关键词——robot 与 humanoid——各自携带着怎样的历史和逻辑？本部分从词源入手，建立对人形机器人最基本的概念认知。</p>
-    </div>
-
-    <!-- PAGE 2: Section 1 Concept -->
-    <div class="page" data-index="2">
-      <p class="breadcrumb">第一部分 › 概念讲解</p>
-      <h1>定义与命名起源</h1>
-
-      <p>人形机器人（英语：humanoid robot），又称仿生人，是一种旨在模仿人类外观和行为的机器人，尤其特指具有和人类相似肌体的种类。</p>
-
-      <h3>"robot"的来历</h3>
-      <p>"robot"一词最早广为人知的出处，通常被认为是捷克作家卡雷尔·恰佩克在1920年前后发表的戏剧《R.U.R.》中使用的"robota"。在捷克语里，"robota"意指<strong>"劳役、苦工"</strong>，带有被迫劳动的含义，后来被英语等语言吸收并泛化为"可替代人类执行任务的自动机器"。</p>
-
-      <div class="recall-block">
-        <p class="recall-type">判定口诀</p>
-        <p>记住：看到"robot"，想到<strong class="highlight">"被设计来替人劳动"</strong>——这个词义从"被迫苦役"演化为"自动化替代"，正是技术进步改变词义的典型案例。</p>
-      </div>
-
-      <h3>"humanoid"的构词逻辑</h3>
-      <p>"humanoid"由词根"human-"（与"人"相关）和后缀"-oid"（源自希腊语，表示"类似……的形态/外观"）组合而成，合起来即"外形或特征近似人类"。</p>
-
-      <div class="recall-block">
-        <p class="recall-type">类比锚点</p>
-        <p>可以这样理解：<strong class="highlight">"-oid这个后缀就像汉语里的'类'字——android是类人型，humanoid是类人形，都表示'具有某物特征的'"</strong>。</p>
-      </div>
-
-      <h3>中文命名逻辑</h3>
-      <p>"人形机器人"属于直译式构词：用"人形"强调形态与运动机制的类人性，用"机器人"强调其自动化与可编程属性。随着20世纪中后期控制理论、机电系统与人工智能的发展，"humanoid robot"逐渐固定为专门术语，并在科幻作品、学术论文与产业宣传中不断被强化，最终成为今天对类人通用服务/作业机器人的常用称谓。</p>
-
-      <div class="warning-block">
-        <p>需要注意的是：<strong>"机器人"不等于"人形机器人"</strong>——机器人是大类，人形机器人是其中特指"类人形态"的子类，切勿混用。</p>
-      </div>
-    </div>
-
-    <!-- PAGE 3: EX-01 -->
-    <div class="page" data-index="3">
-      <p class="breadcrumb">第一部分 › 概念案例</p>
-      <p class="example-label">概念案例</p>
-      <h1>robot词源与命名构词的完整分析</h1>
-
-      <p class="source-text">捷克作家卡雷尔·恰佩克1920年前后的戏剧《R.U.R.》中使用的"robota"（劳役、苦工）→ 泛化为英语"robot"；希腊语后缀"-oid"表示"类似形态"→ "humanoid"= 类人形态；中文直译为"人形机器人"。</p>
-
-      <h3>分析步骤</h3>
-      <ol class="step-list">
-        <li><span class="step-num">1</span><span>拆解"robot"：robota（捷克语劳役）→ 泛化为"可替代人类执行任务的自动机器"</span></li>
-        <li><span class="step-num">2</span><span>拆解"humanoid"：human（人）+ oid（类似……形态）= 外形或特征近似人类</span></li>
-        <li><span class="step-num">3</span><span>中文"人形机器人"：直译式构词，"人形"强调类人形态与运动机制，"机器人"强调自动化与可编程</span></li>
-      </ol>
-
-      <div class="conclusion-block">
-        <p class="label">结论</p>
-        <p>"人形机器人"= 类人形态 + 可编程自动化机器，命名逻辑来自词根直译与行业约定俗成。</p>
-      </div>
-
-      <p style="margin-top:24px;">从这个词源分析可以看出，词义的演化始终与技术的进步同步——从"被迫劳动"到"自动化替代"，再到今天的"类人通用执行体"，每一次含义扩展背后都是技术能力的跃升。</p>
-    </div>
-
-    <!-- PAGE 4: Section 2 Intro -->
-    <div class="page" data-index="4">
-      <div class="section-intro-num">02</div>
-      <p class="section-intro-title">设计动机与产品分类</p>
-      <p class="section-intro-desc">为什么要把机器人设计成人形？现代人形机器人分为哪几类？本部分从"环境兼容性"出发，解析人形设计的根本逻辑，并梳理三类人形机器人的核心差异。</p>
-    </div>
-
-    <!-- PAGE 5: Section 2 Design Motivation -->
-    <div class="page" data-index="5">
-      <p class="breadcrumb">第二部分 › 设计动机</p>
-      <h1>为什么要做成人形？</h1>
-
-      <p>人形机器人的设计动机，核心在于让机器能在"为人而建"的世界里高效工作。现实环境充满楼梯、门把手、开关、狭窄通道和以人手操作为标准的工具接口，若让机器人具备类人的身形、双足与双手，就能直接使用现有设施与工具，减少改造成本。</p>
-
-      <div class="recall-block">
-        <p class="recall-type">判定口诀</p>
-        <p>看到"为什么要做人形机器人"，想到三层回答：<strong class="highlight">省改造成本 → 通用作业能力 → 直觉友好协作</strong>。</p>
-      </div>
-
-      <p>人形结构在通用性上的优势体现在两个层面：既能行走跨越复杂地形，也能完成精细抓取与双手协作；类人外观与交互方式更符合人类直觉，有助于提升协作安全与沟通效率。</p>
-
-      <p>最终目标是构建可泛化的通用执行体，在工业、家庭与危险场景中补充或替代人类完成高强度、高风险与重复性工作。</p>
-
-      <div class="recall-block">
-        <p class="recall-type">类比锚点</p>
-        <p>打个比方：<strong class="highlight">将人形设计比作"通用充电接口"——不是因为USB最美观，而是因为所有设备都按它设计了接口</strong>。人形机器人之所以被设计成人形，是因为现有世界的每一个接口、每一件工具都按人手尺寸和人体比例设计好了。</p>
-      </div>
-
-      <div class="warning-block">
-        <p>需要注意的是：<strong>人形不是为了炫技或模仿生命</strong>——核心逻辑是环境兼容性与通用性，而非追求逼真。</p>
-      </div>
-    </div>
-
-    <!-- PAGE 6: EX-02 -->
-    <div class="page" data-index="6">
-      <p class="breadcrumb">第二部分 › 概念案例</p>
-      <p class="example-label">概念案例</p>
-      <h1>人形结构与现有人类环境的匹配逻辑</h1>
-
-      <p class="source-text">现实环境充满楼梯、门把手、开关等以人手操作为标准的工具接口，类人形态可直接使用现有设施，减少改造成本。</p>
-
-      <h3>推导链条</h3>
-      <ol class="step-list">
-        <li><span class="step-num">1</span><span>识别现有环境的基准：人类建造的设施以人体尺寸和操作方式为标准</span></li>
-        <li><span class="step-num">2</span><span>形态选择：类人形态 → 可直接使用现有设施 → 减少改造成本</span></li>
-        <li><span class="step-num">3</span><span>附加优势：通用性（行走+精细操作）、协作安全（直觉友好）</span></li>
-      </ol>
-
-      <div class="conclusion-block">
-        <p class="label">结论</p>
-        <p>人形设计动机的核心是，在无需改造现有环境的前提下，实现高通用性操作能力与人机协作效率。</p>
-      </div>
-
-      <div class="recall-block">
-        <p class="recall-type">判定口诀</p>
-        <p>记住：论证人形设计合理性时，走<strong class="highlight">"环境标准 → 形态选择 → 成本收益"三步链</strong>。</p>
-      </div>
-    </div>
-
-    <!-- PAGE 7: Section 2 Product Classification -->
-    <div class="page" data-index="7">
-      <p class="breadcrumb">第二部分 › 产品分类</p>
-      <h1>三类人形机器人</h1>
-
-      <h3>传统机器人</h3>
-      <p>现代传统人形机器人在机器的各活动关节配置有多达17个伺服器，具有17个自由度，特显灵活，能完成诸如手臂后摆90度的高难度动作。它还配以设计优良的控制系统，通过自身智能编程软件便能自动地完成整套动作。这类机器人<strong>依赖预设编程完成动作，无自主决策能力</strong>，核心价值在于运动灵活性。</p>
-
-      <h3>人工智能机器人</h3>
-      <p>人工智能机器人在传统机器人硬件基础上引入感知理解与自主决策能力，融合视觉/语音/触觉等多模态传感、机器学习与规划控制，可在一定程度上识别环境、理解指令、学习策略并适应未知情况，应用于移动巡检、仓储物流、服务与协作等更开放的场景。</p>
-
-      <h3>人形伴侣机器人</h3>
-      <p>人形伴侣机器人以类人外形与交互为核心，强调"陪伴与情感支持"场景，通常具备语音对话、表情/动作反馈、个性化记忆与日程提醒等能力。在DeepSeek等开源大模型的赋能下，人形伴侣机器人实现了长期记忆存储、个性化反馈及生理数据联动等功能，可根据使用者的心率动态调整互动模式。</p>
-
-      <div class="recall-block">
-        <p class="recall-type">判定口诀</p>
-        <p>区分三类时，问三个问题：①能自主决策吗？②目标是物理任务还是情感陪伴？③主要靠预设编程还是机器学习？</p>
-      </div>
-    </div>
-
-    <!-- PAGE 8: EX-03 -->
-    <div class="page" data-index="8">
-      <p class="breadcrumb">第二部分 › 概念案例</p>
-      <p class="example-label">概念案例</p>
-      <h1>三类人形机器人的分类与对比</h1>
-
-      <table>
-        <tr><th>类别</th><th>核心能力</th><th>控制方式</th><th>应用场景</th></tr>
-        <tr><td>传统机器人</td><td>多自由度运动</td><td>预设编程</td><td>表演、竞技</td></tr>
-        <tr><td>人工智能机器人</td><td>感知+决策+学习</td><td>机器学习</td><td>巡检、物流、协作</td></tr>
-        <tr><td>人形伴侣机器人</td><td>情感交互+个性化记忆</td><td>ML+大模型</td><td>陪伴、护理</td></tr>
-      </table>
-
-      <div class="recall-block">
-        <p class="recall-type">判定口诀</p>
-        <p><strong class="highlight">传统=编程控制，AI=感知学习，伴侣=情感陪伴</strong>；三类按"控制方式"和"应用目标"区分。</p>
-      </div>
-
-      <div class="warning-block">
-        <p>需要注意的是：<strong>人工智能机器人不是独立于传统机器人的第三类</strong>——它是在传统机器人硬件基础上叠加AI能力，两者是包含关系，不是并列关系。</p>
-      </div>
-
-      <div class="recall-block">
-        <p class="recall-type">类比锚点</p>
-        <p>将三类机器人类比为<strong>"计算器 → 智能手机 → 情感机器人"的演化</strong>——功能从专一到智能，最终走向情感化。</p>
-      </div>
-    </div>
-
-    <!-- PAGE 9: Section 3 Intro -->
-    <div class="page" data-index="9">
-      <div class="section-intro-num">03</div>
-      <p class="section-intro-title">功能亮点与工作原理</p>
-      <p class="section-intro-desc">人形机器人能做什么？"通用作业+自主智能+友好交互"三维功能如何支撑实际应用？从感知到执行的六步闭环是如何运转的？本部分深入技术核心。</p>
-    </div>
-
-    <!-- PAGE 10: Section 3 Features -->
-    <div class="page" data-index="10">
-      <p class="breadcrumb">第三部分 › 功能亮点</p>
-      <h1>三维功能体系</h1>
-
-      <p>人形机器人的功能亮点主要体现在<strong>"通用作业能力+自主智能+友好交互"</strong>三方面。</p>
-
-      <h3>运动与操作</h3>
-      <p>双足行走可应对楼梯、坡道、门槛等非平整地面，配合动态平衡与步态生成方法（如基于ZMP思想与预瞄控制的行走模式生成等），实现转身、跨越、蹲起、负载搬运等动作。双臂与灵巧手支持抓取、拧转、按压、双手协作装配等精细操作，可直接使用为人设计的工具与开关，降低场景改造成本。</p>
-
-      <h3>感知与决策</h3>
-      <p>通常融合视觉、深度、惯导、力/触觉等多传感器，通过概率估计与建图定位方法（如SLAM、图优化/因子图增量平滑等）实现环境建图、目标识别、障碍避让与任务规划。结合大模型与强化学习等方法，可提升自然语言指令理解、长序列任务分解与策略泛化能力。</p>
-
-      <h3>人机协作与安全</h3>
-      <p>强调"可解释、可控、可保护"：通过语音与手势交互、状态可视化反馈、碰撞检测与力控柔顺，提升与人近距离协作的安全性；并可通过权限管理、数据脱敏与本地化处理增强隐私保护。</p>
-
-      <div class="recall-block">
-        <p class="recall-type">类比锚点</p>
-        <p>可以这样理解：<strong class="highlight">将三维功能比作汽车的"底盘+发动机+驾驶辅助系统"——分层支撑，缺一不可</strong>。</p>
-      </div>
-
-      <div class="warning-block">
-        <p>需要注意的是：<strong>功能亮点不等于硬件列表</strong>——关键在于功能之间如何协同，而非单独罗列传感器型号。</p>
-      </div>
-    </div>
-
-    <!-- PAGE 11: EX-04 -->
-    <div class="page" data-index="11">
-      <p class="breadcrumb">第三部分 › 概念案例</p>
-      <p class="example-label">概念案例</p>
-      <h1>功能亮点的三维结构展开</h1>
-
-      <h3>三维展开</h3>
-      <ol class="step-list">
-        <li><span class="step-num">1</span><span><strong>运动操作层</strong>：ZMP思想与预瞄控制 → 稳定步态；双臂灵巧手 → 精细操作</span></li>
-        <li><span class="step-num">2</span><span><strong>感知决策层</strong>：多传感器融合+SLAM → 建图定位；大模型+强化学习 → 指令理解与策略泛化</span></li>
-        <li><span class="step-num">3</span><span><strong>协作安全层</strong>：碰撞检测+力控柔顺 → 近人安全；权限管理+数据脱敏 → 隐私保护</span></li>
-      </ol>
-
-      <div class="conclusion-block">
-        <p class="label">结论</p>
-        <p>三维功能框架：运动操作（环境适配）→ 感知决策（智能泛化）→ 协作安全（可信可控）。</p>
-      </div>
-
-      <div class="recall-block">
-        <p class="recall-type">判定口诀</p>
-        <p>考查功能亮点时，按三维回答：<strong class="highlight">运动操作（双足+双臂）→ 感知决策（多传感+SLAM+大模型）→ 协作安全（力控+隐私保护）</strong>。</p>
-      </div>
-    </div>
-
-    <!-- PAGE 12: Section 3 Working Principle Overview -->
-    <div class="page" data-index="12">
-      <p class="breadcrumb">第三部分 › 工作原理</p>
-      <h1>感知-认知-规划-控制-执行-反馈闭环</h1>
-
-      <p>人形机器人的工作原理通常可以理解为一条<strong class="highlight">"感知—认知—规划—控制—执行—反馈"</strong>的闭环链路：机器人先用传感器获取外界与自身状态信息，再把信息转化为可计算的环境模型与身体模型，随后生成动作计划，并通过电机与驱动器把计划落实为真实运动，最后依靠实时反馈不断修正误差，从而在复杂环境中稳定完成任务。</p>
-
-      <div class="recall-block">
-        <p class="recall-type">判定口诀</p>
-        <p>六步口诀：<strong class="highlight">感（知）→ 认（知）→ 规（划）→ 控（制）→ 执（行）→ 反（馈）</strong>，每步都有"输入→处理→输出"。</p>
-      </div>
-
-      <div class="recall-block">
-        <p class="recall-type">类比锚点</p>
-        <p>打个比方：<strong class="highlight">将闭环比作"驾驶汽车"——看路（感知）→ 判断（认知）→ 决定转向（规划）→ 转方向盘（控制）→ 车轮转动（执行）→ 感受偏移纠正（反馈）</strong>。</p>
-      </div>
-
-      <div class="warning-block">
-        <p>需要注意的是：<strong>反馈不只是"把数据传回去"</strong>——它包含异常检测、降级策略、自恢复机制，是系统安全的最后防线。</p>
-      </div>
-    </div>
-
-    <!-- PAGE 13: EX-05 -->
-    <div class="page" data-index="13">
-      <p class="breadcrumb">第三部分 › 概念案例</p>
-      <p class="example-label">概念案例</p>
-      <h1>六步闭环详解</h1>
-
-      <h4>第一步：感知与状态估计</h4>
-      <p>人形机器人常配备视觉/深度传感器、IMU（惯性测量单元）、关节编码器、足底力/力矩传感器等，形成对位姿、速度、接触状态与重心动态的估计。SLAM系统总结了"建图与定位同时进行"的经典算法框架；图优化/因子图（如iSAM2）被广泛用于高效融合多源观测与约束。</p>
-
-      <h4>第二步：环境建模与任务理解</h4>
-      <p>机器人维护栅格/点云/语义地图等环境表示，并把人类指令转化为结构化目标与可执行子任务。大模型进入机器人领域后，研究者提出"语言生成的高层计划+可行性约束"的思路，使模型输出更贴近真实可执行的动作集合。</p>
-
-      <h4>第三步：运动规划</h4>
-      <p>先做全局路径规划（绕开静态障碍），再做局部步态生成（落脚点、步长、摆动腿轨迹）。记住：<strong class="highlight">"规划"分两层——先规划走哪条路（全局），再规划每一步怎么迈（局部）</strong>。在狭窄空间常使用MPC（模型预测控制）在稳定性、能耗、避障等多约束下求解最优动作序列。</p>
-
-      <h4>第四步：全身控制与力控</h4>
-      <p>核心难点是同时满足"身体不摔倒、脚不打滑、手不撞坏、动作还得准"。全身控制（WBC）/逆运动学/逆动力学将目标转为关节指令；阻抗/柔顺控制让机器人"有弹性地用力"，提升安全性与鲁棒性。</p>
-
-      <h4>第五步：执行系统</h4>
-      <p>伺服电机+减速器+驱动器输出机械运动；电源系统（电池与BMS）监控温度、电流与剩余电量；实时通信总线保障低延迟高可靠。结构设计与关节散热、线束布局等工程细节直接影响稳定性与寿命。</p>
-
-      <h4>第六步：安全与自恢复（反馈）</h4>
-      <p>持续监测跌倒风险、关节过载、通信异常等，必要时触发降级策略：限速、改变步态、坐下保护、人工接管。高阶系统还会记录数据用于学习更新，让机器人逐渐变得"更稳、更省电、更像能干活的通用体"。</p>
-    </div>
-
-    <!-- PAGE 14: Section 4 Intro -->
-    <div class="page" data-index="14">
-      <div class="section-intro-num">04</div>
-      <p class="section-intro-title">发展历程</p>
-      <p class="section-intro-desc">从1973年到今天，人形机器人走过了从"科幻概念"到"工厂劳动力"的漫长历程。本部分梳理四个关键阶段，每阶段各有一个核心矛盾被突破。</p>
-    </div>
-
-    <!-- PAGE 15: Section 4 Four Stages Framework -->
-    <div class="page" data-index="15">
-      <p class="breadcrumb">第四部分 › 四阶段框架</p>
-      <h1>发展历程的四个阶段</h1>
-
-      <p>在真正的人形机器人出现之前，人类对"会动的仿人造物"已有长久想象：神话里的机关人、近代欧洲的自动机与钟表人偶等，大多依赖机械传动与预设机构，缺少可感知与可自适应的"反馈控制"。</p>
-
-      <div class="recall-block">
-        <p class="recall-type">判定口诀</p>
-        <p>人形机器人发展四阶段口诀：<strong class="highlight">概念 → 符号 → 任务 → AI</strong>，每阶段都有一个"核心矛盾"被突破。</p>
-      </div>
-
-      <table>
-        <tr><th>阶段</th><th>代表</th><th>核心矛盾</th><th>突破</th></tr>
-        <tr><td>早期探索期</td><td>WABOT-1（1973）</td><td>算力与传感能力不足</td><td>首次系统性集成，建立工程化研究框架</td></tr>
-        <tr><td>公众符号期</td><td>ASIMO（2000）</td><td>泛化/稳定性/成本未解决</td><td>进入全球公众视野，确立"人类环境"定位</td></tr>
-        <tr><td>灾害驱动期</td><td>Atlas/DARPA（2013）</td><td>单一技能 vs 系统任务</td><td>任务集量化，从形态模仿走向能力导向</td></tr>
-        <tr><td>AI范式期</td><td>2020年代至今</td><td>感知/策略泛化瓶颈</td><td>深度学习+强化学习+大模型带来新可能</td></tr>
-      </table>
-
-      <div class="warning-block">
-        <p>需要注意的是：<strong>技术里程碑不等于商业成功</strong>——ASIMO是公众符号但不是规模化产品；Atlas是研究平台但不是工厂劳动力。</p>
-      </div>
-    </div>
-
-    <!-- PAGE 16: EX-06 WABOT-1 -->
-    <div class="page" data-index="16">
-      <p class="breadcrumb">第四部分 › 历史案例</p>
-      <p class="example-label">历史案例 1973</p>
-      <h1>WABOT-1与早期人形机器人研究起点</h1>
-
-      <p>学界普遍把1973年早稻田大学的WABOT-1视作早期人形机器人研究的重要起点之一。</p>
-
-      <p><strong class="highlight">它的意义不在于"像人有多逼真"，而在于首次系统性集成了手、脚与基础感知，把"人形"变成可研究、可迭代的工程系统。</strong></p>
-
-      <p>这一时期的关键矛盾是：<strong>计算力与传感能力不足</strong>。双足行走对实时控制要求极高，而当时的控制器、传感器、驱动器都较为原始，导致多数人形系统只能在受控环境中缓慢移动。</p>
-
-      <div class="recall-block">
-        <p class="recall-type">判定口诀</p>
-        <p>看到WABOT-1，想到<strong class="highlight">"工程化起点"</strong>：不是最像人的，而是第一个可迭代研究的。</p>
-      </div>
-
-      <div class="recall-block">
-        <p class="recall-type">类比锚点</p>
-        <p>可以这样理解：<strong class="highlight">将WABOT-1比作"第一架莱特飞机"——飞得很矮很慢，但证明了"人形机器人可以被系统性研究"</strong>。</p>
-      </div>
-    </div>
-
-    <!-- PAGE 17: EX-07 ASIMO -->
-    <div class="page" data-index="17">
-      <p class="breadcrumb">第四部分 › 历史案例</p>
-      <p class="example-label">历史案例 2000</p>
-      <h1>ASIMO的公众符号意义与局限</h1>
-
-      <p>以本田为代表的路线，用长期迭代把双足行走从"能走"推向"更稳、更自然"。本田在2000年前后发布ASIMO，并强调其面向"人类生活环境"的移动与操作能力，这使"人形机器人"第一次以强烈的公众符号进入全球视野。</p>
-
-      <p>但ASIMO时代也清晰暴露了现实边界：它仍偏向"演示型平台"，在复杂场景的泛化能力、长时间稳定工作、成本与维护上，<strong>距离规模化应用仍很远</strong>。2022年前后媒体报道其"退役/结束演示"，也从侧面说明第一代公众符号完成了历史使命，产业需要新的技术范式。</p>
-
-      <div class="recall-block">
-        <p class="recall-type">判定口诀</p>
-        <p>ASIMO = <strong class="highlight">公众认知价值高，工程实用价值低</strong>；是"展示"而非"工作"。</p>
-      </div>
-
-      <div class="warning-block">
-        <p>需要注意的是：<strong>不要把ASIMO当成人形机器人发展的终点</strong>——它是一个阶段符号，完成使命后让位于更实用的路线。</p>
-      </div>
-    </div>
-
-    <!-- PAGE 18: EX-08 Atlas/DARPA -->
-    <div class="page" data-index="18">
-      <p class="breadcrumb">第四部分 › 历史案例</p>
-      <p class="example-label">历史案例 2013</p>
-      <h1>Atlas与DARPA灾害救援任务的能力拆解</h1>
-
-      <p>2010年代，人形机器人的发展迎来重要"加速器"：以灾害救援为目标的竞赛与项目，把研究问题从"单一技能"推向"系统任务"。DARPA在2013年发布Atlas机器人，<strong class="highlight">强调它更像"硬件壳体"，真正的难点在于软件团队构建的"脑与神经"</strong>。</p>
-
-      <p>灾害救援类任务的价值在于：它把机器人能力拆解为可量化的"任务集"——开门、穿越障碍、攀爬、操作阀门、工具使用等，迫使研究者同时面对四大挑战：</p>
-
-      <ol class="step-list">
-        <li><span class="step-num">1</span><span><strong>感知与建模</strong>：机器人看到什么、如何定位与理解环境</span></li>
-        <li><span class="step-num">2</span><span><strong>规划与控制</strong>：如何在约束下生成可执行动作</span></li>
-        <li><span class="step-num">3</span><span><strong>接触与力控</strong>：抓取、支撑、攀爬都需要稳定处理接触力</span></li>
-        <li><span class="step-num">4</span><span><strong>系统可靠性</strong>：通信、电源、散热与容错</span></li>
-      </ol>
-
-      <p>这一阶段的深层变化是：人形机器人开始从"形态模仿"走向"能力导向"——<strong>是否"像人"并非唯一标准，关键是能否在真实任务中稳定完成动作链条</strong>。</p>
-
-      <div class="recall-block">
-        <p class="recall-type">类比锚点</p>
-        <p>将任务集拆解比作<strong class="highlight">"驾照考试科目"——不是看你"像不像司机"，而是看你能否完成倒车入库、超车等具体任务</strong>。</p>
-      </div>
-    </div>
-
-    <!-- PAGE 19: AI Era -->
-    <div class="page" data-index="19">
-      <p class="breadcrumb">第四部分 › AI范式期</p>
-      <h1>AI范式期（2020年代至今）</h1>
-
-      <p>进入2020年代，推动人形机器人热度陡升的因素，不再仅是机构与驱动的进步，而是<strong>AI范式变化</strong>：深度学习、强化学习、仿真训练与大模型，使机器人在感知、策略学习与任务泛化上出现新可能。产业与政策层面也开始把人形机器人与通用人工智能、未来制造并列为"未来产业方向"。</p>
-
-      <p>2024年，波士顿动力宣布液压Atlas退役并推出全电动Atlas，传递出非常明确的产业信号：当人形机器人走向工厂与真实应用时，<strong>维护性、能效、精细控制与可规模化工程变得比"极限炫技"更关键</strong>。</p>
-
-      <p>在中国市场，以优必选、傅利叶、宇树科技等为代表的企业开始将"通用人形机器人"作为产品路线推进，多台工业人形机器人陆续进入汽车工厂部署应用，承担安全带检测、贴覆车标、集配捡料等细分任务——这意味着人形机器人开始被当作"可调度的工业劳动力单元"，而不再只是单机演示。</p>
-
-      <p>2025年3月，北京举办"全球首个人形机器人半程马拉松"，迫使机器人在长距离、连续运行、散热与可靠性上接受真实检验。2026年3月，小米机器人已在汽车工厂实习，公司正推进未来五年部署"大批量"自研人形机器人的计划。</p>
-
-      <p>2026年3月，荣耀首款人形机器人亮相MWC（世界移动通信大会）；北京通用人工智能研究院发布下一代人形机器人通用运动框架"通极"。2026年1月，IDC报告指出，2025年全球人形机器人市场出货量约1.8万台，同比增长约508%，中国厂商占主导。</p>
-    </div>
-
-    <!-- PAGE 20: Section 5 Intro -->
-    <div class="page" data-index="20">
-      <div class="section-intro-num">05</div>
-      <p class="section-intro-title">挑战与趋势</p>
-      <p class="section-intro-desc">人形机器人面临技术、伦理、成本、法律四类挑战，每类都有其根本矛盾。未来发展则呈现三波浪潮：技术波→商业波→社会波。本部分系统梳理挑战与趋势的结构框架。</p>
-    </div>
-
-    <!-- PAGE 21: Section 5 Challenges Framework -->
-    <div class="page" data-index="21">
-      <p class="breadcrumb">第五部分 › 挑战框架</p>
-      <h1>面临的多维挑战</h1>
-
-      <p>人形机器人的发展面临着诸多挑战。这些挑战可分为四类，每类都有其根本矛盾。</p>
-
-      <div class="recall-block">
-        <p class="recall-type">判定口诀</p>
-        <p>四类挑战按层次记：<strong class="highlight">技术→成本→伦理→法律，技术是根，法律是果</strong>。</p>
-      </div>
-
-      <div class="recall-block">
-        <p class="recall-type">类比锚点</p>
-        <p>可以这样理解：<strong class="highlight">将四类挑战比作建楼的四道关——技术=打地基，成本=买材料，伦理=邻里关系，法律=建筑许可证</strong>。</p>
-      </div>
-
-      <table>
-        <tr><th>类别</th><th>核心表现</th><th>根本矛盾</th></tr>
-        <tr><td>技术挑战</td><td>运动不协调、感知弱、语言理解不准、决策机械化</td><td>多自由度实时控制 vs 现有算力/传感器精度差距</td></tr>
-        <tr><td>伦理社会挑战</td><td>情感操控风险、数据隐私、就业替代</td><td>机器行为影响人类情感/劳动 vs 尚无监管框架</td></tr>
-        <tr><td>成本经济挑战</td><td>高研发制造成本、价格高、商业化难</td><td>高复杂度研发成本 vs 市场普及所需低价格门槛</td></tr>
-        <tr><td>法律监管挑战</td><td>责任归属不清、安全标准滞后</td><td>机器自主行为 vs 现有法律主体为"人"的归责框架</td></tr>
-      </table>
-
-      <div class="warning-block">
-        <p>需要注意的是：<strong>不要只关注技术挑战</strong>——伦理和法律挑战在产品规模化后会变得比技术挑战更紧迫。</p>
-      </div>
-    </div>
-
-    <!-- PAGE 22: EX-09 -->
-    <div class="page" data-index="22">
-      <p class="breadcrumb">第五部分 › 概念案例</p>
-      <p class="example-label">概念案例</p>
-      <h1>多维挑战体系的详细展开</h1>
-
-      <h3>技术挑战</h3>
-      <p>运动能力不协调和稳定性差。目前尽管Atlas等机器人在运动能力上取得了显著进展，但实现更加自然和流畅的运动仍然是一个巨大的挑战。<strong>这涉及到多个学科的深度融合，包括控制理论、力学、人工智能和感知技术</strong>。此外，高复杂度的运动和操作需要大量电力支持，而现有电池技术无法满足长时间、高负荷运行的需求。感知能力弱和理解力差也是重要问题，多模态感知的整合对计算能力提出了极高要求。</p>
-
-      <h3>伦理与社会挑战</h3>
-      <p>如果人形机器人能够识别和模仿人的情感，它们有可能被用于操控人类情感或心理，特别是在医疗、教育或娱乐等领域。人形机器人与人类的互动涉及大量个人数据（语音、行为、面部表情等），如何确保数据安全与隐私是紧迫问题。此外，人形机器人技术的普及可能影响到许多传统岗位，尤其是在低技能和重复性工作领域，就业替代问题需要重视。</p>
-
-      <h3>成本与经济挑战</h3>
-      <p>开发一款高性能的人形机器人涉及复杂的硬件、传感器、软件和算法的研发，成本高昂，尤其是在需要具备高精度运动能力和感知能力时，制造复杂性会进一步提高。即使企业或政府采购，长时间的维护和更新也是一笔不小的开销。</p>
-
-      <h3>法律与监管挑战</h3>
-      <p>当人形机器人在执行任务时发生意外或出现错误，责任应由谁来承担？是开发公司、人形机器人本身，还是使用者？目前尚无明确的法律框架。如何制定和执行人形机器人安全标准，确保其在与人类互动时不会对人类造成伤害，也是未来需要解决的重要问题。</p>
-
-      <div class="conclusion-block">
-        <p class="label">结论</p>
-        <p>四类挑战相互交织；技术挑战是基础矛盾，伦理/法律挑战随技术成熟而凸显。</p>
-      </div>
-    </div>
-
-    <!-- PAGE 23: Section 5 Trends -->
-    <div class="page" data-index="23">
-      <p class="breadcrumb">第五部分 › 发展趋势</p>
-      <h1>技术与社会双轮驱动的发展趋势</h1>
-
-      <p>人形机器人未来发展的趋势主要体现在以下几个方面。</p>
-
-      <div class="recall-block">
-        <p class="recall-type">判定口诀</p>
-        <p>记趋势时可分三波：<strong class="highlight">技术波（运动/感知/决策/能源）→ 商业波（普及/协作）→ 社会波（伦理/文化/军事）</strong>。</p>
-      </div>
-
-      <div class="recall-block">
-        <p class="recall-type">类比锚点</p>
-        <p>将趋势演化比作<strong class="highlight">"互联网发展"：先有技术（拨号上网）→ 后有普及（智能手机）→ 最后有社会影响（数字治理/监管）</strong>。</p>
-      </div>
-
-      <p>记趋势时，对应挑战找答案：<strong class="highlight">每个挑战都有一个对应的趋势方向指向解决</strong>。技术挑战→运动/感知/决策趋势；成本挑战→商业化趋势；伦理挑战→伦理法律趋势。</p>
-    </div>
-
-    <!-- PAGE 24: EX-10 -->
-    <div class="page" data-index="24">
-      <p class="breadcrumb">第五部分 › 概念案例</p>
-      <p class="example-label">概念案例</p>
-      <h1>八大发展趋势详解</h1>
-
-      <h4>① 更高的运动能力与自我平衡能力</h4>
-      <p>未来人形机器人能够模仿人类自然运动，具备高效的平衡和自我修复能力，甚至在<strong>摔倒后能够自行恢复站立</strong>。驱动力：先进控制算法+新型驱动器材料。</p>
-
-      <h4>② 更强的感知与智能交互能力</h4>
-      <p>通过AR和计算机视觉实时感知周围环境；具有多模态交互能力（语音、手势、表情、眼神）；通过情感计算和面部表情识别理解并回应人的情绪。驱动力：深度学习+大模型+多模态感知。</p>
-
-      <h4>③ 更强自主性与智能决策</h4>
-      <p>基于强化学习持续优化行为，不依赖外部指令或人工干预，完成医疗诊断、建筑设计或高精度制造等复杂任务。驱动力：强化学习+大模型。</p>
-
-      <h4>④ 更高效的能源管理与续航能力</h4>
-      <p>更高能效的电池、超级电容器；通过环境能量收集（太阳能、热能转换等）延长续航时间，在某些场景下实现"永续运行"。驱动力：电池技术+能量收集技术进步。</p>
-
-      <h4>⑤ 更高水平的商业化应用与普及</h4>
-      <p>广泛进入家庭（家务/陪伴/老人护理）；医疗陪护、手术助手、康复机器人在老龄化社会发挥重要作用；在教育领域提供个性化教学。驱动力：成本下降+场景验证积累。</p>
-
-      <h4>⑥ 逐步实现人机协作与融合</h4>
-      <p>与人类并肩工作，承担高强度体力任务；结合AR/VR技术创造全新交互和工作体验。驱动力：成本下降+可靠性提升+场景验证。</p>
-
-      <h4>⑦ 伦理与社会影响逐步解决</h4>
-      <p>厘清人机情感界限；建立责任归属与安全标准的法律框架。驱动力：规模部署后社会摩擦倒逼法规完善。</p>
-
-      <h4>⑧ 经济全球化与文化适应性</h4>
-      <p>理解并融入不同文化，适应不同的语言、社交习惯和文化价值观。驱动力：全球市场拓展需求。</p>
-    </div>
-
-    <!-- PAGE 25: Summary -->
-    <div class="page" data-index="25">
-      <p class="breadcrumb">本课总结</p>
-      <h1>本课总结</h1>
-
-      <div class="summary-section">
-        <h3>核心要点</h3>
-        <ul class="summary-list">
-          <li><strong>命名起源</strong>：robot←捷克语robota（劳役）；humanoid←human+oid（类人形态）；中文"人形机器人"为直译式构词</li>
-          <li><strong>设计动机</strong>：现实环境以人体为操作标准 → 类人形态降低改造成本 → 通用作业能力 → 协作效率 → 构建通用执行体</li>
-          <li><strong>产品分类</strong>：传统机器人（编程控制）→ 人工智能机器人（感知+学习）→ 人形伴侣机器人（情感陪伴）；按"控制方式"和"应用目标"区分</li>
-          <li><strong>功能三维</strong>：运动操作（ZMP+步态+灵巧手）→ 感知决策（SLAM+多传感+大模型）→ 协作安全（力控+隐私保护）</li>
-          <li><strong>工作原理</strong>：感知→认知→规划→控制→执行→反馈，六步闭环，反馈包含异常检测与自恢复</li>
-          <li><strong>发展四阶段</strong>：WABOT-1（工程化起点，1973）→ ASIMO（公众符号，2000）→ Atlas/DARPA（任务集量化，2013）→ AI范式期（2020年代至今）</li>
-          <li><strong>四类挑战</strong>：技术（算力/传感差距）→ 成本（复杂度vs价格门槛）→ 伦理（机器影响力vs监管空白）→ 法律（自主行为vs人本归责）</li>
-          <li><strong>三波趋势</strong>：技术波 → 商业波 → 社会波，每波由上游驱动因素推动</li>
-        </ul>
-      </div>
-
-      <div class="summary-section">
-        <h3>易错提醒</h3>
-        <ul class="summary-list warning-list">
-          <li>"机器人"不等于"人形机器人"——机器人是大类，人形机器人是特指"类人形态"的子类</li>
-          <li>人工智能机器人不是独立于传统机器人的第三类，而是在传统硬件基础上叠加AI能力，两者是包含关系</li>
-          <li>人形设计的核心逻辑是环境兼容性与通用性，而非追求逼真或模仿生命</li>
-          <li>功能亮点不等于硬件列表——关键在于功能之间如何协同</li>
-          <li>反馈步骤不只是"把数据传回去"——它包含异常检测、降级策略、自恢复机制，是系统安全的最后防线</li>
-          <li>技术里程碑不等于商业成功——ASIMO是公众符号但不是规模化产品</li>
-          <li>不要只关注技术挑战——伦理和法律挑战在产品规模化后往往比技术挑战更紧迫</li>
-        </ul>
-      </div>
-
-      <div class="summary-section">
-        <h3>知识应用范围</h3>
-        <div class="transfer-block">
-          <p>本课内容可迁移应用到以下场景：分析其他科技术语的词源与命名逻辑；评估任意机器人或智能硬件产品与目标使用场景的"形态-环境适配度"；对新型机器人产品进行分类归属判断；分析其他自主机器系统（无人车、无人机）的控制闭环结构；对比其他技术领域的发展阶段与驱动因素；分析其他前沿技术（自动驾驶、通用AI、基因编辑）所面临的多维挑战（技术/伦理/成本/法律四框架）；对其他智能硬件产业趋势进行技术-社会双轮驱动分析。</p>
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
+    
+    <nav id="sidebar">
+        <h2>目录</h2>
+        <div class="toc-item active" data-page="0">课程首页</div>
+        <div class="toc-item level-2" data-page="1">学习目标</div>
+        <div class="toc-item" data-page="2">第一部分：基础概念导入</div>
+        <div class="toc-item level-2" data-page="3">定义讲解</div>
+        <div class="toc-item level-2" data-page="4">【定义示例】人形机器人定义</div>
+        <div class="toc-item level-2" data-page="5">【时间线示例】重要发展时间点</div>
+        <div class="toc-item" data-page="6">第二部分：设计动机与功能分析</div>
+        <div class="toc-item level-2" data-page="7">设计动机讲解</div>
+        <div class="toc-item level-2" data-page="8">【动机示例】设计动机</div>
+        <div class="toc-item" data-page="9">第三部分：工作原理深入解析</div>
+        <div class="toc-item level-2" data-page="10">工作原理解析</div>
+        <div class="toc-item level-2" data-page="11">【原理示例】工作原理</div>
+        <div class="toc-item" data-page="12">第四部分：发展历程梳理</div>
+        <div class="toc-item level-2" data-page="13">发展历程讲解</div>
+        <div class="toc-item level-2" data-page="14">【历程示例】发展历程阶段</div>
+        <div class="toc-item" data-page="15">第五部分：挑战与趋势分析</div>
+        <div class="toc-item level-2" data-page="16">挑战分析</div>
+        <div class="toc-item level-2" data-page="17">【挑战示例】挑战分类</div>
+        <div class="toc-item level-2" data-page="18">趋势分析</div>
+        <div class="toc-item level-2" data-page="19">【趋势示例】发展趋势预测</div>
+        <div class="toc-item" data-page="20">本课总结</div>
+        <div class="toc-item level-2" data-page="21">核心要点</div>
+        <div class="toc-item level-2" data-page="22">易错提醒</div>
+        <div class="toc-item level-2" data-page="23">知识应用范围</div>
+    </nav>
+
+    <div id="right-panel">
+        <div id="content-area">
+            <!-- Page 0: 课程首页 -->
+            <div class="page active" data-index="0">
+                <h1>人形机器人（仿人机器人）</h1>
+                <p>本教材将带你全面了解人形机器人的定义、发展背景、产品分类、功能亮点、工作原理、发展历程、应用价值、社会影响、面临挑战和未来趋势等内容，帮助你建立对人形机器人领域的整体认知。</p>
+                <div class="learning-objectives">
+                    <h3>📚 学习指引</h3>
+                    <p>点击左侧目录或使用下方翻页按钮开始学习吧！</p>
+                </div>
+            </div>
+
+            <!-- Page 1: 学习目标 -->
+            <div class="page" data-index="1">
+                <div class="breadcrumb">课程首页 › 学习目标</div>
+                <h2>学完本课，你将能回答：</h2>
+                <ul>
+                    <li>如何识别和回忆人形机器人的基本概念和重要事实信息？</li>
+                    <li>如何解释和说明人形机器人的设计动机和功能特点？</li>
+                    <li>如何区分和概述人形机器人工作原理的各个环节？</li>
+                    <li>如何总结和比较人形机器人不同发展阶段的特点？</li>
+                    <li>如何区分和归因人形机器人面临的各类挑战？</li>
+                    <li>如何判断和预测人形机器人的未来发展趋势？</li>
+                </ul>
+            </div>
+
+            <!-- Page 2: 第一部分：基础概念导入 -->
+            <div class="page" data-index="2">
+                <div class="breadcrumb">第一部分：基础概念导入</div>
+                <h2>第一部分：基础概念导入——认识什么是人形机器人</h2>
+                <p>在这一部分，我们将首先学习人形机器人的基本定义，建立概念框架，然后通过时间线了解重要的发展事件，为后续深入学习奠定基础。</p>
+            </div>
+
+            <!-- Page 3: 定义讲解 -->
+            <div class="page" data-index="3">
+                <div class="breadcrumb">第一部分 › 定义讲解</div>
+                <h3>什么是人形机器人？</h3>
+                <p>首先直接给出人形机器人的定义，包括英文名称、别名和核心特征，建立基本概念框架。</p>
+                <p><span class="key-concept">人形机器人（英语：humanoid robot），又称仿生人，音译安卓，是一种旨在模仿人类外观和行为的机器人尤其特指具有和人类相似肌体的种类。</span></p>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">💡 类比锚点</div>
+                    <p>可以这样理解：将人形机器人的定义比作"产品说明书的封面"，因为它们都提供最核心的身份信息。</p>
+                </div>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">📝 判定口诀</div>
+                    <p>记住：看到"humanoid robot"英文术语，立刻想到"人形机器人"。</p>
+                </div>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">⚠️ 易错警示</div>
+                    <p class="warning">需要注意的是：警告不要混淆"人形机器人"与"工业机器人"，前者强调类人外观和行为，后者侧重于特定工业任务。</p>
+                </div>
+            </div>
+
+            <!-- Page 4: 【定义示例】人形机器人定义 -->
+            <div class="page" data-index="4">
+                <div class="breadcrumb">第一部分 › 示例</div>
+                <div class="example-box">
+                    <div class="example-title">【定义示例】人形机器人定义</div>
+                    <p><strong>题目原文：</strong></p>
+                    <p>人形机器人（英语：humanoid robot），又称仿生人，音译安卓，是一种旨在模仿人类外观和行为的机器人尤其特指具有和人类相似肌体的种类。</p>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">💡 类比锚点</div>
+                        <p>可以这样理解：将定义的"英文-中文-别名"结构比作"商品的多种标签"，因为它们都指向同一个核心事物。</p>
+                    </div>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">📝 判定口诀</div>
+                        <p>简单来说：看到"模仿人类外观和行为"描述，立刻想到人形机器人定义。</p>
+                    </div>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">⚠️ 易错警示</div>
+                        <p class="warning">常见的误区是：警告不要把"安卓"仅理解为手机操作系统，在机器人领域它也指人形机器人。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 5: 【时间线示例】重要发展时间点 -->
+            <div class="page" data-index="5">
+                <div class="breadcrumb">第一部分 › 示例</div>
+                <div class="example-box">
+                    <div class="example-title">【时间线示例】重要发展时间点</div>
+                    <p><strong>题目原文：</strong></p>
+                    <p>2023年12月，入选2023年十大科技热词。2024年4月27日，北京人形机器人创新中心举行"天工发布会"，发布全球首个纯电驱拟人奔跑的全尺寸人形机器人"天工"。... 2026年2月，特斯拉官方微博宣布，第三代特斯拉人形机器人即将亮相，预计年产百万台。</p>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">💡 类比锚点</div>
+                        <p>打个比方：将时间线发展比作"追剧的进度条"，因为它们都展示了从开始到现在的过程。</p>
+                    </div>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">📝 判定口诀</div>
+                        <p>一个实用的口诀是：看到具体年份+科技事件，立刻想到查人形机器人发展时间线。</p>
+                    </div>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">⚠️ 易错警示</div>
+                        <p class="warning">容易犯的错误是：警告不要混淆不同公司发布的机器人产品，注意区分"天工"、"特斯拉"等不同品牌。</p>
+                    </div>
+                </div>
+                <p>通过这种从定义到时间线的展开方式，帮助学习者建立完整的基础概念体系。</p>
+            </div>
+
+            <!-- Page 6: 第二部分：设计动机与功能分析 -->
+            <div class="page" data-index="6">
+                <div class="breadcrumb">第二部分：设计动机与功能分析</div>
+                <h2>第二部分：设计动机与功能分析——为什么要设计人形机器人</h2>
+                <p>在这一部分，我们将探讨人形机器人的设计动机，分析为什么要采用人形设计，以及这种设计带来的功能优势。</p>
+            </div>
+
+            <!-- Page 7: 设计动机讲解 -->
+            <div class="page" data-index="7">
+                <div class="breadcrumb">第二部分 › 设计动机讲解</div>
+                <h3>为什么选择人形设计？</h3>
+                <p>从现实环境分析入手，指出人类世界的设施（楼梯、门把手、开关等）都是为人设计的，从而引出人形设计的必要性。</p>
+                <p><span class="key-concept">人形机器人的设计动机，核心在于让机器能在"为人而建"的世界里高效工作。现实环境充满楼梯、门把手、开关、狭窄通道和以人手操作为标准的工具接口，若让机器人具备类人的身形、双足与双手，就能直接使用现有设施与工具，减少改造成本。</span></p>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">💡 类比锚点</div>
+                    <p>这就像：将人形机器人的设计动机比作"设计一款能插所有插座的万能插头"，因为它们都追求在现有环境中的通用性。</p>
+                </div>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">📝 判定口诀</div>
+                    <p>记住：看到"为人而建的世界"表述，立刻想到人形机器人设计动机。</p>
+                </div>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">⚠️ 易错警示</div>
+                    <p class="warning">需要注意的是：警告不要认为人形设计只是为了"看起来像人"，更重要的是功能通用性。</p>
+                </div>
+            </div>
+
+            <!-- Page 8: 【动机示例】设计动机 -->
+            <div class="page" data-index="8">
+                <div class="breadcrumb">第二部分 › 示例</div>
+                <div class="example-box">
+                    <div class="example-title">【动机示例】设计动机</div>
+                    <p><strong>题目原文：</strong></p>
+                    <p>人形机器人的设计动机，核心在于让机器能在"为人而建"的世界里高效工作。现实环境充满楼梯、门把手、开关、狭窄通道和以人手操作为标准的工具接口，若让机器人具备类人的身形、双足与双手，就能直接使用现有设施与工具，减少改造成本。... 最终目标是构建可泛化的通用执行体。</p>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">💡 类比锚点</div>
+                        <p>可以这样理解：将"改造环境适应机器" vs "设计机器适应环境"比作"削足适履" vs "量脚做鞋"，因为后者更合理高效。</p>
+                    </div>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">📝 判定口诀</div>
+                        <p>简单来说：看到"楼梯、门把手、开关"等设施列表，立刻想到人形设计动机。</p>
+                    </div>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">⚠️ 易错警示</div>
+                        <p class="warning">常见的误区是：警告不要忽视"减少改造成本"这个重要的经济考量因素。</p>
+                    </div>
+                </div>
+                <p>然后分析人形结构在通用性和交互方面的优势，最后点出构建可泛化通用执行体的最终目标。通过"问题-方案-目标"的逻辑链条，帮助学习者深入理解设计动机。</p>
+            </div>
+
+            <!-- Page 9: 第三部分：工作原理深入解析 -->
+            <div class="page" data-index="9">
+                <div class="breadcrumb">第三部分：工作原理深入解析</div>
+                <h2>第三部分：工作原理深入解析——人形机器人是如何工作的</h2>
+                <p>在这一部分，我们将深入解析人形机器人的工作原理，了解"感知—认知—规划—控制—执行—反馈"的闭环链路。</p>
+            </div>
+
+            <!-- Page 10: 工作原理解析 -->
+            <div class="page" data-index="10">
+                <div class="breadcrumb">第三部分 › 工作原理解析</div>
+                <h3>闭环链路：从感知到反馈</h3>
+                <p>首先提出"感知—认知—规划—控制—执行—反馈"闭环链路的总体框架。</p>
+                <p><span class="key-concept">人形机器人的工作原理通常可以理解为一条"感知—认知—规划—控制—执行—反馈"的闭环链路：机器人先用传感器获取外界与自身状态信息，再把信息转化为可计算的环境模型与身体模型，随后生成动作计划，并通过电机与驱动器把计划落实为真实运动，最后依靠实时反馈不断修正误差。</span></p>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">💡 类比锚点</div>
+                    <p>这就像：将闭环链路比作"人的决策与行动过程"，因为它们都包含感知-思考-行动-反馈的环节。</p>
+                </div>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">📝 判定口诀</div>
+                    <p>一个实用的口诀是：看到"感知—认知—规划—控制—执行—反馈"表述，立刻想到人形机器人工作原理。</p>
+                </div>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">⚠️ 易错警示</div>
+                    <p class="warning">容易犯的错误是：警告不要把工作原理理解为单向线性流程，它是持续的闭环过程。</p>
+                </div>
+            </div>
+
+            <!-- Page 11: 【原理示例】工作原理 -->
+            <div class="page" data-index="11">
+                <div class="breadcrumb">第三部分 › 示例</div>
+                <div class="example-box">
+                    <div class="example-title">【原理示例】工作原理</div>
+                    <p><strong>题目原文：</strong></p>
+                    <p>人形机器人的工作原理通常可以理解为一条"感知—认知—规划—控制—执行—反馈"的闭环链路：机器人先用传感器获取外界与自身状态信息，再把信息转化为可计算的环境模型与身体模型，随后生成动作计划，并通过电机与驱动器把计划落实为真实运动，最后依靠实时反馈不断修正误差。</p>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">💡 类比锚点</div>
+                        <p>打个比方：将闭环链路的六个步骤比作"做饭的完整流程"：感知（看食材）→认知（想做什么菜）→规划（写菜谱）→控制（把握火候）→执行（炒菜）→反馈（尝咸淡调整）。</p>
+                    </div>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">📝 判定口诀</div>
+                        <p>简单来说：看到"传感器获取信息"、"生成动作计划"等描述，立刻想到工作原理的对应环节。</p>
+                    </div>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">⚠️ 易错警示</div>
+                        <p class="warning">需要注意的是：警告不要忽视"反馈"环节的重要性，它是系统稳定运行的关键。</p>
+                    </div>
+                </div>
+                <p>然后将闭环分解为六个具体步骤逐一讲解，从多传感器感知到安全与自恢复机制，每个步骤都详细说明其功能和作用。第一步是多传感器感知与状态估计，第二步是环境建模与任务理解，第三步是运动规划，第四步是全身控制与力控，第五步是执行系统，第六步是安全与自恢复机制。通过这种从整体到局部的展开方式，帮助学习者建立系统级的理解。</p>
+            </div>
+
+            <!-- Page 12: 第四部分：发展历程梳理 -->
+            <div class="page" data-index="12">
+                <div class="breadcrumb">第四部分：发展历程梳理</div>
+                <h2>第四部分：发展历程梳理——人形机器人是如何发展到今天的</h2>
+                <p>在这一部分，我们将按照时间顺序，了解人形机器人从早期研究到今天的发展历程，分析各阶段的技术特点和历史意义。</p>
+            </div>
+
+            <!-- Page 13: 发展历程讲解 -->
+            <div class="page" data-index="13">
+                <div class="breadcrumb">第四部分 › 发展历程讲解</div>
+                <h3>从实验室到产业化：发展的四个阶段</h3>
+                <p>按照时间顺序，将发展历程划分为几个关键阶段：早期研究阶段（以WABOT-1为起点）、ASIMO时代、灾害救援竞赛阶段、2020年代AI驱动阶段。</p>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">💡 类比锚点</div>
+                    <p>可以这样理解：将发展历程比作"人的成长阶段"：婴儿期（早期研究）→青春期（ASIMO时代）→青年期（竞赛阶段）→成年期（产业化阶段）。</p>
+                </div>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">📝 判定口诀</div>
+                    <p>记住：看到"WABOT-1"、"ASIMO"等标志性产品名，立刻想到对应发展阶段。</p>
+                </div>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">⚠️ 易错警示</div>
+                    <p class="warning">常见的误区是：警告不要认为技术发展是线性匀速的，实际上有加速期和平台期。</p>
+                </div>
+            </div>
+
+            <!-- Page 14: 【历程示例】发展历程阶段 -->
+            <div class="page" data-index="14">
+                <div class="breadcrumb">第四部分 › 示例</div>
+                <div class="example-box">
+                    <div class="example-title">【历程示例】发展历程阶段</div>
+                    <p><strong>题目原文：</strong></p>
+                    <p>学界普遍把1973年早稻田大学的WABOT-1视作早期人形机器人研究的重要起点之一... 本田在2000年前后发布ASIMO... 2010年代，以灾害救援为目标的竞赛与项目... 进入2020年代，AI范式变化推动人形机器人热度陡升...</p>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">💡 类比锚点</div>
+                        <p>打个比方：将各发展阶段的技术特点比作"手机的更新换代"：功能机→智能手机→AI手机，每次都有范式变化。</p>
+                    </div>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">📝 判定口诀</div>
+                        <p>一个实用的口诀是：看到"灾害救援"关键词，立刻想到2010年代发展阶段。</p>
+                    </div>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">⚠️ 易错警示</div>
+                        <p class="warning">容易犯的错误是：警告不要忽视"AI范式变化"这个2020年代的关键驱动因素。</p>
+                    </div>
+                </div>
+                <p>每个阶段都说明其标志性产品、技术特点和历史意义，通过历史脉络的梳理，让学习者理解技术演进的逻辑。</p>
+            </div>
+
+            <!-- Page 15: 第五部分：挑战与趋势分析 -->
+            <div class="page" data-index="15">
+                <div class="breadcrumb">第五部分：挑战与趋势分析</div>
+                <h2>第五部分：挑战与趋势分析——人形机器人面临什么问题，未来会怎样发展</h2>
+                <p>在这一部分，我们将分析人形机器人面临的各类挑战，并展望未来的发展趋势。</p>
+            </div>
+
+            <!-- Page 16: 挑战分析 -->
+            <div class="page" data-index="16">
+                <div class="breadcrumb">第五部分 › 挑战分析</div>
+                <h3>五大挑战：技术到社会的全面分析</h3>
+                <p>首先提出人形机器人面临多方面挑战的总体观点，然后从五个维度进行系统分析：技术挑战、伦理与社会挑战、成本与经济挑战、法律与监管挑战、人类-人形机器人共生问题。</p>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">💡 类比锚点</div>
+                    <p>这就像：将多维度挑战比作"木桶的多块板"，因为任何一块短板都会限制整体发展。</p>
+                </div>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">📝 判定口诀</div>
+                    <p>记住：看到"技术挑战"、"伦理挑战"等分类词，立刻想到挑战分析框架。</p>
+                </div>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">⚠️ 易错警示</div>
+                    <p class="warning">需要注意的是：警告不要只关注技术挑战，忽视伦理、法律等非技术挑战的重要性。</p>
+                </div>
+            </div>
+
+            <!-- Page 17: 【挑战示例】挑战分类 -->
+            <div class="page" data-index="17">
+                <div class="breadcrumb">第五部分 › 示例</div>
+                <div class="example-box">
+                    <div class="example-title">【挑战示例】挑战分类</div>
+                    <p><strong>题目原文：</strong></p>
+                    <p>人形机器人作为人工智能和机器人学的前沿技术，其发展面临着诸多挑战，这些挑战既包括技术上的瓶颈，也包括伦理、社会和经济层面的难题。</p>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">💡 类比锚点</div>
+                        <p>可以这样理解：将挑战分类框架比作"医院的科室划分"，每个科室（维度）处理不同类型的问题。</p>
+                    </div>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">📝 判定口诀</div>
+                        <p>简单来说：看到"运动能力不协调"、"感知能力弱"等描述，立刻想到技术挑战维度。</p>
+                    </div>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">⚠️ 易错警示</div>
+                        <p class="warning">常见的误区是：警告不要把挑战看作"不可逾越的障碍"，它们也是技术发展的动力。</p>
+                    </div>
+                </div>
+                <p>技术挑战包括运动能力不协调和稳定性差、感知能力弱和理解力差、自然语言理解与生成不够准确、自主决策机械化与任务执行程序化等。伦理与社会挑战包括人机交互的伦理问题、社会适应性和就业影响等。成本与经济挑战包括研发和制造成本高，普及程度低等。法律与监管挑战包括责任认定、安全标准制定等。人类-人形机器人共生问题包括如何设计更人性化的机器人，如何适应不同国家和文化等。</p>
+            </div>
+
+            <!-- Page 18: 趋势分析 -->
+            <div class="page" data-index="18">
+                <div class="breadcrumb">第五部分 › 趋势分析</div>
+                <h3>未来展望：八大发展趋势</h3>
+                <p>从多个维度预测未来发展方向：更高的运动能力与自我平衡、更强的感知与智能交互、更强的自主性、更高效的能源管理、更高水平的商业化应用、人机协作与融合、伦理与社会影响逐步解决、经济全球化与文化适应性。</p>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">💡 类比锚点</div>
+                    <p>这就像：将发展趋势预测比作"天气预报"，基于当前迹象（云层、风向）预测未来天气。</p>
+                </div>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">📝 判定口诀</div>
+                    <p>一个实用的口诀是：看到"将具备..."、"将能够..."等未来时态表述，立刻想到发展趋势分析。</p>
+                </div>
+                
+                <div class="recall-cue">
+                    <div class="cue-type">⚠️ 易错警示</div>
+                    <p class="warning">容易犯的错误是：警告不要把预测看作定论，技术发展存在不确定性和变数。</p>
+                </div>
+            </div>
+
+            <!-- Page 19: 【趋势示例】发展趋势预测 -->
+            <div class="page" data-index="19">
+                <div class="breadcrumb">第五部分 › 示例</div>
+                <div class="example-box">
+                    <div class="example-title">【趋势示例】发展趋势预测</div>
+                    <p><strong>题目原文：</strong></p>
+                    <p>人形机器人是人工智能和机器人学的前沿领域，其未来发展将受到多个因素的推动... 人形机器人未来发展的趋势主要体现在以下几个方面：（1）将具备更高的运动能力与自我平衡能力...（9）未来的人形机器人将更加智能、灵活、情感化...</p>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">💡 类比锚点</div>
+                        <p>打个比方：将多个发展趋势比作"汽车的多个升级方向"：更快的速度（运动能力）、更好的导航（感知）、更低的油耗（能源）、更智能的辅助驾驶（自主性）。</p>
+                    </div>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">📝 判定口诀</div>
+                        <p>记住：看到"运动能力"、"感知交互"、"能源管理"等关键词，立刻想到对应发展趋势。</p>
+                    </div>
+                    
+                    <div class="recall-cue">
+                        <div class="cue-type">⚠️ 易错警示</div>
+                        <p class="warning">需要注意的是：警告不要忽视"伦理与社会影响逐步解决"这个非技术趋势的重要性。</p>
+                    </div>
+                </div>
+                <p>每个趋势都详细说明其具体内容和预期进展，通过系统的趋势分析，帮助学习者建立前瞻性视野。</p>
+            </div>
+
+            <!-- Page 20: 本课总结 -->
+            <div class="page" data-index="20">
+                <div class="breadcrumb">本课总结</div>
+                <h2>本课总结</h2>
+                <p>在本教材中，我们全面学习了人形机器人的相关知识，从基本概念到未来趋势，建立了完整的知识体系。下面让我们总结一下核心要点、易错提醒和知识应用范围。</p>
+            </div>
+
+            <!-- Page 21: 核心要点 -->
+            <div class="page" data-index="21">
+                <div class="breadcrumb">本课总结 › 核心要点</div>
+                <div class="summary-section">
+                    <h3>核心要点</h3>
+                    <ul>
+                        <li>人形机器人的定义、别名、发展里程碑、代表产品等基本事实信息</li>
+                        <li>人形机器人的设计动机、功能特点、与其他机器人的区别</li>
+                        <li>人形机器人"感知—认知—规划—控制—执行—反馈"闭环链路的各环节和作用机制</li>
+                        <li>人形机器人从早期到现代的发展阶段、关键技术突破和重要产品</li>
+                        <li>人形机器人在技术、伦理、社会、经济、法律等方面面临的挑战</li>
+                        <li>人形机器人在运动能力、感知交互、自主性、能源管理、商业化应用等方面的未来发展方向</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Page 22: 易错提醒 -->
+            <div class="page" data-index="22">
+                <div class="breadcrumb">本课总结 › 易错提醒</div>
+                <div class="summary-section">
+                    <h3>易错提醒</h3>
+                    <ul>
+                        <li class="warning">警告不要混淆"人形机器人"与"工业机器人"，前者强调类人外观和行为，后者侧重于特定工业任务</li>
+                        <li class="warning">警告不要把"安卓"仅理解为手机操作系统，在机器人领域它也指人形机器人</li>
+                        <li class="warning">警告不要混淆不同公司发布的机器人产品，注意区分"天工"、"特斯拉"等不同品牌</li>
+                        <li class="warning">警告不要认为人形设计只是为了"看起来像人"，更重要的是功能通用性</li>
+                        <li class="warning">警告不要忽视"减少改造成本"这个重要的经济考量因素</li>
+                        <li class="warning">警告不要把工作原理理解为单向线性流程，它是持续的闭环过程</li>
+                        <li class="warning">警告不要忽视"反馈"环节的重要性，它是系统稳定运行的关键</li>
+                        <li class="warning">警告不要认为技术发展是线性匀速的，实际上有加速期和平台期</li>
+                        <li class="warning">警告不要忽视"AI范式变化"这个2020年代的关键驱动因素</li>
+                        <li class="warning">警告不要只关注技术挑战，忽视伦理、法律等非技术挑战的重要性</li>
+                        <li class="warning">警告不要把挑战看作"不可逾越的障碍"，它们也是技术发展的动力</li>
+                        <li class="warning">警告不要把预测看作定论，技术发展存在不确定性和变数</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Page 23: 知识应用范围 -->
+            <div class="page" data-index="23">
+                <div class="breadcrumb">本课总结 › 知识应用范围</div>
+                <div class="summary-section">
+                    <h3>知识应用范围</h3>
+                    <p>这些知识可以迁移应用到机器人领域的基础知识学习，理解相关科普文章和报道；可以用来分析其他类型机器人的设计理念，理解不同机器人的应用场景；可以用来分析其他自动化系统的工作原理，理解复杂系统的运作机制；可以用来理解其他科技领域的发展历程，分析技术演进规律；可以用来分析其他新兴技术领域的社会影响和挑战；可以用来预测其他科技领域的发展方向，培养前瞻性思维。</p>
+                </div>
+            </div>
+        </div><!-- end content-area -->
+        <div id="nav-bar">
+            <button class="nav-btn" id="prev-btn" disabled>← 上一页</button>
+            <span class="page-number" id="page-indicator">1 / 24</span>
+            <button class="nav-btn" id="next-btn">下一页 →</button>
         </div>
-      </div>
     </div>
 
-  </div><!-- end content-area -->
+    <script>
+        const TOTAL = 24;
+        let currentPage = 0;
+        const pages = document.querySelectorAll('.page');
+        const tocItems = document.querySelectorAll('.toc-item');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const pageIndicator = document.getElementById('page-indicator');
+        const sidebar = document.getElementById('sidebar');
 
-  <div id="nav-bar">
-    <button class="nav-btn" id="prev-btn" onclick="changePage(-1)">← 上一页</button>
-    <span id="page-indicator">1 / 26</span>
-    <button class="nav-btn" id="next-btn" onclick="changePage(1)">下一页 →</button>
-  </div>
-</div>
+        function updatePage() {
+            pages.forEach((page, index) => {
+                page.classList.toggle('active', index === currentPage);
+            });
+            
+            tocItems.forEach((item, index) => {
+                item.classList.toggle('active', parseInt(item.dataset.page) === currentPage);
+            });
+            
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = currentPage === TOTAL - 1;
+            pageIndicator.textContent = `${currentPage + 1} / ${TOTAL}`;
+        }
 
-<script>
-  const pages = document.querySelectorAll('.page');
-  const navItems = document.querySelectorAll('.nav-item');
-  const TOTAL = 26;
-  const totalPages = TOTAL;
-  let currentIndex = 0;
+        function goToPage(pageIndex) {
+            currentPage = pageIndex;
+            updatePage();
+        }
 
-  function goTo(index) {
-    if (index < 0 || index >= totalPages) return;
-    pages[currentIndex].classList.remove('active');
-    navItems[currentIndex].classList.remove('active');
-    currentIndex = index;
-    pages[currentIndex].classList.add('active');
-    navItems[currentIndex].classList.add('active');
-    document.getElementById('content-area').scrollTop = 0;
-    updateNav();
-    // Close sidebar on mobile
-    document.getElementById('sidebar').classList.remove('open');
-  }
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                updatePage();
+            }
+        });
 
-  function changePage(delta) {
-    goTo(currentIndex + delta);
-  }
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < TOTAL - 1) {
+                currentPage++;
+                updatePage();
+            }
+        });
 
-  function updateNav() {
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
-    const indicator = document.getElementById('page-indicator');
-    prevBtn.style.visibility = currentIndex === 0 ? 'hidden' : 'visible';
-    nextBtn.style.visibility = currentIndex === totalPages - 1 ? 'hidden' : 'visible';
-    indicator.textContent = (currentIndex + 1) + ' / ' + totalPages;
-    // Scroll sidebar nav item into view
-    navItems[currentIndex].scrollIntoView({ block: 'nearest' });
-  }
+        tocItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const pageIndex = parseInt(item.dataset.page);
+                goToPage(pageIndex);
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('open');
+                }
+            });
+        });
 
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
-  }
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+        }
 
-  // Keyboard navigation
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changePage(1);
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changePage(-1);
-  });
-
-  updateNav();
-</script>
+        updatePage();
+    </script>
 </body>
 </html>
